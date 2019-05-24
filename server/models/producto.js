@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var productoSchema = new Schema({
     clave: {
         type : String, 
+        unique: true,
         required: [true, 'La clave es necesaria']
     }, 
     nombre : {
@@ -24,6 +25,10 @@ var productoSchema = new Schema({
     }, 
     disponible : {
         type : Number
+    }, 
+    estatus : {
+        type : Boolean, 
+        default : true
     }
 });
 
