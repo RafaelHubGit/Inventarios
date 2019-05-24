@@ -4,7 +4,8 @@ var Schema = mongoose.Schema;
 var entradaSchema = new Schema({
     proveedor : {
         type : Schema.Types.ObjectId,
-        required:[true, 'Se requiere el proveedor'] //No sra necesario para todos, en este casi si lo requiero
+        required:[true, 'Se requiere el proveedor'], //No sra necesario para todos, en este casi si lo requiero
+        ref: 'Proveedor'
     },
     fechaEntrada : {
         type: Date, 
@@ -38,3 +39,5 @@ var entradaSchema = new Schema({
     }]
 
 });
+
+module.exports = mongoose.model('EntradaProductos', entradaSchema);

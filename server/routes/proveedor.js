@@ -3,12 +3,12 @@ const express = require('express');
 
 let app = express();
 
-let Producto = require('../models/producto');
+let Proveedor = require('../models/proveedor');
 
 //=================================
-//Obtener los productos
+//Obtener los proveedores
 //=================================
-app.get( '/services/productos', (req, res) => {
+app.get( '/services/proveedor', (req, res) => {
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -16,11 +16,11 @@ app.get( '/services/productos', (req, res) => {
     let limite = req.query.limite || 10;
     limite = Number(limite);
 
-    Producto.find({})
+    Proveedor.find({})
         .skip(desde)
         .limit(limite)
-        .populate('categoria', 'nombre')
-        .exec( (err, producto) => {
+        // .populate('categoria')
+        .exec( (err, proveedor) => {
             if( err ){
                 return res.json({
                     ok: false, 
@@ -28,10 +28,10 @@ app.get( '/services/productos', (req, res) => {
                 });
             };
 
-            Producto.countDocuments( {}, (err, conteo) => {
+            Proveedor.countDocuments( {}, (err, conteo) => {
                 res.json({
                     ok: true, 
-                    producto, 
+                    proveedor, 
                     cuantos : conteo
                 });
             });
@@ -41,16 +41,16 @@ app.get( '/services/productos', (req, res) => {
 
 
 //=================================
-//Obten Producto por ID
+//Obten proveedor por ID
 //=================================
 
-app.get('/services/productos/:id', (req, res) => {
+app.get('/services/proveedor/:id', (req, res) => {
 
     let id = req.params.id;
 
-    Producto.findById(id)
-        .populate('categoria')
-        .exec( (err, productoDB) => {
+    Proveedor.findById(id)
+        // .populate('categoria')
+        .exec( (err, proveedorDB) => {
             if( err ){
                 return res.status(500).json({
                     ok: false, 
@@ -58,16 +58,16 @@ app.get('/services/productos/:id', (req, res) => {
                 });
             };
 
-            if( !productoDB ){
+            if( !proveedorDB ){
                 return res.status(400).json({
                     ok: false, 
-                    message: 'El producto no existe'
+                    message: 'El proveedor no existe'
                 });
             }
 
             res.status(200).json({
                 ok: true, 
-                producto: productoDB
+                proveedor: proveedorDB
             });
 
         });
@@ -76,19 +76,16 @@ app.get('/services/productos/:id', (req, res) => {
 });
 
 //========================
-//Buscar producto por nombre
+//Buscar proveedor por nombre
 //========================
-app.get('/services/productos/termino/:termino', (req, res) => {
+app.get('/services/proveedor/termino/:termino', (req, res) => {
 
     let termino = req.params.termino; 
 
-    console.log("Termino : ", termino);
-
     let regex = new RegExp(termino, 'i'); //La i es para que se insencible aminusculas y mayu
 
-    Producto.find({ nombre: regex})
-        .populate('categoria')
-        .exec( (err, productos) => {
+    Proveedor.find({ nombre: regex})
+        .exec( (err, proveedores) => {
             if( err ){
                 return res.status(500).json({
                     ok: false,
@@ -96,42 +93,32 @@ app.get('/services/productos/termino/:termino', (req, res) => {
                 })
             }
 
-            Producto.countDocuments( {nombre: regex}, (err, conteo) => {
+            Proveedor.countDocuments( {nombre: regex}, (err, conteo) => {
                 res.json({
                     ok: true, 
-                    productos, 
+                    proveedores, 
                     cuantos : conteo
                 });
             });
 
-            // res.json({
-            //     ok:true, 
-            //     productos
-            // })
         })
 });
 
 
 //=================================
-//Crear un producto 
+//Crear un proveedor 
 //=================================
-app.post('/services/productos', (req, res) => {
+app.post('/services/proveedor', (req, res) => {
 
     let body = req.body;
 
-    producto = new Producto({
-        clave : body.clave, 
-        nombre : body.nombre, 
-        descripcion : body.descripcion, 
-        categoria : body.categoria, 
-        perecedero : body.perecedero, 
-        disponible : body.disponible, 
-
+    proveedor = new Proveedor({
+        nombre : body.nombre
     });
 
     
 
-    producto.save( ( err, productoSave ) => {
+    proveedor.save( ( err, proveedorSave ) => {
         if( err ){
             return res.status(500).json({
                 ok: false, 
@@ -139,7 +126,7 @@ app.post('/services/productos', (req, res) => {
             })
         };
 
-        if( !productoSave ){
+        if( !proveedorSave ){
             return res.status(400).json({
                 ok: false, 
                 err
@@ -148,7 +135,7 @@ app.post('/services/productos', (req, res) => {
 
         res.status(200).json({
             ok: true, 
-            producto: productoSave, 
+            proveedor: proveedorSave, 
             message : 'Creado satisfactoriamente'
         });
 
@@ -158,14 +145,14 @@ app.post('/services/productos', (req, res) => {
 
 
 //========================
-//Actualizar un produccto
+//Actualizar un proveedor
 //========================
-app.put('/services/productos/:id', (req, res) => {
+app.put('/services/proveedor/:id', (req, res) => {
     
     let id = req.params.id;
     let body = req.body;
 
-    Producto.findOneAndUpdate(id, body, ( err, prodUpd) => {
+    Proveedor.findOneAndUpdate(id, body, ( err, provUpd) => {
 
         if( err ){
             return res.status(500).json({
@@ -176,7 +163,7 @@ app.put('/services/productos/:id', (req, res) => {
 
         res.json({
             ok: true, 
-            message: 'Produto actualizado'
+            message: 'Proveedor actualizado'
         })
 
     })
@@ -187,12 +174,12 @@ app.put('/services/productos/:id', (req, res) => {
 //========================
 //Borrar un produccto
 //========================
-app.delete('/services/productos/:id', (req, res) => {
+app.delete('/services/proveedor/:id', (req, res) => {
     //Solo se va a cambiar el estado de disponible
 
     let id = req.params.id;
 
-    Producto.findById( id, ( err, productoDB ) => {
+    Proveedor.findById( id, ( err, proveedorDB ) => {
         if( err ){
             return res.status(500).json({
                 ok: false,
@@ -200,18 +187,18 @@ app.delete('/services/productos/:id', (req, res) => {
             })
         };
 
-        if( !productoDB ){
+        if( !proveedorDB ){
             return res.status(500).json({
                 ok: false,
                 err: {
-                    message: 'El producto no existe'
+                    message: 'El proveedor no existe'
                 }
             })
         };
 
-        productoDB.estatus = false;
+        proveedorDB.estatus = false;
 
-        productoDB.save( ( err, productoBorrado ) => {
+        proveedorDB.save( ( err, proveedorBorrado ) => {
 
             if( err ){
                 return res.status(500).json({
@@ -222,8 +209,8 @@ app.delete('/services/productos/:id', (req, res) => {
 
             res.json({
                 ok:true, 
-                producto: productoBorrado,
-                message: 'Producto borrado'
+                proveedor: proveedorBorrado,
+                message: 'Proveedor borrado'
             })
 
         })

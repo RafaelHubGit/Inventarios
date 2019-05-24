@@ -3,12 +3,12 @@ const express = require('express');
 
 let app = express();
 
-let Producto = require('../models/producto');
+let Categoria = require('../models/categoria');
 
 //=================================
-//Obtener los productos
+//Obtener los Categoria
 //=================================
-app.get( '/services/productos', (req, res) => {
+app.get( '/services/categoria', (req, res) => {
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -16,11 +16,11 @@ app.get( '/services/productos', (req, res) => {
     let limite = req.query.limite || 10;
     limite = Number(limite);
 
-    Producto.find({})
+    Categoria.find({})
         .skip(desde)
         .limit(limite)
-        .populate('categoria', 'nombre')
-        .exec( (err, producto) => {
+        // .populate('categoria')
+        .exec( (err, categoria) => {
             if( err ){
                 return res.json({
                     ok: false, 
@@ -28,10 +28,10 @@ app.get( '/services/productos', (req, res) => {
                 });
             };
 
-            Producto.countDocuments( {}, (err, conteo) => {
+            Categoria.countDocuments( {}, (err, conteo) => {
                 res.json({
                     ok: true, 
-                    producto, 
+                    categoria, 
                     cuantos : conteo
                 });
             });
@@ -41,16 +41,15 @@ app.get( '/services/productos', (req, res) => {
 
 
 //=================================
-//Obten Producto por ID
+//Obten Categoria por ID
 //=================================
 
-app.get('/services/productos/:id', (req, res) => {
+app.get('/services/categoria/:id', (req, res) => {
 
     let id = req.params.id;
 
-    Producto.findById(id)
-        .populate('categoria')
-        .exec( (err, productoDB) => {
+    Categoria.findById(id)
+        .exec( (err, categoriaDB) => {
             if( err ){
                 return res.status(500).json({
                     ok: false, 
@@ -58,16 +57,16 @@ app.get('/services/productos/:id', (req, res) => {
                 });
             };
 
-            if( !productoDB ){
+            if( !categoriaDB ){
                 return res.status(400).json({
                     ok: false, 
-                    message: 'El producto no existe'
+                    message: 'La categoria no existe'
                 });
             }
 
             res.status(200).json({
                 ok: true, 
-                producto: productoDB
+                categoria: categoriaDB
             });
 
         });
@@ -76,19 +75,16 @@ app.get('/services/productos/:id', (req, res) => {
 });
 
 //========================
-//Buscar producto por nombre
+//Buscar categoria por nombre
 //========================
-app.get('/services/productos/termino/:termino', (req, res) => {
+app.get('/services/categoria/termino/:termino', (req, res) => {
 
     let termino = req.params.termino; 
 
-    console.log("Termino : ", termino);
-
     let regex = new RegExp(termino, 'i'); //La i es para que se insencible aminusculas y mayu
 
-    Producto.find({ nombre: regex})
-        .populate('categoria')
-        .exec( (err, productos) => {
+    Categoria.find({ nombre: regex})
+        .exec( (err, categoria) => {
             if( err ){
                 return res.status(500).json({
                     ok: false,
@@ -96,42 +92,33 @@ app.get('/services/productos/termino/:termino', (req, res) => {
                 })
             }
 
-            Producto.countDocuments( {nombre: regex}, (err, conteo) => {
+            Categoria.countDocuments( {nombre: regex}, (err, conteo) => {
                 res.json({
                     ok: true, 
-                    productos, 
+                    categoria, 
                     cuantos : conteo
                 });
             });
 
-            // res.json({
-            //     ok:true, 
-            //     productos
-            // })
         })
 });
 
 
 //=================================
-//Crear un producto 
+//Crear un categoria 
 //=================================
-app.post('/services/productos', (req, res) => {
+app.post('/services/categoria', (req, res) => {
 
     let body = req.body;
 
-    producto = new Producto({
-        clave : body.clave, 
+    categoria = new Categoria({
         nombre : body.nombre, 
-        descripcion : body.descripcion, 
-        categoria : body.categoria, 
-        perecedero : body.perecedero, 
-        disponible : body.disponible, 
-
+        descripcion : body.descripcion
     });
 
     
 
-    producto.save( ( err, productoSave ) => {
+    categoria.save( ( err, categoriaSave ) => {
         if( err ){
             return res.status(500).json({
                 ok: false, 
@@ -139,7 +126,7 @@ app.post('/services/productos', (req, res) => {
             })
         };
 
-        if( !productoSave ){
+        if( !categoriaSave ){
             return res.status(400).json({
                 ok: false, 
                 err
@@ -148,7 +135,7 @@ app.post('/services/productos', (req, res) => {
 
         res.status(200).json({
             ok: true, 
-            producto: productoSave, 
+            categoria: categoriaSave, 
             message : 'Creado satisfactoriamente'
         });
 
@@ -158,14 +145,14 @@ app.post('/services/productos', (req, res) => {
 
 
 //========================
-//Actualizar un produccto
+//Actualizar un categoria
 //========================
-app.put('/services/productos/:id', (req, res) => {
+app.put('/services/categoria/:id', (req, res) => {
     
     let id = req.params.id;
     let body = req.body;
 
-    Producto.findOneAndUpdate(id, body, ( err, prodUpd) => {
+    Categoria.findOneAndUpdate(id, body, ( err, categUpd) => {
 
         if( err ){
             return res.status(500).json({
@@ -176,7 +163,7 @@ app.put('/services/productos/:id', (req, res) => {
 
         res.json({
             ok: true, 
-            message: 'Produto actualizado'
+            message: 'Categoria actualizada'
         })
 
     })
@@ -185,14 +172,14 @@ app.put('/services/productos/:id', (req, res) => {
 
 
 //========================
-//Borrar un produccto
+//Borrar un categoria
 //========================
-app.delete('/services/productos/:id', (req, res) => {
+app.delete('/services/categoria/:id', (req, res) => {
     //Solo se va a cambiar el estado de disponible
 
     let id = req.params.id;
 
-    Producto.findById( id, ( err, productoDB ) => {
+    Categoria.findById( id, ( err, categoriaDB ) => {
         if( err ){
             return res.status(500).json({
                 ok: false,
@@ -200,18 +187,18 @@ app.delete('/services/productos/:id', (req, res) => {
             })
         };
 
-        if( !productoDB ){
+        if( !categoriaDB ){
             return res.status(500).json({
                 ok: false,
                 err: {
-                    message: 'El producto no existe'
+                    message: 'La categoria no existe'
                 }
             })
         };
 
-        productoDB.estatus = false;
+        categoriaDB.estatus = false;
 
-        productoDB.save( ( err, productoBorrado ) => {
+        categoriaDB.save( ( err, categoriaBorrado ) => {
 
             if( err ){
                 return res.status(500).json({
@@ -222,8 +209,8 @@ app.delete('/services/productos/:id', (req, res) => {
 
             res.json({
                 ok:true, 
-                producto: productoBorrado,
-                message: 'Producto borrado'
+                categoria: categoriaBorrado,
+                message: 'Categoria borrada'
             })
 
         })
