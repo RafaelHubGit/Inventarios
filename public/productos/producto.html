@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Producto</title>
+
+    <link rel="stylesheet" href="../utilidades/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+
+
+    <style>
+        #inptBusqueda {
+            background-image: url('/css/searchicon.png');
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            width: 70%;
+            font-size: 16px;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+
+        .divBarBusq{
+            display: flexbox;
+            flex-direction: row;
+        }
+    </style>
+
+</head> 
+<body>
+
+
+    <div class="container">
+            <h1 class=" text-center">Productos</h1>
+            <hr>
+
+            <div class="row">
+                <div class="col divBarBusq">
+                        <button type="button" class="btn btn-outline-success">Success</button>
+                        <input type="text" id="inptBusqueda" 
+                            onkeyup="myFunction()" 
+                            placeholder="Search for names.." 
+                            title="Type in a name">
+                </div>
+            </div>
+            
+            
+
+            <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">Clave</th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Proveedor</th>
+                        <th scope="col" class="text-center">Disponible</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                     
+                    </tbody>
+                  </table>
+    </div>
+    
+
+    <script src="../utilidades/jquery/jquery-3.4.1.min.js"></script>
+    <script src="../utilidades/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="./cargaProductos.js"></script>
+
+
+    <script>
+            function myFunction() {
+
+                // console.log("algo", d);
+
+              var input, filter, table, tr, td, i, txtValue;
+              input = document.getElementById("myInput");
+              filter = input.value.toUpperCase();
+              table = document.getElementById("myTable");
+              tr = table.getElementsByTagName("tr");
+              for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                  txtValue = td.textContent || td.innerText;
+                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                  } else {
+                    tr[i].style.display = "none";
+                  }
+                }       
+              }
+            }
+            </script>
+</body>
+</html>

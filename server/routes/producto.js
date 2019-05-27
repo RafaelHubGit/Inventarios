@@ -20,6 +20,7 @@ app.get( '/services/productos', (req, res) => {
         .skip(desde)
         .limit(limite)
         .populate('categoria', 'nombre')
+        .populate('proveedor', 'nombre')
         .exec( (err, producto) => {
             if( err ){
                 return res.json({
@@ -124,6 +125,7 @@ app.post('/services/productos', (req, res) => {
         nombre : body.nombre, 
         descripcion : body.descripcion, 
         categoria : body.categoria, 
+        proveedor : body.proveedor,
         perecedero : body.perecedero, 
         disponible : body.disponible, 
 

@@ -19,6 +19,11 @@ var productoSchema = new Schema({
         ref : 'Categoria',
         required : false
     }, 
+    proveedor : {
+        type : Schema.Types.ObjectId,
+        ref : 'Proveedor',
+        required : [true, 'Requiere un proveedor']
+    },
     perecedero : {
         type : Boolean,
         default : false
