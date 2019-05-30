@@ -31,6 +31,9 @@ var productoSchema = new Schema({
     disponible : {
         type : Number
     }, 
+    medida : {// Kg : kilogramo, Ltr : litro, Pza : pieza
+        type: String, 
+    },
     estatus : {
         type : Boolean, 
         default : true

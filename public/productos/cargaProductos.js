@@ -1,31 +1,26 @@
 ( () => {
-    console.log("Entra");
-
-    fetch('http://localhost:3000/services/productos', {
-            // method: 'GET',
-            headers: {
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin" : "http://localhost:3000",
-                'Access-Control-Allow-Credentials': 'true'
-                // 'mode': 'no-cors'
-            }
+        // Carga los productos en la tabla
+        $.ajax({
+            type: 'GET', 
+            url : 'http://localhost:3000/services/productos', 
+            dataType : 'json'
         })
-        .then( ( res ) => {
-            return res.json();
-        })
-        .then( (data) => {
+        .done( ( data ) => {
 
             let productos = data.producto;
             var tblhtml = "";
 
             productos.forEach(function(producto) {
-                tblhtml += `<tr>
+
+                medida = (producto.medida == undefined ) ? "" : producto.medida;
+
+                tblhtml += `<tr data-idprod = "${producto._id}"
+                                    ondblclick="abreModal(this)">
                         <th scope="row"> ${producto.clave} </th>
                         <td> ${producto.nombre} </td>
                         <td>${producto.categoria.nombre}</td>
                         <td>${producto.proveedor.nombre}</td>
-                        <td class=" text-center">${producto.disponible}</td>
+                        <td class=" text-center">${producto.disponible} ${medida}</td>
                         <td>
                             <button type="button" class="btn btn-outline-primary btn-sm">Actualizar</button>
                             <button type="button" class="btn btn-outline-danger btn-sm">Eliminar</button>
@@ -36,10 +31,65 @@
             $("table tbody").append(tblhtml);
 
         })
-        .catch( (e) => {
-            // console.log(e);
-            return e;
+        .fail( () => {
+            console.log("Fallo");
+        })
+        .always( () => {
+            console.log("Completo");
         });
 
 
+
+        //Craga los proveedores en el Select 
+        $.ajax({
+            type: 'GET', 
+            url : 'http://localhost:3000/services/proveedor', 
+            dataType : 'json'
+        })
+        .done( ( data ) => {
+
+            let proveedores = data.proveedor;
+            let optionHtml = "";
+
+            proveedores.forEach( ( proveedor ) => {
+                optionHtml += `<option value="${proveedor._id}" > ${proveedor.nombre} </option>`;
+            });
+
+            $("#slctModProveedores").append(optionHtml);
+
+        })
+        .fail( () => {
+            console.log("Fallo");
+        })
+        .always( () => {
+            console.log("Completo");
+        });
+
+        // Carga la categorias en el SELECT 
+        $.ajax({
+            type: 'GET', 
+            url : 'http://localhost:3000/services/categoria', 
+            dataType : 'json'
+        })
+        .done( ( data ) => {
+
+            let categorias = data.categoria;
+            let optionHtml = "";
+
+            categorias.forEach( ( categoria ) => {
+                optionHtml += `<option value="${categoria._id}" > ${categoria.nombre} </option>`;
+            });
+
+            $("#slctModCategoria").append(optionHtml);
+
+
+        })
+        .fail( () => {
+            console.log("Fallo");
+        })
+        .always( () => {
+            console.log("Completo");
+        });
+
 } )();
+

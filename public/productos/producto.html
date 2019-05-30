@@ -7,23 +7,46 @@
     <title>Producto</title>
 
     <link rel="stylesheet" href="../utilidades/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"> -->
+    <link rel="stylesheet" href="../utilidades/sweetAlert/css/sweetalert.css">
+    <link rel="stylesheet" href="../utilidades/estilos/input_text/estilos.css">
+    <link rel="stylesheet" href="../utilidades/estilos/select/style.css">
+    
+    <style>
+      input{
+        border-top: none !important;
+        border-bottom: solid 1px #ccc !important;
+        border-left: none !important;
+        border-right: none !important;
+      }
+
+      input:focus{
+        border-top: none !important;
+        border-bottom: solid 1px rgb(5, 183, 228) !important;
+        border-left: none !important;
+        border-right: none !important;
+      }
+    </style>
 
 
     <style>
         #inptBusqueda {
-            background-image: url('/css/searchicon.png');
+            background-image: url('../images/icon/search.png');
+            background-size: 7%;
             background-position: 10px 10px;
             background-repeat: no-repeat;
-            width: 70%;
+            width: 30%;
             font-size: 16px;
-            padding: 12px 20px 12px 40px;
+            padding: 6px 20px 6px 40px;
             border: 1px solid #ddd;
+            border-radius: 50px;
             margin-bottom: 12px;
         }
 
         .divBarBusq{
             display: flexbox;
             flex-direction: row;
+            text-align: right;
         }
     </style>
 
@@ -32,68 +55,149 @@
 
 
     <div class="container">
-            <h1 class=" text-center">Productos</h1>
-            <hr>
+      <h1 class=" text-center">Productos</h1>
+      <hr>
 
-            <div class="row">
-                <div class="col divBarBusq">
-                        <button type="button" class="btn btn-outline-success">Success</button>
-                        <input type="text" id="inptBusqueda" 
-                            onkeyup="myFunction()" 
-                            placeholder="Search for names.." 
-                            title="Type in a name">
-                </div>
-            </div>
-            
-            
+      <div class="row">
+        <div class="col divBarBusq">
+          <button type="button" 
+                  data-toggle="modal"
+                  data-target="#modalNuevo"
+                  class="btn btn-outline-success btn-sm">Nuevo</button>
 
-            <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th scope="col">Clave</th>
-                        <th scope="col">Producto</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col">Proveedor</th>
-                        <th scope="col" class="text-center">Disponible</th>
-                        <th scope="col"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                     
-                    </tbody>
-                  </table>
+          <input type="text" id="inptBusqueda"
+              placeholder="Buscar..." 
+              title="Busqueda...">
+        </div>
+      </div>
+      
+      
+
+      <table id="tblProductos" class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Clave</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Proveedor</th>
+            <th scope="col" class="text-center">Disponible</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+                
+        </tbody>
+      </table>
     </div>
+
+    <!-- Modales -->
+    <div class="modal fade bd-example-modal-xl" id="modalNuevo" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Producto</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputEmail4" >Clave</label>
+                  <input type="text" data-idproducto="" class="form-control" id="iptModClave" placeholder="Clave del Producto">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="inputPassword4">Nombre</label>
+                  <input type="text" class="form-control" id="iptModNombre" placeholder="Nombre del producto">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-sm-12">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">Descripcion</label>
+                  <textarea class="form-control" id="iptModDescripcion" rows="1" placeholder="Descripción del producto"></textarea>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="exampleFormControlSelect1">Seleccione la medida del producto</label>
+                  <select id="slctModMedida" class="form-control form-control-md">
+                    <option value="pza" selected> Pieza</option>
+                    <option value="kg">Kilogramo</option>
+                    <option value="ltr">Litro</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="inputPassword44">Disponible</label>
+                  <input type="text" class="form-control" id="iptModDisponible" placeholder="Cantidad disponible">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="exampleFormControlSelect1">Perecedero</label>
+                  <select id="slctModPerecedero" class="form-control form-control-md">
+                    <option value="pza" selected>No perecedero</option>
+                    <option value="kg">Perecedero</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="exampleFormControlSelect1">Proveedor</label>
+                  <select id="slctModProveedores" class="form-control form-control-md">
+                    <option value="" selected>Proveedores</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="exampleFormControlSelect1">Categoria</label>
+                  <select id="slctModCategoria" class="form-control form-control-md">
+                    <option value="" selected>Categorias</option>
+                  </select>
+                </div>
+              </div>
+
+              
+              
+
+           
+
+            <div class="modal-footer">
+              <button id="btnGuardar" type="button" class="btn btn-outline-success">Guardar</button>
+              <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
     
 
     <script src="../utilidades/jquery/jquery-3.4.1.min.js"></script>
     <script src="../utilidades/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="../utilidades/sweetAlert/js/sweetalert.min.js"></script>
+
+    <script src="../utilidades/estilos/select/index.js"></script>
 
     <script src="./cargaProductos.js"></script>
+    <script src="./funcionesJs.js"></script>
 
 
     <script>
-            function myFunction() {
-
-                // console.log("algo", d);
-
-              var input, filter, table, tr, td, i, txtValue;
-              input = document.getElementById("myInput");
-              filter = input.value.toUpperCase();
-              table = document.getElementById("myTable");
-              tr = table.getElementsByTagName("tr");
-              for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                  txtValue = td.textContent || td.innerText;
-                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                  } else {
-                    tr[i].style.display = "none";
-                  }
-                }       
-              }
-            }
-            </script>
+      // Buscar en la tabla
+      $("#inptBusqueda").keyup(function(){
+        _this = this;
+        $.each($("#tblProductos tbody tr"), function() {
+        if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+        $(this).hide();
+        else
+        $(this).show();
+        });
+      });
+     </script>
 </body>
 </html>

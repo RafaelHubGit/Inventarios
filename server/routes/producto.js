@@ -16,7 +16,7 @@ app.get( '/services/productos', (req, res) => {
     let limite = req.query.limite || 10;
     limite = Number(limite);
 
-    Producto.find({})
+    Producto.find({ estatus:true })
         .skip(desde)
         .limit(limite)
         .populate('categoria', 'nombre')
@@ -128,6 +128,7 @@ app.post('/services/productos', (req, res) => {
         proveedor : body.proveedor,
         perecedero : body.perecedero, 
         disponible : body.disponible, 
+        medida : body.medida
 
     });
 

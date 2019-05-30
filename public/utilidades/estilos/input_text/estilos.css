@@ -1,0 +1,150 @@
+body{
+	padding: 30px;
+}
+
+
+/*h1 {
+  font-size: 28px;
+  margin-bottom: 2.5%;
+}
+*/
+input.inptnew,
+span.inptnew,
+label.inptnew,
+textarea.inptnew {
+  font-family: 'Ubuntu', sans-serif !important;
+  display: block !important;
+  margin: 10px !important;
+  padding: 5px !important;
+  border: none !important;
+  font-size: 12px !important;
+}
+
+textarea.inptnew:focus,
+input.inptnew:focus {
+  outline: 0;
+}
+/* Question */
+
+input.question,
+textarea.question {
+  font-size: 25px;
+  font-weight: 300;
+  border-radius: 2px;
+  margin: 0;
+  border: none;
+  width: 80%;
+  background: rgba(0, 0, 0, 0);
+  transition: padding-top 0.2s ease, margin-top 0.2s ease;
+  overflow-x: hidden; /* Hack to make "rows" attribute apply in Firefox. */
+}
+/* Underline and Placeholder */
+
+input.question + label.lblnew,
+textarea.question + label.lblnew {
+  display: block !important;
+  /*position: relative !important;*/
+  position: fixed !important;
+  white-space: nowrap !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 15% !important;
+  border-top: 1px solid #00DBF1 !important;
+  -webkit-transition: width 0.4s ease !important;
+  transition: width 0.4s ease !important;
+  height: 0px !important;
+}
+
+input.question:focus + label.lblnew,
+textarea.question:focus + label.lblnew {
+  width: 80% !important;
+}
+
+input.question:focus,
+input.question:valid {
+  padding-top: 35px ;
+}
+
+textarea.question:valid,
+textarea.question:focus {
+  margin-top: 35px;
+}
+
+
+/*Cuando clickeas el input o el textarea*/
+input.question:focus + label.lblnew > span.spnnew,
+input.question:valid + label.lblnew > span.spnnew {
+  top: -70px !important;
+  font-size: 18px !important;
+  color: #333 !important;
+}
+
+textarea.question:focus + label.lblnew > span.spnnew,
+textarea.question:valid + label.lblnew > span.spnnew {
+  top: -100px !important;
+  font-size: 18px !important;
+  color: #333 !important;
+}
+
+input.question:valid + label.lblnew,
+textarea.question:valid + label.lblnew {
+  border-color: #00B8CB !important;
+}
+
+input.question:invalid,
+textarea.question:invalid {
+  box-shadow: none;
+}
+
+input.question + label.lblnew > span.spnnew,
+textarea.question + label.lblnew > span.spnnew {
+  font-weight: 100 !important;
+  margin: 0 !important;
+  position: absolute !important;
+  color: #303030 !important;
+  font-size: 30px !important;
+  top: -43px !important;
+  left: 0px !important;
+  z-index: -1 !important;
+  -webkit-transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease !important;
+  transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease !important;
+}
+
+input[type="submit"] {
+  -webkit-transition: opacity 0.2s ease, background 0.2s ease;
+  transition: opacity 0.2s ease, background 0.2s ease;
+  display: block;
+  opacity: 0;
+  margin: 10px 0 0 0;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* input[type="submit"]:hover {
+  background: #01DAC9;
+}
+
+input[type="submit"]:active {
+  background: #01DAC9;
+} */
+
+input.question:valid ~ input[type="submit"], textarea.question:valid ~ input[type="submit"] {
+  -webkit-animation: appear 1s forwards;
+  animation: appear 1s forwards;
+}
+
+input.question:invalid ~ input[type="submit"], textarea.question:invalid ~ input[type="submit"] {
+  display: none;
+}
+
+@-webkit-keyframes appear {
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes appear {
+  100% {
+    opacity: 1;
+  }
+}
