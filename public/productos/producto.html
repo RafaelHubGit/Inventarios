@@ -63,6 +63,7 @@
           <button type="button" 
                   data-toggle="modal"
                   data-target="#modalNuevo"
+                  onclick="limpiarModal()"
                   class="btn btn-outline-success btn-sm">Nuevo</button>
 
           <input type="text" id="inptBusqueda"
@@ -125,9 +126,9 @@
                 <div class="form-group col-md-6">
                   <label for="exampleFormControlSelect1">Seleccione la medida del producto</label>
                   <select id="slctModMedida" class="form-control form-control-md">
-                    <option value="pza" selected> Pieza</option>
-                    <option value="kg">Kilogramo</option>
-                    <option value="ltr">Litro</option>
+                    <option value="Pza" selected> Pieza</option>
+                    <option value="Kg">Kilogramo</option>
+                    <option value="Ltr">Litro</option>
                   </select>
                 </div>
                 <div class="form-group col-md-6">
@@ -140,8 +141,8 @@
                 <div class="form-group col-md-6">
                   <label for="exampleFormControlSelect1">Perecedero</label>
                   <select id="slctModPerecedero" class="form-control form-control-md">
-                    <option value="pza" selected>No perecedero</option>
-                    <option value="kg">Perecedero</option>
+                    <option value="0" selected>No perecedero</option>
+                    <option value="1">Perecedero</option>
                   </select>
                 </div>
               </div>
@@ -151,13 +152,13 @@
                 <div class="form-group col-md-6">
                   <label for="exampleFormControlSelect1">Proveedor</label>
                   <select id="slctModProveedores" class="form-control form-control-md">
-                    <option value="" selected>Proveedores</option>
+                    <option selected>Proveedores</option>
                   </select>
                 </div>
                 <div class="form-group col-md-6">
                   <label for="exampleFormControlSelect1">Categoria</label>
                   <select id="slctModCategoria" class="form-control form-control-md">
-                    <option value="" selected>Categorias</option>
+                    <option selected>Categorias</option>
                   </select>
                 </div>
               </div>
@@ -169,6 +170,8 @@
 
             <div class="modal-footer">
               <button id="btnGuardar" type="button" class="btn btn-outline-success">Guardar</button>
+              <button id="btnActualizar" type="button" class="btn btn-outline-primary" onclick="actualizaProd()">Actualizar</button>
+              <button id="btnEliminar" type="button" class="btn btn-outline-danger">Eliminar</button>
               <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
             </div>
           </div>
@@ -185,19 +188,8 @@
 
     <script src="./cargaProductos.js"></script>
     <script src="./funcionesJs.js"></script>
+    <script src="./crudProducto.js"></script>
 
 
-    <script>
-      // Buscar en la tabla
-      $("#inptBusqueda").keyup(function(){
-        _this = this;
-        $.each($("#tblProductos tbody tr"), function() {
-        if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
-        $(this).hide();
-        else
-        $(this).show();
-        });
-      });
-     </script>
 </body>
 </html>

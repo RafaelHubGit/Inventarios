@@ -3,7 +3,8 @@
         $.ajax({
             type: 'GET', 
             url : 'http://localhost:3000/services/productos', 
-            dataType : 'json'
+            dataType : 'json',
+            async: true
         })
         .done( ( data ) => {
 
@@ -15,7 +16,7 @@
                 medida = (producto.medida == undefined ) ? "" : producto.medida;
 
                 tblhtml += `<tr data-idprod = "${producto._id}"
-                                    ondblclick="abreModal(this)">
+                                    ondblclick="abreModal(this); limpiarModal()">
                         <th scope="row"> ${producto.clave} </th>
                         <td> ${producto.nombre} </td>
                         <td>${producto.categoria.nombre}</td>
@@ -44,7 +45,8 @@
         $.ajax({
             type: 'GET', 
             url : 'http://localhost:3000/services/proveedor', 
-            dataType : 'json'
+            dataType : 'json',
+            async: true
         })
         .done( ( data ) => {
 
@@ -65,11 +67,13 @@
             console.log("Completo");
         });
 
+
         // Carga la categorias en el SELECT 
         $.ajax({
             type: 'GET', 
             url : 'http://localhost:3000/services/categoria', 
-            dataType : 'json'
+            dataType : 'json',
+            async: true
         })
         .done( ( data ) => {
 

@@ -1,38 +1,13 @@
 
-
-abreModal = (algo) => {
-    // console.log($(algo).data('idprod'));
-    let idProducto = $(algo).data('idprod');
-
-    alert("ENTRA");
-
-    $.ajax({
-        type: 'GET', 
-        url : `http://localhost:3000/services/productos/${idProducto}`, 
-        dataType : 'json'
-    })
-    .done( ( data ) => {
-
-        console.log("Prod : ", data );
-        
-    })
-    .fail( () => {
-        console.log("Fallo");
-    })
-    .always( () => {
-        console.log("Completo");
+// =================================================
+// Busca Informacion en la Tabla (Input Buscar)
+// =================================================
+ $("#inptBusqueda").keyup(function(){
+    _this = this;
+    $.each($("#tblProductos tbody tr"), function() {
+    if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+    $(this).hide();
+    else
+    $(this).show();
     });
-
-}
-
-
-//MODAL
-
-limpiarModal = () => {
-    $(".modal-body input").val("");
-};
-
-
-valModal = () => {
-    
-}
+  });

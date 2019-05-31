@@ -132,10 +132,11 @@ app.post('/services/productos', (req, res) => {
 
     });
 
-    
+    console.log("Productos : ", producto);
 
     producto.save( ( err, productoSave ) => {
         if( err ){
+            console.log("Error", err);
             return res.status(500).json({
                 ok: false, 
                 err
@@ -179,7 +180,7 @@ app.put('/services/productos/:id', (req, res) => {
 
         res.json({
             ok: true, 
-            message: 'Produto actualizado'
+            message: 'Producto actualizado'
         })
 
     })
