@@ -162,28 +162,30 @@ app.post('/services/productos', (req, res) => {
 
 
 //========================
-//Actualizar un produccto
+//Actualizar un producto
 //========================
 app.put('/services/productos/:id', (req, res) => {
     
     let id = req.params.id;
+
     let body = req.body;
 
-    Producto.findOneAndUpdate(id, body, ( err, prodUpd) => {
+    Producto.findByIdAndUpdate(id, body, (err, categoriaDB) => {
 
-        if( err ){
-            return res.status(500).json({
-                ok: false,
+        if ( err ){
+            res.json({
+                ok: false, 
                 err
-            })
+            });
         };
 
         res.json({
             ok: true, 
-            message: 'Producto actualizado'
+            message: "Producto Actualizado"
         })
 
     })
+
 
 });
 

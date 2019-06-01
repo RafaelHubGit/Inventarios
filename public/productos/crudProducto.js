@@ -7,8 +7,14 @@
 // =================================================
 // INSERT
 // =================================================
-$("#btnGuardar").on("click", () => {
-    // console.log("JSON : ", obtenInfoMod());
+creaProd = () => {
+
+    limpiarModal();
+
+    $("#btnActualizar, #btnEliminar").hide();
+    $("#btnGuardar").show();
+
+    $("#exampleModalLabel").text("Crear nuevo producto");
 
     let datosInsert = obtenInfoModInsert();
 
@@ -46,7 +52,7 @@ $("#btnGuardar").on("click", () => {
         console.log("Completo");
     });
 
-});
+};
 
 
 // =================================================
@@ -57,18 +63,13 @@ actualizaProd = () => {
     let idProducto = $("#iptModClave").data('idproducto');
     let datosActualiza = obtenInfoModUpd();
 
-
-    // console.log("JSON ACTUALIZA : ", datosActualiza);
-
     $.ajax({
-        type: 'PUT', 
+        type: 'PUT',
         url : `http://localhost:3000/services/productos/${idProducto}`, 
         dataType : 'json', 
         data : datosActualiza
     })
     .done( ( data ) => {
-
-        console.log(data);
 
         $("#tblProductos tbody").empty();
 
@@ -154,9 +155,16 @@ $("#btnEliminar").on("click", () => {
     })
     .done( ( data ) => {
 
-        console.log(data);
+
+        $("#tblProductos tbody").empty();
+
+        cargaInformacion();
 
         swal("Elemento Eliminado!", "", "success");
+
+        $('#modalNuevo').modal('hide');
+
+
 
     })
     .fail( () => {
@@ -179,9 +187,17 @@ $("#btnEliminar").on("click", () => {
 // =================================================
 // Abre Modal
 // =================================================
-abreModal = (algo) => {
+abreModal = (id) => {
     // Abre el modal y muestra la informacion dentro
-    let idProducto = $(algo).data('idprod');
+
+    limpiarModal();
+
+    $("#btnActualizar, #btnEliminar").show();
+    $("#btnGuardar").hide();
+
+    $("#exampleModalLabel").text("Edita producto");
+
+    let idProducto = id;
 
     $.ajax({
         type: 'GET', 
@@ -306,19 +322,22 @@ obtenInfoModUpd = () => {
         "categoria" : "${categoria}"
     }`
 
-    // let json = `{
-    //     "perecedero" : true,
-    //     "estatus" : true,
-    //     "nombre" : "Prueba222",
-    //     "descripcion" : "Prueba 2",
-    //     "categoria" : "5ce821d49419757db050eb3c",
-    //     "proveedor" : "5ce81a80d83595501c8beed3",
-    //     "disponible" : 21,
-    //     "medida" : "Ltr"
-    // }`
-
-    console.log("Json : ", JSON.parse(json));
-
     return JSON.parse(json);
 };
 
+
+// =================================================
+// =================================================
+// MOBILE TOUCH
+// =================================================
+// =================================================
+
+// =================================================
+// Detecta el Double Tap y abre el Modal
+// =================================================
+$('#tblProductos tbody').on('doubleTap','tr', function(){
+
+    let id = $(this).attr('id');
+
+    abreModal(id);
+  });

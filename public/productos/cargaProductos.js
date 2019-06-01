@@ -16,17 +16,19 @@
                 medida = (producto.medida == undefined ) ? "" : producto.medida;
 
                 tblhtml += `<tr data-idprod = "${producto._id}"
-                                    ondblclick="abreModal(this); limpiarModal()">
+                                id="${producto._id}"
+                                    ondblclick="abreModal($(this).data('idprod'))">
                         <th scope="row"> ${producto.clave} </th>
                         <td> ${producto.nombre} </td>
                         <td>${producto.categoria.nombre}</td>
                         <td>${producto.proveedor.nombre}</td>
                         <td class=" text-center">${producto.disponible} ${medida}</td>
-                        <td>
-                            <button type="button" class="btn btn-outline-primary btn-sm">Actualizar</button>
-                            <button type="button" class="btn btn-outline-danger btn-sm">Eliminar</button>
-                        </td>
+                        
                     </tr>`;
+                    // <td>
+                    //         <button type="button" class="btn btn-outline-primary btn-sm">Actualizar</button>
+                    //         <button type="button" class="btn btn-outline-danger btn-sm">Eliminar</button>
+                    //     </td>
             });
 
             $("table tbody").append(tblhtml);

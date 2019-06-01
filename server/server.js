@@ -34,7 +34,7 @@ app.use( require('./routes/index') );
 // });
 
 mongoose.connect(process.env.URLDB, //Se trae del arch config
-    {useNewUrlParser: true, useCreateIndex: true}, //Es  una actualizacion de Mongo Atlas
+    {useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false}, //Es  una actualizacion de Mongo Atlas
     (err, res) => {
 
 if( err ) throw err;

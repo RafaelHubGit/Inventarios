@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Bloquea el Zoom al hacer doubleTap mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> 
+    
     <title>Producto</title>
 
     <link rel="stylesheet" href="../utilidades/bootstrap-4.3.1-dist/css/bootstrap.min.css">
@@ -55,7 +59,7 @@
 
 
     <div class="container">
-      <h1 class=" text-center">Productos</h1>
+      <h1 id="pruebatxt" class=" text-center">Productos</h1>
       <hr>
 
       <div class="row">
@@ -63,7 +67,7 @@
           <button type="button" 
                   data-toggle="modal"
                   data-target="#modalNuevo"
-                  onclick="limpiarModal()"
+                  onclick="creaProd()"
                   class="btn btn-outline-success btn-sm">Nuevo</button>
 
           <input type="text" id="inptBusqueda"
@@ -82,7 +86,7 @@
             <th scope="col">Categoria</th>
             <th scope="col">Proveedor</th>
             <th scope="col" class="text-center">Disponible</th>
-            <th scope="col"></th>
+            <!-- <th scope="col"></th> -->
           </tr>
         </thead>
         <tbody>
@@ -180,6 +184,7 @@
     
 
     <script src="../utilidades/jquery/jquery-3.4.1.min.js"></script>
+    <script src="../utilidades/jquery/jquery.touch.js"></script>
     <script src="../utilidades/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="../utilidades/sweetAlert/js/sweetalert.min.js"></script>

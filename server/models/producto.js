@@ -25,8 +25,8 @@ var productoSchema = new Schema({
         required : [true, 'Requiere un proveedor']
     },
     perecedero : {
-        type : Boolean,
-        default : false
+        type : Number,
+        default : 0
     }, 
     disponible : {
         type : Number
