@@ -132,8 +132,6 @@ app.post('/services/productos', (req, res) => {
 
     });
 
-    console.log("Productos : ", producto);
-
     producto.save( ( err, productoSave ) => {
         if( err ){
             console.log("Error", err);

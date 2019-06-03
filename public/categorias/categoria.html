@@ -23,6 +23,7 @@
         border-left: none !important;
         border-right: none !important;
       }
+
       input:focus{
         border-top: none !important;
         border-bottom: solid 1px rgb(5, 183, 228) !important;
@@ -38,13 +39,14 @@
             background-size: 7%;
             background-position: 10px 10px;
             background-repeat: no-repeat;
-            width: 30%;
+            width: auto;
             font-size: 16px;
             padding: 6px 20px 6px 40px;
             border: 1px solid #ddd;
             border-radius: 50px;
             margin-bottom: 12px;
         }
+
         .divBarBusq{
             display: flexbox;
             flex-direction: row;
@@ -57,15 +59,15 @@
 
 
     <div class="container">
-      <h1 id="pruebatxt" class=" text-center">Productos</h1>
+      <h1 id="pruebatxt" class=" text-center">Categorias</h1>
       <hr>
 
       <div class="row">
         <div class="col divBarBusq">
           <button type="button" 
-                  onclick="abreModalInsert()"
                   data-toggle="modal"
                   data-target="#modalNuevo"
+                  onclick="creaProd()"
                   class="btn btn-outline-success btn-sm">Nuevo</button>
 
           <input type="text" id="inptBusqueda"
@@ -76,15 +78,11 @@
       
       
 
-      <table id="tblProductos" class="table table-hover">
+      <table id="tblCategorias" class="table table-hover">
         <thead>
           <tr>
-            <th scope="col">Clave</th>
-            <th scope="col">Producto</th>
-            <th scope="col">Categoria</th>
-            <th scope="col">Proveedor</th>
-            <th scope="col" class="text-center">Disponible</th>
-            <!-- <th scope="col"></th> -->
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripcion</th>            
           </tr>
         </thead>
         <tbody>
@@ -98,7 +96,7 @@
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Producto</h5>
+              <h5 class="modal-title" id="exampleModalLabel"></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -108,60 +106,15 @@
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="inputEmail4" >Clave</label>
-                  <input type="text" data-idproducto="" class="form-control" id="iptModClave" placeholder="Clave del Producto">
-                </div>
-                <div class="form-group col-md-6">
                   <label for="inputPassword4">Nombre</label>
-                  <input type="text" class="form-control" id="iptModNombre" placeholder="Nombre del producto">
+                  <input type="text" data-id="" class="form-control" id="iptModNombre" placeholder="Nombre del producto">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-sm-12">
                   <label for="inputEmail3" class="col-sm-2 col-form-label">Descripcion</label>
-                  <textarea class="form-control" id="iptModDescripcion" rows="1" placeholder="Descripción del producto"></textarea>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="exampleFormControlSelect1">Seleccione la medida del producto</label>
-                  <select id="slctModMedida" class="form-control form-control-md">
-                    <option value="Pza" selected> Pieza</option>
-                    <option value="Kg">Kilogramo</option>
-                    <option value="Ltr">Litro</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="inputPassword44">Disponible</label>
-                  <input type="text" class="form-control" id="iptModDisponible" placeholder="Cantidad disponible">
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="exampleFormControlSelect1">Perecedero</label>
-                  <select id="slctModPerecedero" class="form-control form-control-md">
-                    <option value="0" selected>No perecedero</option>
-                    <option value="1">Perecedero</option>
-                  </select>
-                </div>
-              </div>
-
-
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="exampleFormControlSelect1">Proveedor</label>
-                  <select id="slctModProveedores" class="form-control form-control-md">
-                    <option selected>Proveedores</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="exampleFormControlSelect1">Categoria</label>
-                  <select id="slctModCategoria" class="form-control form-control-md">
-                    <option selected>Categorias</option>
-                  </select>
+                  <textarea class="form-control" id="iptModDescripcion" rows="2" placeholder="Descripción del producto"></textarea>
                 </div>
               </div>
 
@@ -171,7 +124,7 @@
            
 
             <div class="modal-footer">
-              <button id="btnGuardar" onclick="creaProd()" type="button" class="btn btn-outline-success">Guardar</button>
+              <button id="btnGuardar" type="button" class="btn btn-outline-success">Guardar</button>
               <button id="btnActualizar" type="button" class="btn btn-outline-primary" onclick="actualizaProd()">Actualizar</button>
               <button id="btnEliminar" type="button" class="btn btn-outline-danger">Eliminar</button>
               <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
@@ -189,9 +142,10 @@
 
     <script src="../utilidades/estilos/select/index.js"></script>
 
-    <script src="./cargaProductos.js"></script>
+    <script src="./cargaCategorias.js"></script>
     <script src="./funcionesJs.js"></script>
-    <script src="./crudProducto.js"></script>
+    <script src="./crudCategoria.js"></script>
 
 
 </body>
+</html>
