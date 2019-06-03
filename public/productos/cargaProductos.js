@@ -10,8 +10,15 @@
 
             let productos = data.producto;
             var tblhtml = "";
+            let categoria = "";
 
             productos.forEach(function(producto) {
+
+                if(producto.categoria){
+                    categoria = `<td>${producto.categoria.nombre}</td>`;
+                }else {
+                    categoria = `<td></td>`;
+                }
 
                 medida = (producto.medida == undefined ) ? "" : producto.medida;
 
@@ -20,15 +27,11 @@
                                     ondblclick="abreModal($(this).data('id'))">
                         <th scope="row"> ${producto.clave} </th>
                         <td> ${producto.nombre} </td>
-                        <td>${producto.categoria.nombre}</td>
+                        ${categoria}
                         <td>${producto.proveedor.nombre}</td>
                         <td class=" text-center">${producto.disponible} ${medida}</td>
                         
                     </tr>`;
-                    // <td>
-                    //         <button type="button" class="btn btn-outline-primary btn-sm">Actualizar</button>
-                    //         <button type="button" class="btn btn-outline-danger btn-sm">Eliminar</button>
-                    //     </td>
             });
 
             $("table tbody").append(tblhtml);

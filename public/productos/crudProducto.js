@@ -9,6 +9,10 @@
 // =================================================
 creaProd = () => {
 
+    if ( valida() === false ){
+        return 
+    }
+
     let datosInsert = obtenInfoModInsert();
 
     $.ajax({
@@ -51,6 +55,10 @@ creaProd = () => {
 // =================================================
 actualizaProd = () => {
 
+    if ( valida() === false ){
+        return 
+    }
+
     let id = $("#iptModClave").data('id');
     let datosActualiza = obtenInfoModUpd();
 
@@ -64,11 +72,7 @@ actualizaProd = () => {
 
         $("#tblProductos tbody").empty();
 
-        console.log("Antes de cargar");
-
         cargaInformacion();
-
-        console.log("Momento depsue de cargar");
 
         swal("Elemento Actualizado!", "", "success");
 
@@ -107,8 +111,15 @@ cargaInformacion = () => {
 
         let productos = data.producto;
         var tblhtml = "";
+        let categoria = "";
 
         productos.forEach(function(producto) {
+
+            if(producto.categoria){
+                categoria = `<td>${producto.categoria.nombre}</td>`;
+            }else {
+                categoria = `<td></td>`;
+            }
 
             medida = (producto.medida == undefined ) ? "" : producto.medida;
 
@@ -117,12 +128,11 @@ cargaInformacion = () => {
                                 ondblclick="abreModal($(this).data('id'))">
                     <th scope="row"> ${producto.clave} </th>
                     <td> ${producto.nombre} </td>
-                    <td>${producto.categoria.nombre}</td>
+                    ${categoria}
                     <td>${producto.proveedor.nombre}</td>
                     <td class=" text-center">${producto.disponible} ${medida}</td>
                     
                 </tr>`;
-                
         });
 
         $("table tbody").append(tblhtml);
@@ -217,9 +227,15 @@ abreModal = (id) => {
 
         producto = data.producto;
 
+        if(producto.categoria){
+            categoria = producto.categoria._id;
+        }else{
+            categoria = "";
+        }
+
         agregaValoresModal(producto._id, producto.clave, producto.nombre, producto.descripcion, 
                             producto.medida, producto.disponible, producto.perecedero, 
-                            producto.proveedor, producto.categoria._id);
+                            producto.proveedor, categoria);
         
         $('#modalNuevo').modal('show')                            ;
 
@@ -286,7 +302,11 @@ obtenInfoModInsert = () => {
     let medida = $('#slctModMedida').val();
     let perecedero = $('#slctModPerecedero').val();
     let proveedor = $('#slctModProveedores').val();
-    let categoria = $('#slctModCategoria').val();
+    let categoria = ``;
+
+    if( $("#slctModCategoria").val().length > 0 ){
+        categoria = `,"categoria" : "${$('#slctModCategoria').val()}"`
+    }
     
 
     let json = `{
@@ -296,11 +316,11 @@ obtenInfoModInsert = () => {
         "medida" : "${medida}",
         "disponible" : "${disponible}",
         "perecedero" : "${perecedero}",
-        "proveedor" : "${proveedor}",
-        "categoria" : "${categoria}"
+        "proveedor" : "${proveedor}"
+        ${categoria}
     }`;
 
-    // console.log("Json : ", JSON.parse(json));
+    console.log("Json : ", JSON.parse(json));
 
     return JSON.parse(json);
 };
@@ -351,3 +371,42 @@ $('#tblProductos tbody').on('doubleTap','tr', function(){
 
     abreModal(id);
   });
+
+
+
+// =================================================
+// =================================================
+// VALIDACIONES
+// =================================================
+// =================================================
+
+valida = () => {
+
+    // INPUT
+    if( $("#iptModClave").val().length < 1 ){
+        document.getElementById("iptModClave").placeholder = "Debe ingresar la clave!";
+        document.getElementById('iptModClave').focus();
+        swal("Debe agregar una clave!", "", "warning");
+        return false;
+    }
+
+    if( $("#iptModNombre").val().length < 1 ){
+        document.getElementById("iptModNombre").placeholder = "Debe ingresar el nombre!";
+        document.getElementById('iptModNombre').focus();
+        swal("Debe agregar el nombre!", "", "warning");
+        return false;
+    }
+
+    // SELECT
+    if( $("#slctModProveedores").val().length < 1 ){
+        document.getElementById('slctModProveedores').focus();
+        swal("Debe elegir un proveedor!", "", "warning");
+        return false;
+    }
+
+    if( $("#slctModCategoria").val().length < 1 ){
+        document.getElementById('slctModCategoria').focus();
+        swal("Debe elegir una categoria!", "", "warning");
+        return false;
+    }
+}

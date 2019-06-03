@@ -16,7 +16,7 @@ app.get( '/services/proveedor', (req, res) => {
     let limite = req.query.limite || 10;
     limite = Number(limite);
 
-    Proveedor.find({})
+    Proveedor.find({ estatus: true })
         .skip(desde)
         .limit(limite)
         // .populate('categoria')
@@ -113,7 +113,8 @@ app.post('/services/proveedor', (req, res) => {
     let body = req.body;
 
     proveedor = new Proveedor({
-        nombre : body.nombre
+        nombre : body.nombre, 
+        estatus : true
     });
 
     
@@ -152,18 +153,18 @@ app.put('/services/proveedor/:id', (req, res) => {
     let id = req.params.id;
     let body = req.body;
 
-    Proveedor.findOneAndUpdate(id, body, ( err, provUpd) => {
+    Proveedor.findByIdAndUpdate(id, body, (err, categoriaDB) => {
 
-        if( err ){
-            return res.status(500).json({
-                ok: false,
+        if ( err ){
+            res.json({
+                ok: false, 
                 err
-            })
+            });
         };
 
         res.json({
             ok: true, 
-            message: 'Proveedor actualizado'
+            message: "Proveedor Actualizado"
         })
 
     })

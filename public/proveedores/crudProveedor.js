@@ -17,7 +17,7 @@ crea = () => {
 
     $.ajax({
         type: 'POST', 
-        url : `http://localhost:3000/services/categoria`, 
+        url : `http://localhost:3000/services/proveedor`, 
         dataType : 'json', 
         data : datosInsert
     })
@@ -38,7 +38,7 @@ crea = () => {
         data = JSON.parse(data.responseText);
 
         if( data.err.code === 11000 ) {
-            swal("Clave duplicada!", "Ya existe un categoria con esa clave, cambie la clave para continuar", "error");
+            swal("Clave duplicada!", "Ya existe un proveedor con esa clave, cambie la clave para continuar", "error");
         }
 
 
@@ -64,7 +64,7 @@ actualiza = () => {
 
     $.ajax({
         type: 'PUT',
-        url : `http://localhost:3000/services/categoria/${id}`, 
+        url : `http://localhost:3000/services/proveedor/${id}`, 
         dataType : 'json', 
         data : datosActualiza
     })
@@ -85,7 +85,7 @@ actualiza = () => {
         data = JSON.parse(data.responseText);
 
         if( data.err.code === 11000 ) {
-            swal("Clave duplicada!", "Ya existe un categoria con esa clave, cambie la clave para continuar", "error");
+            swal("Clave duplicada!", "Ya existe un proveedor con esa clave, cambie la clave para continuar", "error");
         }
 
 
@@ -100,25 +100,26 @@ actualiza = () => {
 // OBTENER INFORMACION
 // =================================================
 cargaInformacion = () => {
-    // Carga los categorias en la tabla
+    // Carga los proveedors en la tabla
     $.ajax({
         type: 'GET', 
-        url : 'http://localhost:3000/services/categoria', 
+        url : 'http://localhost:3000/services/proveedor', 
         dataType : 'json',
         async: true
     })
     .done( ( data ) => {
 
-        let categorias = data.categoria;
+        console.log(data);
+
+        let proveedors = data.proveedor;
         var tblhtml = "";
 
-        categorias.forEach(function(categoria) {
+        proveedors.forEach(function(proveedor) {
 
-            tblhtml += `<tr data-id = "${categoria._id}"
-                            id="${categoria._id}"
+            tblhtml += `<tr data-id = "${proveedor._id}"
+                            id="${proveedor._id}"
                                 ondblclick="abreModal($(this).data('id'))">
-                    <th scope="row"> ${categoria.nombre} </th>
-                    <td> ${categoria.descripcion} </td>
+                    <th scope="row"> ${proveedor.nombre} </th>
                 </tr>`;
         });
 
@@ -142,7 +143,7 @@ eliminar = () => {
 
     $.ajax({
         type: 'DELETE', 
-        url : `http://localhost:3000/services/categoria/${id}`, 
+        url : `http://localhost:3000/services/proveedor/${id}`, 
         dataType : 'json'
     })
     .done( ( data ) => {
@@ -186,7 +187,7 @@ abreModalInsert = () =>{
     $("#btnActualizar, #btnEliminar").hide();
     $("#btnGuardar").show();
 
-    $("#exampleModalLabel").text("Crear nueva categoria");
+    $("#exampleModalLabel").text("Crear nueva proveedor");
 };
 
 
@@ -201,19 +202,19 @@ abreModal = (id) => {
     $("#btnActualizar, #btnEliminar").show();
     $("#btnGuardar").hide();
 
-    $("#exampleModalLabel").text("Edita Categoria");
+    $("#exampleModalLabel").text("Edita proveedor");
 
 
     $.ajax({
         type: 'GET', 
-        url : `http://localhost:3000/services/categoria/${id}`, 
+        url : `http://localhost:3000/services/proveedor/${id}`, 
         dataType : 'json'
     })
     .done( ( data ) => {
 
-        categoria = data.categoria;
+        proveedor = data.proveedor;
 
-        agregaValoresModal(categoria._id, categoria.nombre, categoria.descripcion);
+        agregaValoresModal(proveedor._id, proveedor.nombre, proveedor.descripcion);
         
         $('#modalNuevo').modal('show')                            ;
 
@@ -233,7 +234,7 @@ abreModal = (id) => {
 // =================================================
 limpiarModal = () => {
 
-    $("#iptModClave").data('idcategoria', "");
+    $("#iptModClave").data('idproveedor', "");
 
     $(".modal-body input").val(null);
 
@@ -264,11 +265,9 @@ obtenInfoModInsert = () => {
 
     // Inputs
     let nombre = $("#iptModNombre").val();
-    let descripcion = $("#iptModDescripcion").val();
     
     let json = `{
-        "nombre" : "${nombre}", 
-        "descripcion" : "${descripcion}"
+        "nombre" : "${nombre}"
     }`;
 
     // console.log("Json : ", JSON.parse(json));
@@ -283,12 +282,10 @@ obtenInfoModUpd = () => {
 
     // Inputs
     let nombre = $("#iptModNombre").val();
-    let descripcion = $("#iptModDescripcion").val();
 
 
     let json = `{
-        "nombre" : "${nombre}", 
-        "descripcion" : "${descripcion}"
+        "nombre" : "${nombre}"
     }`
 
     return JSON.parse(json);
@@ -336,9 +333,9 @@ valida = () => {
     //     return false;
     // }
 
-    // if( $("#slctModCategoria").val().length < 1 ){
-    //     document.getElementById('slctModCategoria').focus();
-    //     swal("Debe elegir una categoria!", "", "warning");
+    // if( $("#slctModproveedor").val().length < 1 ){
+    //     document.getElementById('slctModproveedor').focus();
+    //     swal("Debe elegir una proveedor!", "", "warning");
     //     return false;
     // }
 }
