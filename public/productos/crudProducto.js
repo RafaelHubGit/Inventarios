@@ -19,8 +19,6 @@ creaProd = () => {
     })
     .done( ( data ) => {
 
-        console.log(data);
-
         $("#tblProductos tbody").empty();
 
         cargaInformacion();
@@ -53,12 +51,12 @@ creaProd = () => {
 // =================================================
 actualizaProd = () => {
 
-    let idProducto = $("#iptModClave").data('idproducto');
+    let id = $("#iptModClave").data('id');
     let datosActualiza = obtenInfoModUpd();
 
     $.ajax({
         type: 'PUT',
-        url : `http://localhost:3000/services/productos/${idProducto}`, 
+        url : `http://localhost:3000/services/productos/${id}`, 
         dataType : 'json', 
         data : datosActualiza
     })
@@ -66,7 +64,11 @@ actualizaProd = () => {
 
         $("#tblProductos tbody").empty();
 
+        console.log("Antes de cargar");
+
         cargaInformacion();
+
+        console.log("Momento depsue de cargar");
 
         swal("Elemento Actualizado!", "", "success");
 
@@ -74,7 +76,7 @@ actualizaProd = () => {
 
     })
     .fail( (data) => {
-        console.log("Fallo : ", data);
+        // console.log("Fallo : ", data);
 
         data = JSON.parse(data.responseText);
 
@@ -106,15 +108,13 @@ cargaInformacion = () => {
         let productos = data.producto;
         var tblhtml = "";
 
-        console.log("DATOS : ", productos);
-
         productos.forEach(function(producto) {
 
             medida = (producto.medida == undefined ) ? "" : producto.medida;
 
             tblhtml += `<tr data-id = "${producto._id}"
                             id="${producto._id}"
-                                ondblclick="abreModal($(this).data('idprod'))">
+                                ondblclick="abreModal($(this).data('id'))">
                     <th scope="row"> ${producto.clave} </th>
                     <td> ${producto.nombre} </td>
                     <td>${producto.categoria.nombre}</td>
@@ -122,6 +122,7 @@ cargaInformacion = () => {
                     <td class=" text-center">${producto.disponible} ${medida}</td>
                     
                 </tr>`;
+                
         });
 
         $("table tbody").append(tblhtml);
@@ -140,7 +141,7 @@ cargaInformacion = () => {
 // =================================================
 $("#btnEliminar").on("click", () => {
 
-    let idProducto = $("#iptModClave").data('idproducto');
+    let idProducto = $("#iptModClave").data('id');
 
     $.ajax({
         type: 'DELETE', 
@@ -214,7 +215,6 @@ abreModal = (id) => {
     })
     .done( ( data ) => {
 
-        // console.log("Prod : ", data );
         producto = data.producto;
 
         agregaValoresModal(producto._id, producto.clave, producto.nombre, producto.descripcion, 
@@ -239,9 +239,11 @@ abreModal = (id) => {
 // =================================================
 limpiarModal = () => {
 
-    $("#iptModClave").data('idproducto', "");
+    $("#iptModClave").data('id', "");
 
     $(".modal-body input").val(null);
+
+    $(".modal-body textarea").val(null);
 
     $(".modal-body select").prop("selectedIndex", 0);
 };
@@ -249,10 +251,10 @@ limpiarModal = () => {
 // =================================================
 // Agrega Valores al Modal
 // =================================================
-agregaValoresModal = (idProducto, clave, nombre, descripcion, medida, disponible, perecedero, proveedor, categoria) => {
+agregaValoresModal = (id, clave, nombre, descripcion, medida, disponible, perecedero, proveedor, categoria) => {
     
     // DATA
-    $("#iptModClave").data('idproducto', idProducto);
+    $("#iptModClave").data('id', id);
 
     // Inputs
     $("#iptModClave").val(clave);
@@ -263,18 +265,11 @@ agregaValoresModal = (idProducto, clave, nombre, descripcion, medida, disponible
     // SELECT
     $('#slctModMedida').val(medida);
     $('#slctModPerecedero').val(perecedero);
-    console.log("PERECE : ", perecedero);
     $('#slctModProveedores').val(proveedor);
     $('#slctModCategoria').val(categoria);
 
 };
 
-
-infoInsert = () => {
-
-    console.log("CLAVE : ", $("#iptModClave").val());
-
-}
 
 // =================================================
 // Obten Informacion Modal to JSON (Para Insertar)
@@ -332,7 +327,7 @@ obtenInfoModUpd = () => {
         "descripcion" : "${descripcion}",
         "medida" : "${medida}",
         "disponible" : "${disponible}",
-        "perecedero" : ${perecedero},
+        "perecedero" : "${perecedero}",
         "proveedor" : "${proveedor}",
         "categoria" : "${categoria}"
     }`

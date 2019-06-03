@@ -16,7 +16,7 @@ app.get( '/services/categoria', (req, res) => {
     let limite = req.query.limite || 10;
     limite = Number(limite);
 
-    Categoria.find({})
+    Categoria.find({estatus: true})
         .skip(desde)
         .limit(limite)
         // .populate('categoria')
@@ -120,6 +120,7 @@ app.post('/services/categoria', (req, res) => {
 
     categoria.save( ( err, categoriaSave ) => {
         if( err ){
+            console.log("Error", err);
             return res.status(500).json({
                 ok: false, 
                 err
@@ -152,18 +153,18 @@ app.put('/services/categoria/:id', (req, res) => {
     let id = req.params.id;
     let body = req.body;
 
-    Categoria.findOneAndUpdate(id, body, ( err, categUpd) => {
+    Categoria.findByIdAndUpdate(id, body, (err, categoriaDB) => {
 
-        if( err ){
-            return res.status(500).json({
-                ok: false,
+        if ( err ){
+            res.json({
+                ok: false, 
                 err
-            })
+            });
         };
 
         res.json({
             ok: true, 
-            message: 'Categoria actualizada'
+            message: "Categoria Actualizada"
         })
 
     })

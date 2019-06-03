@@ -11,15 +11,13 @@
             let productos = data.producto;
             var tblhtml = "";
 
-            console.log("DATOS : ", productos);
-
             productos.forEach(function(producto) {
 
                 medida = (producto.medida == undefined ) ? "" : producto.medida;
 
                 tblhtml += `<tr data-id = "${producto._id}"
                                 id="${producto._id}"
-                                    ondblclick="abreModal($(this).data('idprod'))">
+                                    ondblclick="abreModal($(this).data('id'))">
                         <th scope="row"> ${producto.clave} </th>
                         <td> ${producto.nombre} </td>
                         <td>${producto.categoria.nombre}</td>

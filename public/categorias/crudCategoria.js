@@ -7,14 +7,7 @@
 // =================================================
 // INSERT
 // =================================================
-creaProd = () => {
-
-    limpiarModal();
-
-    $("#btnActualizar, #btnEliminar").hide();
-    $("#btnGuardar").show();
-
-    $("#exampleModalLabel").text("Crear nueva categoria");
+crea = () => {
 
     let datosInsert = obtenInfoModInsert();
 
@@ -26,9 +19,7 @@ creaProd = () => {
     })
     .done( ( data ) => {
 
-        console.log(data);
-
-        $("#tblCategorias tbody").empty();
+        $("#tblElements tbody").empty();
 
         cargaInformacion();
 
@@ -43,7 +34,7 @@ creaProd = () => {
         data = JSON.parse(data.responseText);
 
         if( data.err.code === 11000 ) {
-            swal("Clave duplicada!", "Ya existe un producto con esa clave, cambie la clave para continuar", "error");
+            swal("Clave duplicada!", "Ya existe un categoria con esa clave, cambie la clave para continuar", "error");
         }
 
 
@@ -58,7 +49,7 @@ creaProd = () => {
 // =================================================
 // Actualizar
 // =================================================
-actualizaProd = () => {
+actualiza = () => {
 
     let id = $("#iptModNombre").data('id');
     let datosActualiza = obtenInfoModUpd();
@@ -71,7 +62,7 @@ actualizaProd = () => {
     })
     .done( ( data ) => {
 
-        $("#tblCategorias tbody").empty();
+        $("#tblElements tbody").empty();
 
         cargaInformacion();
 
@@ -81,12 +72,12 @@ actualizaProd = () => {
 
     })
     .fail( (data) => {
-        console.log("Fallo : ", data);
+        // console.log("Fallo : ", data);
 
         data = JSON.parse(data.responseText);
 
         if( data.err.code === 11000 ) {
-            swal("Clave duplicada!", "Ya existe una categoria con esa clave, cambie la clave para continuar", "error");
+            swal("Clave duplicada!", "Ya existe un categoria con esa clave, cambie la clave para continuar", "error");
         }
 
 
@@ -101,7 +92,7 @@ actualizaProd = () => {
 // OBTENER INFORMACION
 // =================================================
 cargaInformacion = () => {
-    // Carga los productos en la tabla
+    // Carga los categorias en la tabla
     $.ajax({
         type: 'GET', 
         url : 'http://localhost:3000/services/categoria', 
@@ -120,7 +111,6 @@ cargaInformacion = () => {
                                 ondblclick="abreModal($(this).data('id'))">
                     <th scope="row"> ${categoria.nombre} </th>
                     <td> ${categoria.descripcion} </td>
-                    
                 </tr>`;
         });
 
@@ -138,7 +128,7 @@ cargaInformacion = () => {
 // =================================================
 // DELETE
 // =================================================
-$("#btnEliminar").on("click", () => {
+eliminar = () => {
 
     let id = $("#iptModNombre").data('id');
 
@@ -150,7 +140,7 @@ $("#btnEliminar").on("click", () => {
     .done( ( data ) => {
 
 
-        $("#tblCategorias tbody").empty();
+        $("#tblElements tbody").empty();
 
         cargaInformacion();
 
@@ -167,7 +157,7 @@ $("#btnEliminar").on("click", () => {
     .always( () => {
         console.log("Completo");
     });
-});
+};
 
 
 
@@ -179,7 +169,21 @@ $("#btnEliminar").on("click", () => {
 
 
 // =================================================
-// Abre Modal
+// Abre Modal INSERT
+// =================================================
+abreModalInsert = () =>{
+
+    limpiarModal();
+
+    $("#btnActualizar, #btnEliminar").hide();
+    $("#btnGuardar").show();
+
+    $("#exampleModalLabel").text("Crear nueva categoria");
+};
+
+
+// =================================================
+// Abre Modal UPDATE
 // =================================================
 abreModal = (id) => {
     // Abre el modal y muestra la informacion dentro
@@ -189,7 +193,7 @@ abreModal = (id) => {
     $("#btnActualizar, #btnEliminar").show();
     $("#btnGuardar").hide();
 
-    $("#exampleModalLabel").text("Edita categoria");
+    $("#exampleModalLabel").text("Edita Categoria");
 
 
     $.ajax({
@@ -199,10 +203,9 @@ abreModal = (id) => {
     })
     .done( ( data ) => {
 
-        // console.log("Prod : ", data );
-        info = data.categoria;
+        categoria = data.categoria;
 
-        agregaValoresModal(info._id, info.nombre, info.descripcion);
+        agregaValoresModal(categoria._id, categoria.nombre, categoria.descripcion);
         
         $('#modalNuevo').modal('show')                            ;
 
@@ -222,9 +225,11 @@ abreModal = (id) => {
 // =================================================
 limpiarModal = () => {
 
-    $("#iptModNombre").data('id', "");
+    $("#iptModClave").data('idcategoria', "");
 
     $(".modal-body input").val(null);
+
+    $(".modal-body textarea").val(null);
 
     // $(".modal-body select").prop("selectedIndex", 0);
 };
@@ -232,7 +237,7 @@ limpiarModal = () => {
 // =================================================
 // Agrega Valores al Modal
 // =================================================
-agregaValoresModal = (id, nombre, descripcion) => {
+agregaValoresModal = (id,nombre, descripcion) => {
     
     // DATA
     $("#iptModNombre").data('id', id);
@@ -252,13 +257,13 @@ obtenInfoModInsert = () => {
     // Inputs
     let nombre = $("#iptModNombre").val();
     let descripcion = $("#iptModDescripcion").val();
-
+    
     let json = `{
         "nombre" : "${nombre}", 
         "descripcion" : "${descripcion}"
-    }`
+    }`;
 
-    console.log("Json : ", JSON.parse(json));
+    // console.log("Json : ", JSON.parse(json));
 
     return JSON.parse(json);
 };
@@ -269,15 +274,9 @@ obtenInfoModInsert = () => {
 obtenInfoModUpd = () => {
 
     // Inputs
-    // let clave = $("#iptModClave").val();
     let nombre = $("#iptModNombre").val();
     let descripcion = $("#iptModDescripcion").val();
 
-    // SELECT
-    // let medida = $('#slctModMedida').val();
-    // let perecedero = $('#slctModPerecedero').val();
-    // let proveedor = $('#slctModProveedores').val();
-    // let categoria = $('#slctModCategoria').val();
 
     let json = `{
         "nombre" : "${nombre}", 
@@ -297,7 +296,7 @@ obtenInfoModUpd = () => {
 // =================================================
 // Detecta el Double Tap y abre el Modal
 // =================================================
-$('#tblCategorias tbody').on('doubleTap','tr', function(){
+$('#tblElements tbody').on('doubleTap','tr', function(){
 
     let id = $(this).attr('id');
 

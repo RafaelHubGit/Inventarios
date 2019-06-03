@@ -83,8 +83,6 @@ app.get('/services/productos/termino/:termino', (req, res) => {
 
     let termino = req.params.termino; 
 
-    console.log("Termino : ", termino);
-
     let regex = new RegExp(termino, 'i'); //La i es para que se insencible aminusculas y mayu
 
     Producto.find({ nombre: regex})
@@ -134,7 +132,6 @@ app.post('/services/productos', (req, res) => {
 
     producto.save( ( err, productoSave ) => {
         if( err ){
-            console.log("Error", err);
             return res.status(500).json({
                 ok: false, 
                 err

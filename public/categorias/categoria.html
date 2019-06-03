@@ -8,7 +8,7 @@
     <!-- Bloquea el Zoom al hacer doubleTap mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> 
     
-    <title>Producto</title>
+    <title>Categoria</title>
 
     <link rel="stylesheet" href="../utilidades/bootstrap-4.3.1-dist/css/bootstrap.min.css">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"> -->
@@ -23,7 +23,6 @@
         border-left: none !important;
         border-right: none !important;
       }
-
       input:focus{
         border-top: none !important;
         border-bottom: solid 1px rgb(5, 183, 228) !important;
@@ -39,14 +38,13 @@
             background-size: 7%;
             background-position: 10px 10px;
             background-repeat: no-repeat;
-            width: auto;
+            width: 30%;
             font-size: 16px;
             padding: 6px 20px 6px 40px;
             border: 1px solid #ddd;
             border-radius: 50px;
             margin-bottom: 12px;
         }
-
         .divBarBusq{
             display: flexbox;
             flex-direction: row;
@@ -59,15 +57,15 @@
 
 
     <div class="container">
-      <h1 id="pruebatxt" class=" text-center">Categorias</h1>
+      <h1 id="pruebatxt" class=" text-center">Categoria</h1>
       <hr>
 
       <div class="row">
         <div class="col divBarBusq">
           <button type="button" 
+                  onclick="abreModalInsert()"
                   data-toggle="modal"
                   data-target="#modalNuevo"
-                  onclick="creaProd()"
                   class="btn btn-outline-success btn-sm">Nuevo</button>
 
           <input type="text" id="inptBusqueda"
@@ -78,11 +76,11 @@
       
       
 
-      <table id="tblCategorias" class="table table-hover">
+      <table id="tblElements" class="table table-hover">
         <thead>
           <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Descripcion</th>            
+            <th scope="col">Categoria</th>
+            <th scope="col">Descripción</th>
           </tr>
         </thead>
         <tbody>
@@ -105,28 +103,25 @@
 
 
               <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="inputPassword4">Nombre</label>
-                  <input type="text" data-id="" class="form-control" id="iptModNombre" placeholder="Nombre del producto">
+                <div class="form-group col-md-12">
+                  <label for="inputEmail4" >Nombre</label>
+                  <input type="text" data-id="" class="form-control" id="iptModNombre" placeholder="Nombre Categoria">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-sm-12">
                   <label for="inputEmail3" class="col-sm-2 col-form-label">Descripcion</label>
-                  <textarea class="form-control" id="iptModDescripcion" rows="2" placeholder="Descripción del producto"></textarea>
+                  <textarea class="form-control" id="iptModDescripcion" rows="2" placeholder="Descripción de la Categoria"></textarea>
                 </div>
               </div>
 
-              
-              
-
-           
+             
 
             <div class="modal-footer">
-              <button id="btnGuardar" type="button" class="btn btn-outline-success">Guardar</button>
-              <button id="btnActualizar" type="button" class="btn btn-outline-primary" onclick="actualizaProd()">Actualizar</button>
-              <button id="btnEliminar" type="button" class="btn btn-outline-danger">Eliminar</button>
+              <button id="btnGuardar" onclick="crea()" type="button" class="btn btn-outline-success">Guardar</button>
+              <button id="btnActualizar" onclick="actualiza()" type="button" class="btn btn-outline-primary">Actualizar</button>
+              <button id="btnEliminar" onclick="eliminar()" type="button" class="btn btn-outline-danger">Eliminar</button>
               <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
             </div>
           </div>
@@ -142,10 +137,9 @@
 
     <script src="../utilidades/estilos/select/index.js"></script>
 
-    <script src="./cargaCategorias.js"></script>
+    <script src="./cargaCategoria.js"></script>
     <script src="./funcionesJs.js"></script>
     <script src="./crudCategoria.js"></script>
 
 
 </body>
-</html>
