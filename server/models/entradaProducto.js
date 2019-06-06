@@ -18,7 +18,7 @@ var entradaSchema = new Schema({
         type : String
     },
     tipoDocto : { //Para saber el tipo de documento Pueden ser factura 1, remision 2, folio 3 o numeroDocumentoDeAlmacen 4
-        type : Number
+        type : String
     }, 
     noDocto : { // El numero del documento que se ingreso
         type : String

@@ -21,6 +21,12 @@ app.get( '/services/entrada', (req, res) => {
         .skip(desde)
         .limit(limite)
         // .populate('categoria')
+        .populate('proveedor')
+        .populate([{
+            path: 'productos.producto', 
+            model: 'Producto',
+            select: 'nombre'
+        }])
         .exec( (err, entrada) => {
             if( err ){
                 return res.json({

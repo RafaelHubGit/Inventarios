@@ -31,6 +31,29 @@
         .nombreCard{
             font-weight: bold;
         }
+
+        .containerCards{
+            display: grid;
+            grid-gap: 5px;
+            grid-template-columns: repeat(3,minmax(300px, 1fr));
+        }
+
+        @media screen and (max-width: 992px){
+            .containerCards{
+            /* display: grid;
+            grid-gap: 5px; */
+            grid-template-columns: repeat(2,minmax(300px, 1fr));
+        }
+        }
+
+        @media screen and (max-width: 770px){
+            .containerCards{
+            /* display: grid;
+            grid-gap: 5px; */
+            grid-template-columns: repeat(1,minmax(300px, 1fr));
+        }
+        }
+
     </style>
 
 </head>
@@ -40,149 +63,9 @@
         <h1 id="pruebatxt" class=" text-center">Entrada de Productos</h1>
         <hr>
 
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card text-center">
-                    <div class="card-header">
-                        <div class="proveedorCard">Proveedor de la mas chida S.A de C.V</div> 
-                        <div class="documentoCard">Remision : 34</div>
-                    </div>
-                    <div class="card-body">
-                        
-                            <table class="table ">
-                                    <thead>
-                                      <tr>
-                                        <th scope="col">Producto</th>
-                                        <th scope="col">Cantidad</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <th scope="row">Producto1</th>
-                                        <td>3</td>
-                                      </tr>
-                                      <tr>
-                                        <th scope="row">Producto1</th>
-                                        <td>3</td>
-                                        </tr>
-                                        <tr>
-                                                <th scope="row">Producto1</th>
-                                                <td>3</td>
-                                              </tr>
-                                    </tbody>
-                                  </table>  
-                        
-                     
-                    </div>
-                    <div class="card-footer text-muted">
-                        <div class="fechaCard"> 03/Junio/2019 </div> 
-                        <div class="nombreCard">Nava Vargas Gonzalo Rafael</div>
-                        
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card text-center">
-                    <div class="card-header">
-                        <div class="proveedorCard">Proveedor de la mas chida S.A de C.V</div> 
-                        <div class="documentoCard">Remision : 34</div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                        
-                    </div>
-                    <div class="card-footer text-muted">
-                        <div class="fechaCard"> 03/Junio/2019 </div> 
-                        <div class="nombreCard">Nava Vargas Gonzalo Rafael</div>
-                        
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card text-center">
-                    <div class="card-header">
-                        <div class="proveedorCard">Proveedor de la mas chida S.A de C.V</div> 
-                        <div class="documentoCard">Remision : 34</div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                        
-                    </div>
-                    <div class="card-footer text-muted">
-                        <div class="fechaCard"> 03/Junio/2019 </div> 
-                        <div class="nombreCard">Nava Vargas Gonzalo Rafael</div>
-                        
-                    </div>
-                </div>
-            </div>
-                
+        <div class="containerCards">
         </div>
-
-
-        <div class="row">
-                <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-header">
-                            <div class="proveedorCard">Proveedor de la mas chida S.A de C.V</div> 
-                            <div class="documentoCard">Remision : 34</div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                         
-                        </div>
-                        <div class="card-footer text-muted">
-                            <div class="fechaCard"> 03/Junio/2019 </div> 
-                            <div class="nombreCard">Nava Vargas Gonzalo Rafael</div>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-header">
-                            <div class="proveedorCard">Proveedor de la mas chida S.A de C.V</div> 
-                            <div class="documentoCard">Remision : 34</div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                            
-                        </div>
-                        <div class="card-footer text-muted">
-                            <div class="fechaCard"> 03/Junio/2019 </div> 
-                            <div class="nombreCard">Nava Vargas Gonzalo Rafael</div>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-header">
-                            <div class="proveedorCard">Proveedor de la mas chida S.A de C.V</div> 
-                            <div class="documentoCard">Remision : 34</div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                            
-                        </div>
-                        <div class="card-footer text-muted">
-                            <div class="fechaCard"> 03/Junio/2019 </div> 
-                            <div class="nombreCard">Nava Vargas Gonzalo Rafael</div>
-                            
-                        </div>
-                    </div>
-                </div>
-                    
-            </div>
+        
 
     </div>
     
@@ -192,6 +75,15 @@
     <script src="../utilidades/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="../utilidades/sweetAlert/js/sweetalert.min.js"></script>
+
+    <!-- importo la libreria moments -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.0/moment.min.js"></script>
+    <!-- importo todos los idiomas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.0/moment-with-locales.min.js"></script>
+
+    <script src="./funcionesJs.js"></script>
+
+    <script src="./cargaEntrada.js"></script>
 
 </body>
 </html>

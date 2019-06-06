@@ -1,0 +1,106 @@
+( () => {
+        // Carga los categorias en la tabla
+        $.ajax({
+            type: 'GET', 
+            url : 'http://localhost:3000/services/entrada', 
+            dataType : 'json',
+            async: true
+        })
+        .done( ( data ) => {
+
+            // console.log(data);
+
+            let entradas = data.entrada;
+            var html = "";
+            let x = 1;
+
+            // console.log("ENTRADAS : ", entradas);
+
+            entradas.forEach(function(entrada) {
+
+               
+
+                html += `<div class="card text-center">
+                                <div class="card-header">
+                                    <div class="proveedorCard">${entrada.proveedor.nombre}</div> 
+                                    <div class="documentoCard">${entrada.tipoDocto} : ${entrada.noDocto}</div>
+                                </div>
+                                <div class="card-body">
+                                    
+                                        <table class="table ">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Producto</th>
+                                                    <th scope="col">Cantidad</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    ${ agregaProdTable(entrada.productos)}
+                                                </tbody>
+                                            </table>  
+                                    
+                                
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <div class="fechaCard"> ${formatoFecha(entrada.fechaEntrada)} </div> 
+                                    <div class="nombreCard">${entrada.responsableRecibe}</div>
+                                    
+                                </div>
+                            </div>`;
+            });
+
+            $(".containerCards").append(html);
+
+            // $("table tbody").append(tblhtml);
+
+        })
+        .fail( () => {
+            console.log("Fallo");
+        })
+        .always( () => {
+            console.log("Completo");
+        });
+
+       // =================================================
+        // Recibe fecha y le da formato 
+        // =================================================
+        formatoFecha = (fecha) => {
+            moment.locale('es');
+            var dateTime = moment( fecha );
+            var full = dateTime.format('dddd/MM/YYYY');
+        
+            var mes = dateTime.format('MMMM');
+        
+            // dia (escrito)
+            var dia = dateTime.format('dddd');
+            // dia
+            var diaN = dateTime.format('D');
+        
+            var anio = dateTime.format('YYYY');
+            /////
+            // Update
+            var full2 = dateTime.format('LL');
+            //
+            var fullTime = dateTime.format('LLLL');
+        
+            return `${diaN}/${mes}/${anio}`
+        }
+        
+        
+        // =================================================
+        // Agrega los prodctos a la tabla card
+        // =================================================
+        agregaProdTable = ( data ) => {
+            let html = "";
+            data.forEach( (dato) => {
+                html += `<tr>
+                            <th scope="row">${dato.producto.nombre}</th>
+                            <td>${dato.cantidad}</td>
+                        </tr>`;
+            })
+
+            return html;
+        }
+
+} )();
+
