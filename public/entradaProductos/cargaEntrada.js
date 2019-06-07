@@ -14,13 +14,13 @@
             var html = "";
             let x = 1;
 
-            // console.log("ENTRADAS : ", entradas);
+            console.log("ENTRADAS : ", entradas);
 
             entradas.forEach(function(entrada) {
 
                
 
-                html += `<div class="card text-center">
+                html += `<div class="card text-center" data-idCard="${entrada._id}">
                                 <div class="card-header">
                                     <div class="proveedorCard">${entrada.proveedor.nombre}</div> 
                                     <div class="documentoCard">${entrada.tipoDocto} : ${entrada.noDocto}</div>
@@ -93,7 +93,7 @@
         agregaProdTable = ( data ) => {
             let html = "";
             data.forEach( (dato) => {
-                html += `<tr>
+                html += `<tr data-idTblProd="${dato.producto._id}">
                             <th scope="row">${dato.producto.nombre}</th>
                             <td>${dato.cantidad}</td>
                         </tr>`;

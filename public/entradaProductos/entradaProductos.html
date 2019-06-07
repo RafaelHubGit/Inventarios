@@ -10,6 +10,46 @@
     <link rel="stylesheet" href="../utilidades/sweetAlert/css/sweetalert.css">
     <link rel="stylesheet" href="../utilidades/estilos/input_text/estilos.css">
 
+    <!-- timePicker -->
+    <link rel="stylesheet" href="../utilidades/datePick/compressed/themes/default.css">
+    <link rel="stylesheet" href="../utilidades/datePick/compressed/themes/default.date.css">
+
+    <style>
+        input{
+            border-top: none !important;
+            border-bottom: solid 1px #ccc !important;
+            border-left: none !important;
+            border-right: none !important;
+        }
+        input:focus{
+            border-top: none !important;
+            border-bottom: solid 1px rgb(5, 183, 228) !important;
+            border-left: none !important;
+            border-right: none !important;
+        }
+        </style>
+    
+    
+        <style>
+            #inptBusqueda {
+                background-image: url('../images/icon/search.png');
+                background-size: 7%;
+                background-position: 10px 10px;
+                background-repeat: no-repeat;
+                width: auto;
+                font-size: 16px;
+                padding: 6px 20px 6px 40px;
+                border: 1px solid #ddd;
+                border-radius: 50px;
+                margin-bottom: 12px;
+            }
+            .divBarBusq{
+                display: flexbox;
+                flex-direction: row;
+                text-align: right;
+            }
+        </style>
+
     <style>
         .card{
             margin-bottom: 8px;
@@ -63,18 +103,99 @@
         <h1 id="pruebatxt" class=" text-center">Entrada de Productos</h1>
         <hr>
 
+        <div class="row">
+            <div class="col divBarBusq">
+                <button type="button" 
+                        onclick="abreModalInsert()"
+                        data-toggle="modal"
+                        data-target="#modalNuevo"
+                        class="btn btn-outline-success btn-sm">Nuevo</button>
+    
+                <input type="text" id="inptBusqueda"
+                    placeholder="Buscar..." 
+                    title="Busqueda...">
+            </div>
+            </div>
+
         <div class="containerCards">
         </div>
         
-
     </div>
     
+
+
+    <!-- Modales -->
+    <div class="modal fade bd-example-modal-xl" id="modalNuevo" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="inputEmail4" >Fecha de Entrada</label>
+                        <input type="text" id="txtFecha" class="form-control fecha">
+                    </div>
+                    <div class="form-group col-md-9">
+                        
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4" >Responsable Recibe</label>
+                        <input type="text" id="iptRecibe" class="form-control">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4" >Responsable Entrega</label>
+                        <input type="text" id="iptEntrega" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4" >Tipo de Documento</label>
+                        <select class="form-control form-control-md">
+                            <option value="remision">Remisión</option>
+                            <option value="folio">Folio</option>
+                            <option value="doctoAlmacen">Documento de Almacen</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>N° de recibo</label>
+                        <input type="text" id="iptNoRecibo" class="form-control">
+                    </div>
+                </div>
+
+
+            
+
+            <div class="modal-footer">
+                <button id="btnGuardar" onclick="crea()" type="button" class="btn btn-outline-success">Guardar</button>
+                <button id="btnActualizar" onclick="actualiza()" type="button" class="btn btn-outline-primary">Actualizar</button>
+                <button id="btnEliminar" onclick="eliminar()" type="button" class="btn btn-outline-danger">Eliminar</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
 
     <script src="../utilidades/jquery/jquery-3.4.1.min.js"></script>
     <script src="../utilidades/jquery/jquery.touch.js"></script>
     <script src="../utilidades/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="../utilidades/sweetAlert/js/sweetalert.min.js"></script>
+    
+    <!-- timePicker -->
+    <script src="../utilidades/datePick/compressed/picker.js"></script>
+    <script src="../utilidades/datePick/compressed/picker.date.js"></script>
+    <script src="../utilidades/datePick/compressed/translations/es_ES.js"></script>
 
     <!-- importo la libreria moments -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.0/moment.min.js"></script>
@@ -84,6 +205,14 @@
     <script src="./funcionesJs.js"></script>
 
     <script src="./cargaEntrada.js"></script>
+
+
+    <script type="text/javascript">
+       $(".fecha").pickadate({
+           format: 'dd/mm/yyyy'
+       });
+    </script>
+
 
 </body>
 </html>
