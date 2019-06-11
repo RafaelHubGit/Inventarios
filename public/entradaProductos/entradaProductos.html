@@ -8,11 +8,22 @@
 
     <link rel="stylesheet" href="../utilidades/bootstrap-4.3.1-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../utilidades/sweetAlert/css/sweetalert.css">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="../utilidades/fontawesome-free-5.9.0-web/css/all.min.css">
+
     <link rel="stylesheet" href="../utilidades/estilos/input_text/estilos.css">
+    <link rel="stylesheet" href="../utilidades/estilos/form/formStyle.css">
 
     <!-- timePicker -->
     <link rel="stylesheet" href="../utilidades/datePick/compressed/themes/default.css">
     <link rel="stylesheet" href="../utilidades/datePick/compressed/themes/default.date.css">
+
+    <style>
+        .modal{
+            overflow: scroll;
+        }
+    </style>
 
     <style>
         input{
@@ -31,7 +42,7 @@
     
     
         <style>
-            #inptBusqueda {
+            .inptBusqueda {
                 background-image: url('../images/icon/search.png');
                 background-size: 7%;
                 background-position: 10px 10px;
@@ -105,13 +116,13 @@
 
         <div class="row">
             <div class="col divBarBusq">
-                <button type="button" 
-                        onclick="abreModalInsert()"
+                <button type="button"                         
                         data-toggle="modal"
                         data-target="#modalNuevo"
                         class="btn btn-outline-success btn-sm">Nuevo</button>
     
                 <input type="text" id="inptBusqueda"
+                    class="inptBusqueda"
                     placeholder="Buscar..." 
                     title="Busqueda...">
             </div>
@@ -172,6 +183,34 @@
                     </div>
                 </div>
 
+                <button type="button"
+                        data-toggle="modal"
+                        onclick="llenaTabblaProd()"
+                        data-target="#modalProductos"
+                        class="btn btn-outline-success btn-sm">Abre</button>
+
+            
+                <table id="tblModalProducto" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Clave</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                        </tr>
+                    </tbody>
+                </table>
 
             
 
@@ -181,6 +220,46 @@
                 <button id="btnEliminar" onclick="eliminar()" type="button" class="btn btn-outline-danger">Eliminar</button>
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
             </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade bd-example-modal-lg" id="modalProductos" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Selección de productos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <input type="text" id="inptBusquedaModal"
+                    class="inptBusqueda"
+                    placeholder="Buscar..." 
+                    title="Busqueda...">
+
+                <table id="eligeProdTab" class="table table-hover">
+                    <thead>
+                        <tr>
+                        <th scope="col">Clave</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Selección</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Aceptar</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
         </div>
