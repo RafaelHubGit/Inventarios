@@ -13,39 +13,39 @@ crea = () => {
         return 
     }
 
-    let datosInsert = obtenInfoModInsert();
+    // let datosInsert = obtenInfoModInsert();
 
-    $.ajax({
-        type: 'POST', 
-        url : `http://localhost:3000/services/categoria`, 
-        dataType : 'json', 
-        data : datosInsert
-    })
-    .done( ( data ) => {
+    // $.ajax({
+    //     type: 'POST', 
+    //     url : `http://localhost:3000/services/categoria`, 
+    //     dataType : 'json', 
+    //     data : datosInsert
+    // })
+    // .done( ( data ) => {
 
-        $("#tblElements tbody").empty();
+    //     $("#tblElements tbody").empty();
 
-        cargaInformacion();
+    //     cargaInformacion();
 
-        swal("Elemento Agregado!", "", "success");
+    //     swal("Elemento Agregado!", "", "success");
 
-        $('#modalNuevo').modal('hide');
+    //     $('#modalNuevo').modal('hide');
 
-    })
-    .fail( (data) => {
-        // console.log("Fallo", data.responseJSON.err.errors.nombre.message);
+    // })
+    // .fail( (data) => {
+    //     // console.log("Fallo", data.responseJSON.err.errors.nombre.message);
 
-        data = JSON.parse(data.responseText);
+    //     data = JSON.parse(data.responseText);
 
-        if( data.err.code === 11000 ) {
-            swal("Clave duplicada!", "Ya existe un categoria con esa clave, cambie la clave para continuar", "error");
-        }
+    //     if( data.err.code === 11000 ) {
+    //         swal("Clave duplicada!", "Ya existe un categoria con esa clave, cambie la clave para continuar", "error");
+    //     }
 
 
-    })
-    .always( () => {
-        console.log("Completo");
-    });
+    // })
+    // .always( () => {
+    //     console.log("Completo");
+    // });
 
 };
 
@@ -186,7 +186,7 @@ abreModalInsert = () =>{
     $("#btnActualizar, #btnEliminar").hide();
     $("#btnGuardar").show();
 
-    $("#exampleModalLabel").text("Crear nueva categoria");
+    $("#exampleModalLabel").text("Entrada");
 };
 
 
@@ -233,14 +233,18 @@ abreModal = (id) => {
 // =================================================
 limpiarModal = () => {
 
-    $("#iptModClave").data('idcategoria', "");
-
+    // $("#iptModClave").data('id', "");
+  
     $(".modal-body input").val(null);
-
+  
     $(".modal-body textarea").val(null);
+  
+    $(".modal-body select").prop("selectedIndex", 0);
 
-    // $(".modal-body select").prop("selectedIndex", 0);
-};
+    $("#tblModalProducto tbody").empty();
+  
+    $("#iptFecha").val(fechaActual());
+  };
 
 // =================================================
 // Agrega Valores al Modal
@@ -315,30 +319,42 @@ $('#tblElements tbody').on('doubleTap','tr', function(){
 
 // =================================================
 // =================================================
-// VALIDACIONES
+// VALIDACIONES Valida que los campos esten llenos 
 // =================================================
 // =================================================
 
 valida = () => {
 
     // INPUT
-    if( $("#iptModNombre").val().length < 1 ){
-        document.getElementById("iptModNombre").placeholder = "Debe ingresar el nombre!";
-        document.getElementById('iptModNombre').focus();
-        swal("Debe agregar el nombre!", "", "warning");
+    if( $("#iptFecha").val().length < 1 ){
+        // document.getElementById("iptFecha").placeholder = "Debe ingresar el nombre!";
+        document.getElementById('iptFecha').focus();
+        swal("Debe agregar la Fecha!", "", "warning");
+        return false;
+    }
+
+    if( $("#iptRecibe").val().length < 1 ){
+        document.getElementById('iptRecibe').focus();
+        swal("Debe agregar el Responsable que Recibe!", "", "warning");
+        return false;
+    }
+
+    if( $("#iptNoRecibo").val().length < 1 ){
+        document.getElementById('iptNoRecibo').focus();
+        swal("Debe agregar el Número de Recibo!", "", "warning");
         return false;
     }
 
     // SELECT
-    // if( $("#slctModProveedores").val().length < 1 ){
-    //     document.getElementById('slctModProveedores').focus();
-    //     swal("Debe elegir un proveedor!", "", "warning");
-    //     return false;
-    // }
+    if( $("#slctTipoDocto").val().length < 1 ){
+        document.getElementById('slctTipoDocto').focus();
+        swal("Debe elegir un proveedor!", "", "warning");
+        return false;
+    }
 
-    // if( $("#slctModCategoria").val().length < 1 ){
-    //     document.getElementById('slctModCategoria').focus();
-    //     swal("Debe elegir una categoria!", "", "warning");
-    //     return false;
-    // }
-}
+    //TABLA
+    if( $("#tblModalProducto tbody tr").length < 1){
+        swal("Debe de agregar al menos 1 producto!", "", "warning");
+        return false;
+    }
+};

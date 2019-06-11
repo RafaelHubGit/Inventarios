@@ -26,18 +26,19 @@
                                     <div class="documentoCard">${entrada.tipoDocto} : ${entrada.noDocto}</div>
                                 </div>
                                 <div class="card-body">
-                                    
-                                        <table class="table ">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">Producto</th>
-                                                    <th scope="col">Cantidad</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                    ${ agregaProdTable(entrada.productos)}
-                                                </tbody>
-                                            </table>  
+                                    <div class="table-responsive-sm">
+                                        <table id="tblPrinc${entrada._id}" class="table ">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Producto</th>
+                                                <th scope="col">Cantidad</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                ${agregaProdTable(entrada._id)}
+                                            </tbody>
+                                        </table>  
+                                    </div>
                                     
                                 
                                 </div>
@@ -90,16 +91,42 @@
         // =================================================
         // Agrega los prodctos a la tabla card
         // =================================================
-        agregaProdTable = ( data ) => {
-            let html = "";
-            data.forEach( (dato) => {
-                html += `<tr data-idTblProd="${dato.producto._id}">
-                            <th scope="row">${dato.producto.nombre}</th>
-                            <td>${dato.cantidad}</td>
-                        </tr>`;
-            })
+        agregaProdTable = ( idEntrada ) => {
 
-            return html;
+
+            $.ajax({
+                type: 'GET', 
+                url : `http://localhost:3000/services/prodEntrada/${idEntrada}`, 
+                dataType : 'json',
+                async: true
+            })
+            .done( ( data ) => {
+    
+                let prods = data.prodEntrada;
+                let tblhtml = "";
+    
+                // console.log("Prods : ", prods);
+    
+                prods.forEach(function(prod) {
+    
+                   tblhtml += `<tr data-idtblProd="${prod.idProducto._id}">
+                                    <th scope="row">${prod.idProducto.nombre}</th>
+                                    <td>${prod.cantidad}</td>
+                                </tr>`;
+    
+                    
+                });
+    
+                $(`#tblPrinc${idEntrada} tbody`).append(tblhtml);
+    
+            })
+            .fail( () => {
+                console.log("Fallo");
+            })
+            .always( () => {
+                console.log("Completo");
+            });
+  
         }
 
 } )();

@@ -27,7 +27,7 @@
 
 
 // =================================================
-// Llena Tabla de productos del modal 
+// Llena Tabla de productos del modal (Productos)
 // =================================================
 llenaTabblaProd = () => {
   $.ajax({
@@ -49,6 +49,7 @@ llenaTabblaProd = () => {
         tblhtml += ` <tr>
                       <td data-idProd="${producto._id}"> ${producto.clave} </td>
                       <td> ${producto.nombre} </td>
+                      <td class="text-center"> 0 </td>
                       <td>
                         <div class="check">
                           <input id="check${producto._id}" 
@@ -75,10 +76,10 @@ llenaTabblaProd = () => {
   });
 } 
 
+// =================================================
+// Agrega o quita productos de la Tabla tblModalProducto
+// =================================================
 agregaQuitaProds = ( data ) => {
-
-  console.log("entra quita prods : ", data);
-
   
   let id = $(data).data("id");
   let clave = $(data).data("clave");
@@ -92,12 +93,45 @@ agregaQuitaProds = ( data ) => {
                                   </tr>`);
 
   }else{
-    $.each($("#tblModalProducto tbody tr"), function() {
-      if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
-        $(this).hide();
-      else
-        $(this).show();
+    let x = 0;
+    $.each($("#tblModalProducto tbody tr th:first-child"), function() {
+      x++;
+      if($(this).text().toLowerCase() === clave.toLowerCase()){
+        document.querySelector("#tblModalProducto").deleteRow(x);
+      }
+
     });
   }
+};
 
+
+// =================================================
+// Limpia Modal
+// =================================================
+limpiarModal = () => {
+
+  // $("#iptModClave").data('id', "");
+
+  $(".modal-body input").val(null);
+
+  $(".modal-body textarea").val(null);
+
+  $(".modal-body select").prop("selectedIndex", 0);
+
+  $("#iptFecha").val(fechaActual());
+};
+
+// =================================================
+// Fecha Actual
+// =================================================
+fechaActual = () =>{
+  n =  new Date();
+  //Año
+  y = n.getFullYear();
+  //Mes
+  m = n.getMonth() + 1;
+  //Día
+  d = n.getDate();
+
+  return `${d}/${m}/${y}`
 }

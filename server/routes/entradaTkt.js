@@ -3,7 +3,7 @@ const express = require('express');
 
 let app = express();
 
-let Entrada = require('../models/entradaProducto');
+let Entrada = require('../models/entradaTkt');
 
 
 //=================================
@@ -22,11 +22,11 @@ app.get( '/services/entrada', (req, res) => {
         .limit(limite)
         // .populate('categoria')
         .populate('proveedor')
-        .populate([{
-            path: 'productos.producto', 
-            model: 'Producto',
-            select: 'nombre'
-        }])
+        // .populate([{
+        //     path: 'productos.producto', 
+        //     model: 'Producto',
+        //     select: 'nombre'
+        // }])
         .exec( (err, entrada) => {
             if( err ){
                 return res.json({
@@ -125,8 +125,8 @@ app.post('/services/entrada', (req, res) => {
         responsableEntrega : body.responsableEntrega, 
         responsableRecibe : body.responsableRecibe, 
         tipoDocto : body.tipoDocto, 
-        noDocto : body.noDocto, 
-        productos : body.productos
+        noDocto : body.noDocto
+        // productos : body.productos
     });
 
     // console.log(entrada);

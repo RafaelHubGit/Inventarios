@@ -22,22 +22,22 @@ var entradaSchema = new Schema({
     }, 
     noDocto : { // El numero del documento que se ingreso
         type : String
-    }, 
-    productos : [{
-        producto : {
-            type : Schema.Types.ObjectId,
-            ref : 'Producto', 
-            required : [true, 'Se requiere el producto']
-        },
-        cantidad : {
-            type : Number, 
-            required : [true, 'Se requiere la cantidad del producto']
-        }, 
-        fechaVencimiento : { //Este es solo si el item es perecedero
-            type : Date 
-        }
-    }]
+    }
+    // productos : [{
+    //     producto : {
+    //         type : Schema.Types.ObjectId,
+    //         ref : 'Producto', 
+    //         required : [true, 'Se requiere el producto']
+    //     },
+    //     cantidad : {
+    //         type : Number, 
+    //         required : [true, 'Se requiere la cantidad del producto']
+    //     }, 
+    //     fechaVencimiento : { //Este es solo si el item es perecedero
+    //         type : Date 
+    //     }
+    // }]
 
 });
 
-module.exports = mongoose.model('EntradaProductos', entradaSchema);
+module.exports = mongoose.model('EntradaTkt', entradaSchema);

@@ -14,6 +14,7 @@
 
     <link rel="stylesheet" href="../utilidades/estilos/input_text/estilos.css">
     <link rel="stylesheet" href="../utilidades/estilos/form/formStyle.css">
+    <link rel="stylesheet" href="../utilidades/estilos/form/styleForm.css">
 
     <!-- timePicker -->
     <link rel="stylesheet" href="../utilidades/datePick/compressed/themes/default.css">
@@ -22,6 +23,12 @@
     <style>
         .modal{
             overflow: scroll;
+        }
+
+        .card:hover{
+            -webkit-box-shadow: -1px 1px 11px 2px rgba(12,130,166,0.79);
+            -moz-box-shadow: -1px 1px 11px 2px rgba(12,130,166,0.79);
+            box-shadow: -1px 1px 11px 2px rgba(12,130,166,0.79);
         }
     </style>
 
@@ -38,7 +45,7 @@
             border-left: none !important;
             border-right: none !important;
         }
-        </style>
+    </style>
     
     
         <style>
@@ -54,10 +61,15 @@
                 border-radius: 50px;
                 margin-bottom: 12px;
             }
-            .divBarBusq{
+            .divbarBtnsDerecho{
                 display: flexbox;
                 flex-direction: row;
                 text-align: right;
+                margin-bottom: 5px;
+            }
+            .fechaStl{
+                font-size: 14px;
+                color: gray;
             }
         </style>
 
@@ -115,10 +127,11 @@
         <hr>
 
         <div class="row">
-            <div class="col divBarBusq">
+            <div class="col divbarBtnsDerecho">
                 <button type="button"                         
                         data-toggle="modal"
                         data-target="#modalNuevo"
+                        onclick="abreModalInsert()"
                         class="btn btn-outline-success btn-sm">Nuevo</button>
     
                 <input type="text" id="inptBusqueda"
@@ -149,68 +162,71 @@
 
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                        <label for="inputEmail4" >Fecha de Entrada</label>
-                        <input type="text" id="txtFecha" class="form-control fecha">
-                    </div>
-                    <div class="form-group col-md-9">
-                        
+                        <label for="inputEmail4" class="fechaStl" >Fecha de Entrada</label>
+                        <input type="text" id="iptFecha" class=" fecha">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="inputEmail4" >Responsable Recibe</label>
-                        <input type="text" id="iptRecibe" class="form-control">
+                        <input type="text" id="iptRecibe" required="required"/>
+                        <label for="input" class="control-label">Responsable Recibe</label><i class="bar"></i>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="inputEmail4" >Responsable Entrega</label>
-                        <input type="text" id="iptEntrega" class="form-control">
+                        <input type="text" id="iptEntrega" required="required"/>
+                        <label for="input" class="control-label">Responsable Entrega</label><i class="bar"></i>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="inputEmail4" >Tipo de Documento</label>
-                        <select class="form-control form-control-md">
+                        <select id="slctTipoDocto">
                             <option value="remision">Remisión</option>
                             <option value="folio">Folio</option>
                             <option value="doctoAlmacen">Documento de Almacen</option>
                         </select>
+                        <label for="select" class="control-label">Tipo de Documento</label><i class="bar"></i>
                     </div>
                     <div class="form-group col-md-6">
-                        <label>N° de recibo</label>
-                        <input type="text" id="iptNoRecibo" class="form-control">
+                        <input type="text" id="iptNoRecibo" required="required"/>
+                        <label for="input" class="control-label">N° de recibo</label><i class="bar"></i>
                     </div>
                 </div>
 
-                <button type="button"
+                <div class="divbarBtnsDerecho">
+                    <button type="button"
                         data-toggle="modal"
                         onclick="llenaTabblaProd()"
                         data-target="#modalProductos"
-                        class="btn btn-outline-success btn-sm">Abre</button>
+                        class="btn btn-outline-primary btn-sm">
+                        Abre
+                    </button>
+                </div>
+                
 
-            
-                <table id="tblModalProducto" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Clave</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Cantidad</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td><input type="text"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive-sm"></div>
+                    <table id="tblModalProducto" class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center" scope="col">Clave</th>
+                                <th class="text-center" scope="col">Nombre</th>
+                                <th class="text-center" scope="col">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
 
             
 
@@ -246,9 +262,10 @@
                 <table id="eligeProdTab" class="table table-hover">
                     <thead>
                         <tr>
-                        <th scope="col">Clave</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Selección</th>
+                        <th class="text-center" scope="col">Clave</th>
+                        <th class="text-center" scope="col">Nombre</th>
+                        <th class="text-center" scope="col">Cantidad</th>
+                        <th class="text-center" scope="col">Selección</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -282,8 +299,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.0/moment-with-locales.min.js"></script>
 
     <script src="./funcionesJs.js"></script>
-
     <script src="./cargaEntrada.js"></script>
+    <script src="./crudEntrada.js"></script>
 
 
     <script type="text/javascript">
