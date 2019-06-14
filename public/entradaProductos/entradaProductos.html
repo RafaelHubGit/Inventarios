@@ -20,6 +20,9 @@
     <link rel="stylesheet" href="../utilidades/datePick/compressed/themes/default.css">
     <link rel="stylesheet" href="../utilidades/datePick/compressed/themes/default.date.css">
 
+    <!-- Step -->
+    <link rel="stylesheet" href="../utilidades/Step/css/smart_wizard.min.css">
+
     <style>
         .modal{
             overflow: scroll;
@@ -29,6 +32,10 @@
             -webkit-box-shadow: -1px 1px 11px 2px rgba(12,130,166,0.79);
             -moz-box-shadow: -1px 1px 11px 2px rgba(12,130,166,0.79);
             box-shadow: -1px 1px 11px 2px rgba(12,130,166,0.79);
+        }
+
+        .modal-footer button{
+            margin-bottom: 5px;
         }
     </style>
 
@@ -160,81 +167,110 @@
             </div>
             <div class="modal-body">
 
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                        <label for="inputEmail4" class="fechaStl" >Fecha de Entrada</label>
-                        <input type="text" id="iptFecha" class=" fecha">
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <input type="text" id="iptRecibe" required="required"/>
-                        <label for="input" class="control-label">Responsable Recibe</label><i class="bar"></i>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <input type="text" id="iptEntrega" required="required"/>
-                        <label for="input" class="control-label">Responsable Entrega</label><i class="bar"></i>
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <select id="slctTipoDocto">
-                            <option value="remision">Remisión</option>
-                            <option value="folio">Folio</option>
-                            <option value="doctoAlmacen">Documento de Almacen</option>
-                        </select>
-                        <label for="select" class="control-label">Tipo de Documento</label><i class="bar"></i>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <input type="text" id="iptNoRecibo" required="required"/>
-                        <label for="input" class="control-label">N° de recibo</label><i class="bar"></i>
-                    </div>
-                </div>
 
-                <div class="divbarBtnsDerecho">
-                    <button type="button"
-                        data-toggle="modal"
-                        onclick="llenaTabblaProd()"
-                        data-target="#modalProductos"
-                        class="btn btn-outline-primary btn-sm">
-                        Abre
-                    </button>
-                </div>
+                    <div id="smartwizard">
+                            <ul>
+                                <li><a href="#step-1">Paso 1<br /><small>Información General</small></a></li>
+                                <li><a href="#step-2">Paso 2<br /><small>Seleccione Productos</small></a></li>
+                                <li><a href="#step-3">Paso 3<br /><small>Vista Previa</small></a></li>
+                                <!-- <li><a href="#step-4">Step 4<br /><small>This is step description</small></a></li> -->
+                            </ul>
+                
+                            <div>
+                                <div id="step-1" class="">
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3">
+                                            <label for="inputEmail4" class="fechaStl" >Fecha de Entrada</label>
+                                            <input type="text" id="iptFecha" class=" fecha">
+                                        </div>
+                                    </div>
+                    
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <input type="text" id="iptRecibe" required="required"/>
+                                            <label for="input" class="control-label">Responsable Recibe</label><i class="bar"></i>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input type="text" id="iptEntrega" required="required"/>
+                                            <label for="input" class="control-label">Responsable Entrega</label><i class="bar"></i>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <select id="slctTipoDocto">
+                                                <option value="remision">Remisión</option>
+                                                <option value="folio">Folio</option>
+                                                <option value="doctoAlmacen">Documento de Almacen</option>
+                                            </select>
+                                            <label for="select" class="control-label">Tipo de Documento</label><i class="bar"></i>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input type="text" id="iptNoRecibo" required="required"/>
+                                            <label for="input" class="control-label">N° de recibo</label><i class="bar"></i>
+                                        </div>
+                                    </div>
+                    
+                                   
+                                                
+
+                                </div>
+                                <div id="step-2" class="">
+                                     <div class="divbarBtnsDerecho">
+                                        <button type="button"
+                                            data-toggle="modal"
+                                            onclick="llenaTabblaProd()"
+                                            data-target="#modalProductos"
+                                            class="btn btn-outline-primary btn-sm">
+                                            Abre
+                                        </button>
+                                    </div>
+                                    
+                    
+                                    <div class="table-responsive-sm">
+                                        <table id="tblModalProducto" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center" scope="col">Clave</th>
+                                                    <th class="text-center" scope="col">Nombre</th>
+                                                    <th class="text-center" scope="col">Cantidad</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div id="step-3" class="">
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
                 
 
-                <div class="table-responsive-sm"></div>
-                    <table id="tblModalProducto" class="table">
-                        <thead>
-                            <tr>
-                                <th class="text-center" scope="col">Clave</th>
-                                <th class="text-center" scope="col">Nombre</th>
-                                <th class="text-center" scope="col">Cantidad</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>5</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                            </tr> -->
-                        </tbody>
-                    </table>
-                </div>
 
-            
 
+            </div>
             <div class="modal-footer">
-                <button id="btnGuardar" onclick="crea()" type="button" class="btn btn-outline-success">Guardar</button>
-                <button id="btnActualizar" onclick="actualiza()" type="button" class="btn btn-outline-primary">Actualizar</button>
-                <button id="btnEliminar" onclick="eliminar()" type="button" class="btn btn-outline-danger">Eliminar</button>
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
+                <div class="col-sm-12 col-md-6">
+                    <button class="btn btn-outline-secondary" id="prev-btn" type="button">Anterior</button>
+                    <button class="btn btn-outline-secondary" id="next-btn" type="button">Siguiente</button>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <button id="btnGuardar" onclick="crea()" type="button" class="btn btn-outline-success">Guardar</button>
+                    <button id="btnActualizar" onclick="actualiza()" type="button" class="btn btn-outline-primary">Actualizar</button>
+                    <button id="btnEliminar" onclick="eliminar()" type="button" class="btn btn-outline-danger">Eliminar</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+                
+                
             </div>
             </div>
         </div>
@@ -298,6 +334,9 @@
     <!-- importo todos los idiomas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.0/moment-with-locales.min.js"></script>
 
+    <!-- Step -->
+    <script src="../utilidades/Step/js/jquery.smartWizard.min.js"></script>
+
     <script src="./funcionesJs.js"></script>
     <script src="./cargaEntrada.js"></script>
     <script src="./crudEntrada.js"></script>
@@ -309,6 +348,75 @@
        });
     </script>
 
+
+
+    <script>
+        $(document).ready(function(){
+
+            // Step show event
+            $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {
+            //alert("You are on step "+stepNumber+" now");
+            if(stepPosition === 'first'){
+                $("#prev-btn").addClass('disabled');
+            }else if(stepPosition === 'final'){
+                $("#next-btn").addClass('disabled');
+            }else{
+                $("#prev-btn").removeClass('disabled');
+                $("#next-btn").removeClass('disabled');
+            }
+            });
+
+            // Toolbar extra buttons
+            var btnFinish = $('<button></button>').text('Finish')
+                                            .addClass('btn btn-info')
+                                            .on('click', function(){ alert('Finish Clicked'); });
+            var btnCancel = $('<button></button>').text('Cancel')
+                                            .addClass('btn btn-danger')
+                                            .on('click', function(){ $('#smartwizard').smartWizard("reset"); });
+
+
+            // Smart Wizard
+            $('#smartwizard').smartWizard({
+                    selected: 0,
+                    theme: 'default',
+                    transitionEffect:'fade',
+                    showStepURLhash: true,
+                    toolbarSettings: {toolbarPosition: 'none',
+                                    toolbarButtonPosition: 'end',
+                                    toolbarExtraButtons: [btnFinish, btnCancel]
+                                    }
+            });
+
+
+            // External Button Events
+            $("#reset-btn").on("click", function() {
+                // Reset wizard
+                $('#smartwizard').smartWizard("reset");
+                return true;
+            });
+
+            $("#prev-btn").on("click", function() {
+                // Navigate previous
+                $('#smartwizard').smartWizard("prev");
+                return true;
+            });
+
+            $("#next-btn").on("click", function() {
+                // Navigate next
+                $('#smartwizard').smartWizard("next");
+                return true;
+            });
+
+            $("#theme_selector").on("change", function() {
+                // Change theme
+                $('#smartwizard').smartWizard("theme", $(this).val());
+                return true;
+            });
+
+            // Set selected theme on page refresh
+            $("#theme_selector").change();
+        });
+    </script>
 
 </body>
 </html>
