@@ -159,96 +159,130 @@
     <div class="modal fade bd-example-modal-xl" id="modalNuevo" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
-            <div class="modal-header">
+            <!-- <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
+            </div> -->
             <div class="modal-body">
 
 
 
 
-                    <div id="smartwizard">
-                            <ul>
-                                <li><a href="#step-1">Paso 1<br /><small>Información General</small></a></li>
-                                <li><a href="#step-2">Paso 2<br /><small>Seleccione Productos</small></a></li>
-                                <li><a href="#step-3">Paso 3<br /><small>Vista Previa</small></a></li>
-                                <!-- <li><a href="#step-4">Step 4<br /><small>This is step description</small></a></li> -->
-                            </ul>
+                <div id="smartwizard">
+                        <ul>
+                            <li><a href="#step-1">Paso 1<br /><small>Información General</small></a></li>
+                            <li><a href="#step-2">Paso 2<br /><small>Seleccione Productos</small></a></li>
+                            <li><a href="#step-3">Paso 3<br /><small>Vista Previa</small></a></li>
+                            <!-- <li><a href="#step-4">Step 4<br /><small>This is step description</small></a></li> -->
+                        </ul>
+            
+                        <div>
+                            <div id="step-1" class="">
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label for="inputEmail4" class="fechaStl" >Fecha de Entrada</label>
+                                        <input type="text" id="iptFecha" class=" fecha">
+                                    </div>
+                                    <div class="form-group col-md-9">
+                                        <select id="slctProveedor">
+                                            <option value="">Proveedor</option>
+                                            <!-- <option value="remision">Remisión</option>
+                                            <option value="folio">Folio</option>
+                                            <option value="doctoAlmacen">Documento de Almacen</option> -->
+                                        </select>
+                                        <label for="select" class="control-label">Proveedor</label><i class="bar"></i>
+                                    </div>
+                                </div>
                 
-                            <div>
-                                <div id="step-1" class="">
-
-                                    <div class="form-row">
-                                        <div class="form-group col-md-3">
-                                            <label for="inputEmail4" class="fechaStl" >Fecha de Entrada</label>
-                                            <input type="text" id="iptFecha" class=" fecha">
-                                        </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <input type="text" id="iptRecibe" required="required"/>
+                                        <label for="input" class="control-label">Responsable Recibe</label><i class="bar"></i>
                                     </div>
-                    
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <input type="text" id="iptRecibe" required="required"/>
-                                            <label for="input" class="control-label">Responsable Recibe</label><i class="bar"></i>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <input type="text" id="iptEntrega" required="required"/>
-                                            <label for="input" class="control-label">Responsable Entrega</label><i class="bar"></i>
-                                        </div>
+                                    <div class="form-group col-md-6">
+                                        <input type="text" id="iptEntrega" required="required"/>
+                                        <label for="input" class="control-label">Responsable Entrega</label><i class="bar"></i>
                                     </div>
-                    
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <select id="slctTipoDocto">
-                                                <option value="remision">Remisión</option>
-                                                <option value="folio">Folio</option>
-                                                <option value="doctoAlmacen">Documento de Almacen</option>
-                                            </select>
-                                            <label for="select" class="control-label">Tipo de Documento</label><i class="bar"></i>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <input type="text" id="iptNoRecibo" required="required"/>
-                                            <label for="input" class="control-label">N° de recibo</label><i class="bar"></i>
-                                        </div>
-                                    </div>
-                    
-                                   
-                                                
-
                                 </div>
-                                <div id="step-2" class="">
-                                     <div class="divbarBtnsDerecho">
-                                        <button type="button"
-                                            data-toggle="modal"
-                                            onclick="llenaTabblaProd()"
-                                            data-target="#modalProductos"
-                                            class="btn btn-outline-primary btn-sm">
-                                            Abre
-                                        </button>
+                
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <select id="slctTipoDocto">
+                                            <option value="Remisión">Remisión</option>
+                                            <option value="Folio">Folio</option>
+                                            <option value="Almacén">Documento de Almacen</option>
+                                        </select>
+                                        <label for="select" class="control-label">Tipo de Documento</label><i class="bar"></i>
                                     </div>
-                                    
-                    
-                                    <div class="table-responsive-sm">
-                                        <table id="tblModalProducto" class="table">
-                                            <thead>
+                                    <div class="form-group col-md-6">
+                                        <input type="text" id="iptNoRecibo" required="required"/>
+                                        <label for="input" class="control-label">N° de recibo</label><i class="bar"></i>
+                                    </div>
+                                </div>
+                
+                                
+                                            
+
+                            </div>
+                            <div id="step-2" class="">
+                
+                                <div class="table-responsive-sm">
+                                
+                                    <input type="text" id="inptBusquedaModal"
+                                        class="inptBusqueda"
+                                        placeholder="Buscar..." 
+                                        title="Busqueda...">
+
+                                    <table id="eligeProdTab" class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                            <th class="text-center" scope="col">Clave</th>
+                                            <th class="text-center" scope="col">Nombre</th>
+                                            <th class="text-center" scope="col">Cantidad</th>
+                                            <th class="text-center" scope="col">Selección</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="step-3" class="">
+                                <div class="card text-center" data-idCard="">
+                                    <div class="card-header">
+                                        <div id="nomProvModId" class="proveedorCard"></div> 
+                                        <div id="doctoModId"  class="documentoCard"></div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive-sm">
+                                            <table id="tblPrincModId" class="table ">
+                                                <thead>
                                                 <tr>
-                                                    <th class="text-center" scope="col">Clave</th>
-                                                    <th class="text-center" scope="col">Nombre</th>
-                                                    <th class="text-center" scope="col">Cantidad</th>
+                                                    <th scope="col">Producto</th>
+                                                    <th scope="col">Cantidad</th>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div id="step-3" class="">
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
+                                            </table>  
+                                        </div>
+                                        
                                     
+                                    </div>
+                                    <div class="card-footer text-muted">
+                                        <div id="fechaModId" class="fechaCard">  </div> 
+                                        <div id="responsableModId" class="nombreCard"></div>
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
 
 
@@ -261,7 +295,12 @@
             <div class="modal-footer">
                 <div class="col-sm-12 col-md-6">
                     <button class="btn btn-outline-secondary" id="prev-btn" type="button">Anterior</button>
-                    <button class="btn btn-outline-secondary" id="next-btn" type="button">Siguiente</button>
+                    <button class="btn btn-outline-secondary" 
+                            id="next-btn" 
+                            type="button"
+                            onclick="vistaPrevia()">
+                            Siguiente
+                    </button>
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <button id="btnGuardar" onclick="crea()" type="button" class="btn btn-outline-success">Guardar</button>
@@ -279,39 +318,25 @@
 
 
 
-    <div class="modal fade bd-example-modal-lg" id="modalProductos" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade bd-example-modal-sm	" id="modalCantidad" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm	" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Selección de productos</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Ingrese la Cantidad</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
 
-                <input type="text" id="inptBusquedaModal"
-                    class="inptBusqueda"
-                    placeholder="Buscar..." 
-                    title="Busqueda...">
-
-                <table id="eligeProdTab" class="table table-hover">
-                    <thead>
-                        <tr>
-                        <th class="text-center" scope="col">Clave</th>
-                        <th class="text-center" scope="col">Nombre</th>
-                        <th class="text-center" scope="col">Cantidad</th>
-                        <th class="text-center" scope="col">Selección</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                    </tbody>
-                </table>
+                    <div class="form-group col-md-12">
+                        <input type="text" id="iptModCantidad" data-id=""  required="required"/>
+                        <label for="input" class="control-label">Cantidad a Ingresar</label><i class="bar"></i>
+                    </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Aceptar</button>
+                <button type="button" onclick="agregaCantTable()" class="btn btn-outline-primary" data-dismiss="modal">Aceptar</button>
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>

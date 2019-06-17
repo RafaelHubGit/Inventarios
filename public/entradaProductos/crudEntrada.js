@@ -183,6 +183,8 @@ abreModalInsert = () =>{
 
     limpiarModal();
 
+    llenaTabblaProd();
+
     $("#btnActualizar, #btnEliminar").hide();
     $("#btnGuardar").show();
 
@@ -242,6 +244,8 @@ limpiarModal = () => {
     $(".modal-body select").prop("selectedIndex", 0);
 
     $("#tblModalProducto tbody").empty();
+
+    $("#eligeProdTab tbody").empty();
   
     $("#iptFecha").val(fechaActual());
   };
@@ -353,7 +357,7 @@ valida = () => {
     }
 
     //TABLA
-    if( $("#tblModalProducto tbody tr").length < 1){
+    if( $("#eligeProdTab tbody tr").length < 1){
         swal("Debe de agregar al menos 1 producto!", "", "warning");
         return false;
     }
