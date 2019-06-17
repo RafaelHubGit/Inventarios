@@ -9,9 +9,11 @@
 // =================================================
 crea = () => {
 
-    if ( valida() === false ){
-        return 
-    }
+    creaCardGeneral(4);
+
+    // if ( valida() === false ){
+    //     return 
+    // }
 
     // let datosInsert = obtenInfoModInsert();
 

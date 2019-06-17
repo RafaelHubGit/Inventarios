@@ -1,7 +1,7 @@
 ( () => {
 
     // =================================================
-    // Carga los categorias en la tabla
+    // Carga la informacion y crea los CARD
     // =================================================
     $.ajax({
         type: 'GET', 
@@ -22,33 +22,33 @@
             
 
             html += `<div class="card text-center" data-idCard="${entrada._id}">
-                            <div class="card-header">
-                                <div class="proveedorCard">${entrada.proveedor.nombre}</div> 
-                                <div class="documentoCard">${entrada.tipoDocto} : ${entrada.noDocto}</div>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive-sm">
-                                    <table id="tblPrinc${entrada._id}" class="table ">
-                                        <thead>
+                        <div class="card-header">
+                            <div class="proveedorCard" data-idProveedor="${entrada.proveedor._id}">${entrada.proveedor.nombre}</div> 
+                            <div class="documentoCard">${entrada.tipoDocto} : ${entrada.noDocto}</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive-sm">
+                                <table id="tblPrinc${entrada._id}" class="table ">
+                                    <thead>
                                         <tr>
                                             <th scope="col">Producto</th>
                                             <th scope="col">Cantidad</th>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                            ${agregaProdTable(entrada._id)}
-                                        </tbody>
-                                    </table>  
-                                </div>
-                                
+                                    </thead>
+                                    <tbody>
+                                        ${agregaProdTable(entrada._id)}
+                                    </tbody>
+                                </table>  
+                            </div>
                             
-                            </div>
-                            <div class="card-footer text-muted">
-                                <div class="fechaCard"> ${formatoFecha(entrada.fechaEntrada)} </div> 
-                                <div class="nombreCard">${entrada.responsableRecibe}</div>
-                                
-                            </div>
-                        </div>`;
+                        
+                        </div>
+                        <div class="card-footer text-muted">
+                            <div class="fechaCard"> ${formatoFecha(entrada.fechaEntrada)} </div> 
+                            <div class="nombreCard" data-entrega="${entrada.responsableRecibe}">${entrada.responsableRecibe}</div>
+                            
+                        </div>
+                    </div>`;
         });
 
         $(".containerCards").append(html);

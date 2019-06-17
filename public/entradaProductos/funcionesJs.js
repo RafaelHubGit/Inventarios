@@ -191,6 +191,49 @@ fechaActual = () =>{
 
 
 // =================================================
+// Obten datos de Modal
+// =================================================
+obtenDatos = () => {
+
+  // Obtiene los datos 
+  let fecha = $("#iptFecha").val();
+  let proveedor = $("#slctProveedor option:selected").text();
+  let idProveedor = $("#slctProveedor option:selected").val();
+  let recibe = $("#iptRecibe").val();
+  let entrega = $("#iptEntrega").val();
+  let tipoDoc = $("#slctTipoDocto").val();
+  let noRecivo = $("#iptNoRecibo").val();
+
+  let productos = "";
+
+  $.each($("#eligeProdTab tbody tr td input"), function() {
+
+    if( $(this).prop('checked') ){
+      clave = $(this).data("clave");
+      nombre = $(this).data("nombre");
+      cantidad = $(this).data("cantidad");
+
+      productos += `["clave" : "${clave}", "nombre" : "${nombre}", "cantidad" : "${cantidad}"],`;
+
+    }
+  });
+
+  let entradaJson = `{
+    "fecha" : "${fecha}", 
+    "idProveedor" : "${idProveedor}",
+    "proveedor" : "${proveedor}",
+    "recibe" : "${recibe}",
+    "entrega" : "${entrega}", 
+    "tipoDoc" : "${tipoDoc}", 
+    "noRecivo" : "${noRecivo}", 
+    "productos" : { ${productos} }
+  }`;
+
+  return entradaJson;
+
+}
+
+// =================================================
 // Pasa la informacion al card de vista previa 
 // =================================================
 vistaPrevia = () => {
@@ -200,6 +243,7 @@ vistaPrevia = () => {
   // Obtiene los datos 
   let fecha = $("#iptFecha").val();
   let proveedor = $("#slctProveedor option:selected").text();
+  let idProveedor = $("#slctProveedor option:selected").val();
   let recibe = $("#iptRecibe").val();
   let entrega = $("#iptEntrega").val();
   let tipoDoc = $("#slctTipoDocto").val();
@@ -211,9 +255,11 @@ vistaPrevia = () => {
 
   // Ingresa los datos en el Card de previsualizacion
   $("#nomProvModId").append(proveedor);
+  $("#nomProvModId").data("idProveedor", idProveedor);
   $("#doctoModId").append(`${tipoDoc} : ${noRecivo}`);
   $("#fechaModId").append(fecha);
   $("#responsableModId").append(recibe);
+  $("#responsableModId").data("entrega", entrega);
 
 
   $.each($("#eligeProdTab tbody tr td input"), function() {
@@ -246,3 +292,20 @@ limpiaVistaPrevia = () => {
   $("#tblPrincModId tbody").empty();
 
 };
+
+// =================================================
+// Pasa la informacion al card de vista previa 
+// =================================================
+creaCardGeneral = (idCard) => {
+
+  console.log("ENTRA creaCardGeneral");
+
+  let cardVistaPrevia = $("#step-3 .card").html();
+
+  let htmlCard = `<div class="card text-center" data-idcard="${idCard}">
+                    ${cardVistaPrevia}
+                  </div>`;
+
+  $(".containerCards").prepend(htmlCard);
+
+}
