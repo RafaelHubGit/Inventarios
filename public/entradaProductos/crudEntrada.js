@@ -9,45 +9,56 @@
 // =================================================
 crea = () => {
 
-    creaCardGeneral(4);
+    // console.log("CREA : ", obtenDatos());
 
-    // if ( valida() === false ){
-    //     return 
-    // }
+    // creaCardGeneral(4);
+
+    if ( valida() === false ){
+        return 
+    }
 
     // let datosInsert = obtenInfoModInsert();
+    let datosInsert = obtenDatos();
 
-    // $.ajax({
-    //     type: 'POST', 
-    //     url : `http://localhost:3000/services/categoria`, 
-    //     dataType : 'json', 
-    //     data : datosInsert
-    // })
-    // .done( ( data ) => {
+    // let datosInsert = ` "data" : '${JSON.stringify(obtenDatos())}'`;
 
-    //     $("#tblElements tbody").empty();
+    datosInsert = JSON.stringify(datosInsert);
 
-    //     cargaInformacion();
+    console.log("ENTRADA : ", datosInsert);
 
-    //     swal("Elemento Agregado!", "", "success");
+    $.ajax({
+        type: 'POST', 
+        url : `http://localhost:3000/services/entrada`, 
+        dataType : 'json', 
+        data : datosInsert
+    })
+    .done( ( data ) => {
 
-    //     $('#modalNuevo').modal('hide');
+        // console.log("object");
 
-    // })
-    // .fail( (data) => {
-    //     // console.log("Fallo", data.responseJSON.err.errors.nombre.message);
+        // $("#tblElements tbody").empty();
 
-    //     data = JSON.parse(data.responseText);
+        // cargaInformacion();
 
-    //     if( data.err.code === 11000 ) {
-    //         swal("Clave duplicada!", "Ya existe un categoria con esa clave, cambie la clave para continuar", "error");
-    //     }
+        // swal("Elemento Agregado!", "", "success");
+
+        // $('#modalNuevo').modal('hide');
+
+    })
+    .fail( (data) => {
+        // console.log("Fallo", data.responseJSON.err.errors.nombre.message);
+
+        data = JSON.parse(data.responseText);
+
+        if( data.err.code === 11000 ) {
+            swal("Clave duplicada!", "Ya existe un categoria con esa clave, cambie la clave para continuar", "error");
+        }
 
 
-    // })
-    // .always( () => {
-    //     console.log("Completo");
-    // });
+    })
+    .always( () => {
+        console.log("Completo");
+    });
 
 };
 

@@ -5,6 +5,8 @@ let app = express();
 
 let Entrada = require('../models/entradaTkt');
 
+const {insertProdEnt} = require('../funciones/entradaSalidaProds');
+
 
 //=================================
 //Obtener los Entrada
@@ -117,7 +119,12 @@ app.get('/services/entrada/termino/:termino', (req, res) => {
 //=================================
 app.post('/services/entrada', (req, res) => {
 
+
     let body = req.body;
+
+    // body = JSON.parse(body);
+
+    console.log("Prods : ", body);
 
     entrada = new Entrada({
         proveedor : body.proveedor, 
@@ -131,29 +138,29 @@ app.post('/services/entrada', (req, res) => {
 
     // console.log(entrada);
 
-    entrada.save( (err, entradaSave) => {
-        if( err ){
-            return res.status(400).json({
-                ok: false, 
-                err
-            });
-        }
+    // entrada.save( (err, entradaSave) => {
+    //     if( err ){
+    //         return res.status(400).json({
+    //             ok: false, 
+    //             err
+    //         });
+    //     }
 
-        if( !entradaSave ){
-            return res.status(500).json({
-                ok: false, 
-                message : 'No se pudo crear'
-            })
-        }
+    //     if( !entradaSave ){
+    //         return res.status(500).json({
+    //             ok: false, 
+    //             message : 'No se pudo crear'
+    //         })
+    //     }
 
 
-        res.status(200).json({
-            ok:true,
-            entrada : entradaSave,
-            message : 'Creado con exito'
-        })
+    //     res.status(200).json({
+    //         ok:true,
+    //         entrada : entradaSave,
+    //         message : 'Creado con exito'
+    //     })
 
-    });
+    // });
 
 });
 

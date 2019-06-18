@@ -89,8 +89,6 @@ agregaQuitaProds = ( data ) => {
   limpiarModalCantidad();
   $('#modalCantidad').modal('show');
 
-  document.getElementById('iptModCantidad').focus();
-
   $(`#iptModCantidad`).data('id', id);
   
   
@@ -211,18 +209,14 @@ obtenDatos = () => {
   $.each($("#eligeProdTab tbody tr td input"), function() {
 
     if( $(this).prop('checked') ){
-      idProducto = $(this).data("id");
       clave = $(this).data("clave");
       nombre = $(this).data("nombre");
       cantidad = $(this).data("cantidad");
 
-      productos += `{"id" : "${idProducto}", "clave" : "${clave}", "nombre" : "${nombre}", "cantidad" : "${cantidad}"},`;
+      productos += `["clave" : "${clave}", "nombre" : "${nombre}", "cantidad" : "${cantidad}"],`;
 
     }
   });
-
-  // Quita la ultima coma
-  productos = productos.slice(0,productos.length-1)
 
   let entradaJson = `{
     "fecha" : "${fecha}", 
@@ -232,10 +226,10 @@ obtenDatos = () => {
     "entrega" : "${entrega}", 
     "tipoDoc" : "${tipoDoc}", 
     "noRecivo" : "${noRecivo}", 
-    "productos" : [${productos}]
+    "productos" : { ${productos} }
   }`;
 
-  return JSON.parse(entradaJson);
+  return entradaJson;
 
 }
 
@@ -246,21 +240,41 @@ vistaPrevia = () => {
 
   limpiaVistaPrevia();
 
-  let datosModal = obtenDatos();
+  // Obtiene los datos 
+  let fecha = $("#iptFecha").val();
+  let proveedor = $("#slctProveedor option:selected").text();
+  let idProveedor = $("#slctProveedor option:selected").val();
+  let recibe = $("#iptRecibe").val();
+  let entrega = $("#iptEntrega").val();
+  let tipoDoc = $("#slctTipoDocto").val();
+  let noRecivo = $("#iptNoRecibo").val();
 
-  // // Ingresa los datos en el Card de previsualizacion
-  $("#nomProvModId").append(datosModal.proveedor);
-  $("#nomProvModId").data("idProveedor", datosModal.idProveedor);
-  $("#doctoModId").append(`${datosModal.tipoDoc} : ${datosModal.noRecivo}`);
-  $("#fechaModId").append(datosModal.fecha);
-  $("#responsableModId").append(datosModal.recibe);
-  $("#responsableModId").data("entrega", datosModal.entrega);
+  let clave = "";
+  let nombre = "";
+  let cantidad = "";
 
-  datosModal.productos.forEach( (producto) => {
-    $("#tblPrincModId tbody").append(`<tr data-id="${producto.id}">
-                                        <td>${producto.nombre}</td>
-                                        <td>${producto.cantidad}</td>
-                                      </tr>`);
+  // Ingresa los datos en el Card de previsualizacion
+  $("#nomProvModId").append(proveedor);
+  $("#nomProvModId").data("idProveedor", idProveedor);
+  $("#doctoModId").append(`${tipoDoc} : ${noRecivo}`);
+  $("#fechaModId").append(fecha);
+  $("#responsableModId").append(recibe);
+  $("#responsableModId").data("entrega", entrega);
+
+
+  $.each($("#eligeProdTab tbody tr td input"), function() {
+
+    if( $(this).prop('checked') ){
+      clave = $(this).data("clave");
+      nombre = $(this).data("nombre");
+      cantidad = $(this).data("cantidad");
+
+      $("#tblPrincModId tbody").append(`<tr>
+                                            <td>${nombre}</td>
+                                            <td>${cantidad}</td>
+                                        </tr>`);
+    }
+    
   });
 
 };
