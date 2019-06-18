@@ -9,28 +9,21 @@
 // =================================================
 crea = () => {
 
-    // console.log("CREA : ", obtenDatos());
-
-    // creaCardGeneral(4);
-
     if ( valida() === false ){
         return 
     }
 
-    // let datosInsert = obtenInfoModInsert();
-    let datosInsert = obtenDatos();
+    let datosInsert = JSON.stringify(obtenDatos());
 
-    // let datosInsert = ` "data" : '${JSON.stringify(obtenDatos())}'`;
+    console.log("JSON CREa : ", datosInsert);
 
-    datosInsert = JSON.stringify(datosInsert);
-
-    console.log("ENTRADA : ", datosInsert);
 
     $.ajax({
         type: 'POST', 
         url : `http://localhost:3000/services/entrada`, 
-        dataType : 'json', 
-        data : datosInsert
+        // dataType : 'application/json', 
+        contentType: "application/json; charset=utf-8",
+        data: datosInsert
     })
     .done( ( data ) => {
 

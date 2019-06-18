@@ -4,8 +4,10 @@ const express = require('express');
 let app = express();
 
 let Entrada = require('../models/entradaTkt');
+let entProd = require('../models/entradaSalidaProds');
 
 const {insertProdEnt} = require('../funciones/entradaSalidaProds');
+const {fechaIsoDate} = require('../funciones/generalFunctions');
 
 
 //=================================
@@ -119,48 +121,50 @@ app.get('/services/entrada/termino/:termino', (req, res) => {
 //=================================
 app.post('/services/entrada', (req, res) => {
 
-
     let body = req.body;
 
-    // body = JSON.parse(body);
+    let productos = body.productos;
 
-    console.log("Prods : ", body);
+    
 
     entrada = new Entrada({
-        proveedor : body.proveedor, 
-        fechaEntrada : body.fechaEntrada, 
-        responsableEntrega : body.responsableEntrega, 
-        responsableRecibe : body.responsableRecibe, 
-        tipoDocto : body.tipoDocto, 
+        proveedor : body.idProveedor, 
+        fechaEntrada : fechaIsoDate(body.fecha), 
+        responsableEntrega : body.entrega, 
+        responsableRecibe : body.recibe, 
+        tipoDocto : body.tipoDoc, 
         noDocto : body.noDocto
-        // productos : body.productos
     });
 
-    // console.log(entrada);
 
-    // entrada.save( (err, entradaSave) => {
-    //     if( err ){
-    //         return res.status(400).json({
-    //             ok: false, 
-    //             err
-    //         });
-    //     }
+    entrada.save( (err, entradaSave) => {
+        if( err ){
+            console.log("No error : ");
+            return res.status(400).json({
+                ok: false, 
+                err
+            });
+        }
 
-    //     if( !entradaSave ){
-    //         return res.status(500).json({
-    //             ok: false, 
-    //             message : 'No se pudo crear'
-    //         })
-    //     }
+        if( !entradaSave ){
+            console.log("No entrada : ");
+            return res.status(500).json({
+                ok: false, 
+                message : 'No se pudo crear'
+            })
+        }
 
+        res.status(200).json({
+            ok:true,
+            entrada : entradaSave,
+            message : 'Creado con exito'
+        })
 
-    //     res.status(200).json({
-    //         ok:true,
-    //         entrada : entradaSave,
-    //         message : 'Creado con exito'
-    //     })
+        productos.forEach( (producto) => {
+            insertProdEnt(producto, entradaSave._id);
+        });
 
-    // });
+    });
 
 });
 

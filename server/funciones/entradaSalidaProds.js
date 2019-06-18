@@ -107,42 +107,38 @@ let ProdEntrada = require('../models/entradaSalidaProds');
 //=================================
 //Crear un producto 
 //=================================
-let insertProdEnt = ( data ) => {
+let insertProdEnt = ( data, id,  res ) => {
 
     let body = data;
 
     prodEntrada = new ProdEntrada({
-        tipo : body.tipo, 
-        idEntrada : body.idEntrada, 
-        idProducto : body.idProducto, 
+        tipo : "Entrada", 
+        idEntrada : id, 
+        idProducto : body.id, 
         cantidad : body.cantidad
     });
 
-    // console.log(ProdEntrada);
+    prodEntrada.save( (err, ProdEntradaSave) => {
 
-    // prodEntrada.save( (err, ProdEntradaSave) => {
-    //     if( err ){
-    //         return res.status(400).json({
-    //             ok: false, 
-    //             err
-    //         });
-    //     }
+        console.log("ENTRA ENTRAD");
 
-    //     if( !ProdEntradaSave ){
-    //         return res.status(500).json({
-    //             ok: false, 
-    //             message : 'No se pudo crear'
-    //         })
-    //     }
+        if( err ){
+            console.log("No puede : ", err);
+            return res = "No";
+            
+        }
+
+        if( !ProdEntradaSave ){
+            console.log("No jalo ");
+            return res = "No";
+        }
 
 
-    //     res.status(200).json({
-    //         ok:true,
-    //         ProdEntrada : ProdEntradaSave,
-    //         message : 'Creado con exito'
-    //     })
+        res = "ok";
 
-    // });
+        console.log("Si jalo ");
+
+    });
 
 };
 

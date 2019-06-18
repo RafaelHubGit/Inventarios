@@ -231,7 +231,7 @@ obtenDatos = () => {
     "recibe" : "${recibe}",
     "entrega" : "${entrega}", 
     "tipoDoc" : "${tipoDoc}", 
-    "noRecivo" : "${noRecivo}", 
+    "noDocto" : "${noRecivo}", 
     "productos" : [${productos}]
   }`;
 
@@ -251,7 +251,7 @@ vistaPrevia = () => {
   // // Ingresa los datos en el Card de previsualizacion
   $("#nomProvModId").append(datosModal.proveedor);
   $("#nomProvModId").data("idProveedor", datosModal.idProveedor);
-  $("#doctoModId").append(`${datosModal.tipoDoc} : ${datosModal.noRecivo}`);
+  $("#doctoModId").append(`${datosModal.tipoDoc} : ${datosModal.noDocto}`);
   $("#fechaModId").append(datosModal.fecha);
   $("#responsableModId").append(datosModal.recibe);
   $("#responsableModId").data("entrega", datosModal.entrega);
