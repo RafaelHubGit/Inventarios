@@ -150,6 +150,21 @@
 
         <div class="containerCards">
         </div>
+
+        <table id="tblPrincipal" class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Tipo Documento</th>
+                <th scope="col">N° Documento</th>
+                <th scope="col">Recibe</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
         
     </div>
     
@@ -166,9 +181,6 @@
                 </button>
             </div> -->
             <div class="modal-body">
-
-
-
 
                 <div id="smartwizard">
                         <ul>
@@ -336,6 +348,42 @@
         </div>
     </div>
 
+
+    <!-- Modal Card -->
+    <div class="modal fade bd-example-modal-lg	" id="modalCard" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg	" role="document">
+                <div class="modal-content">
+                    <!-- <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ingrese la Cantidad</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div> -->
+                    <div class="modal-body">
+        
+                        <div class="card text-center">
+                            <div class="card-header">
+                                Featured
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Special title treatment</h5>
+                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                            <div class="card-footer text-muted">
+                                2 days ago
+                            </div>
+                        </div>
+        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onclick="" class="btn btn-outline-primary" data-dismiss="modal">Editar</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+
     <script src="../utilidades/jquery/jquery-3.4.1.min.js"></script>
     <script src="../utilidades/jquery/jquery.touch.js"></script>
     <script src="../utilidades/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
@@ -355,85 +403,88 @@
     <!-- Step -->
     <script src="../utilidades/Step/js/jquery.smartWizard.min.js"></script>
 
-    <script src="./funcionesJs.js"></script>
     <script src="./cargaEntrada.js"></script>
+    <script src="./funcionesGenerales.js"></script>
+    <script src="./solicitudes.js"></script>
+    <script src="./funcionesJs.js"></script>
     <script src="./crudEntrada.js"></script>
+    <script src="./funcionesEspecificas.js"></script>
 
 
     <script type="text/javascript">
-       $(".fecha").pickadate({
-           format: 'dd/mm/yyyy'
-       });
+    //    $(".fecha").pickadate({
+    //        format: 'dd/mm/yyyy'
+    //    });
     </script>
 
 
 
     <script>
-        $(document).ready(function(){
+        // $(document).ready(function(){
 
-            // Step show event
-            $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {
-            //alert("You are on step "+stepNumber+" now");
-            if(stepPosition === 'first'){
-                $("#prev-btn").addClass('disabled');
-            }else if(stepPosition === 'final'){
-                $("#next-btn").addClass('disabled');
-            }else{
-                $("#prev-btn").removeClass('disabled');
-                $("#next-btn").removeClass('disabled');
-            }
-            });
+        //     // Step show event
+        //     $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {
+        //     //alert("You are on step "+stepNumber+" now");
+        //     if(stepPosition === 'first'){
+        //         $("#prev-btn").addClass('disabled');
+        //     }else if(stepPosition === 'final'){
+        //         $("#next-btn").addClass('disabled');
+        //     }else{
+        //         $("#prev-btn").removeClass('disabled');
+        //         $("#next-btn").removeClass('disabled');
+        //     }
+        //     });
 
-            // Toolbar extra buttons
-            var btnFinish = $('<button></button>').text('Finish')
-                                            .addClass('btn btn-info')
-                                            .on('click', function(){ alert('Finish Clicked'); });
-            var btnCancel = $('<button></button>').text('Cancel')
-                                            .addClass('btn btn-danger')
-                                            .on('click', function(){ $('#smartwizard').smartWizard("reset"); });
-
-
-            // Smart Wizard
-            $('#smartwizard').smartWizard({
-                    selected: 0,
-                    theme: 'default',
-                    transitionEffect:'fade',
-                    showStepURLhash: true,
-                    toolbarSettings: {toolbarPosition: 'none',
-                                    toolbarButtonPosition: 'end',
-                                    toolbarExtraButtons: [btnFinish, btnCancel]
-                                    }
-            });
+        //     // Toolbar extra buttons
+        //     var btnFinish = $('<button></button>').text('Finish')
+        //                                     .addClass('btn btn-info')
+        //                                     .on('click', function(){ alert('Finish Clicked'); });
+        //     var btnCancel = $('<button></button>').text('Cancel')
+        //                                     .addClass('btn btn-danger')
+        //                                     .on('click', function(){ $('#smartwizard').smartWizard("reset"); });
 
 
-            // External Button Events
-            $("#reset-btn").on("click", function() {
-                // Reset wizard
-                $('#smartwizard').smartWizard("reset");
-                return true;
-            });
+        //     // Smart Wizard
+        //     $('#smartwizard').smartWizard({
+        //             selected: 0,
+        //             theme: 'default',
+        //             transitionEffect:'fade',
+        //             showStepURLhash: true,
+        //             toolbarSettings: {toolbarPosition: 'none',
+        //                             toolbarButtonPosition: 'end',
+        //                             toolbarExtraButtons: [btnFinish, btnCancel]
+        //                             }
+        //     });
 
-            $("#prev-btn").on("click", function() {
-                // Navigate previous
-                $('#smartwizard').smartWizard("prev");
-                return true;
-            });
 
-            $("#next-btn").on("click", function() {
-                // Navigate next
-                $('#smartwizard').smartWizard("next");
-                return true;
-            });
+        //     // External Button Events
+        //     $("#reset-btn").on("click", function() {
+        //         // Reset wizard
+        //         $('#smartwizard').smartWizard("reset");
+        //         return true;
+        //     });
 
-            $("#theme_selector").on("change", function() {
-                // Change theme
-                $('#smartwizard').smartWizard("theme", $(this).val());
-                return true;
-            });
+        //     $("#prev-btn").on("click", function() {
+        //         // Navigate previous
+        //         $('#smartwizard').smartWizard("prev");
+        //         return true;
+        //     });
 
-            // Set selected theme on page refresh
-            $("#theme_selector").change();
-        });
+        //     $("#next-btn").on("click", function() {
+        //         // Navigate next
+        //         $('#smartwizard').smartWizard("next");
+        //         return true;
+        //     });
+
+        //     $("#theme_selector").on("change", function() {
+        //         // Change theme
+        //         $('#smartwizard').smartWizard("theme", $(this).val());
+        //         return true;
+        //     });
+
+        //     // Set selected theme on page refresh
+        //     $("#theme_selector").change();
+        // });
     </script>
 
 </body>

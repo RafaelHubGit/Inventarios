@@ -2,13 +2,13 @@
 // =================================================
 // Busca Informacion en la Tabla (Input Buscar)
 // =================================================
- $("#inptBusqueda").keyup(function(){
+ $("#inptBusqueda").keyup(function(){   
     _this = this;
-    $.each($("#tblElements tbody tr"), function() {
+    $.each($("#tblPrincipal tbody tr"), function() {
     if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
-    $(this).hide();
+      $(this).hide();
     else
-    $(this).show();
+      $(this).show();
     });
   });
 
@@ -30,51 +30,36 @@
 // Llena Tabla de productos del modal (Productos)
 // =================================================
 llenaTabblaProd = () => {
-  $.ajax({
-      type: 'GET', 
-      url : 'http://localhost:3000/services/productos', 
-      dataType : 'json',
-      async: true
-  })
-  .done( ( data ) => {
 
-      // console.log(data);
+  let productos = getGeneralDataProds();
 
-      let productos = data.producto;
-      var tblhtml = "";
+  var tblhtml = "";
 
-      $("#eligeProdTab tbody").empty();
+    $("#eligeProdTab tbody").empty();
 
-      productos.forEach(function(producto) {
-        tblhtml += ` <tr id="tr${producto._id}">
-                      <td data-idProd="${producto._id}"> ${producto.clave} </td>
-                      <td> ${producto.nombre} </td>
-                      <td id="tdCant${producto._id}" class="text-center"> <label  id="lbl${producto._id}" >0</label> </td>
-                      <td>
-                        <div class="check">
-                          <input id="check${producto._id}" 
-                                  data-id="${producto._id}"
-                                  data-clave = "${producto.clave}"
-                                  data-nombre = "${producto.nombre}"
-                                  data-cantidad = ""
-                                  type="checkbox" 
-                                  onclick="agregaQuitaProds(this)"/>
-                          <label for="check${producto._id}">
-                            <div class="box"><i class="fas fa-check"></i></i></div>
-                          </label>
-                        </div>
-                      </td>
-                    </tr>`;
-      });
-      $("#eligeProdTab tbody").append(tblhtml);
+    productos.producto.forEach(function(producto) {
+      tblhtml += ` <tr id="tr${producto._id}">
+                    <td data-idProd="${producto._id}"> ${producto.clave} </td>
+                    <td> ${producto.nombre} </td>
+                    <td id="tdCant${producto._id}" class="text-center"> <label  id="lbl${producto._id}" >0</label> </td>
+                    <td>
+                      <div class="check">
+                        <input id="check${producto._id}" 
+                                data-id="${producto._id}"
+                                data-clave = "${producto.clave}"
+                                data-nombre = "${producto.nombre}"
+                                data-cantidad = ""
+                                type="checkbox" 
+                                onclick="agregaQuitaProds(this)"/>
+                        <label for="check${producto._id}">
+                          <div class="box"><i class="fas fa-check"></i></i></div>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>`;
+    });
+    $("#eligeProdTab tbody").append(tblhtml);
 
-  })
-  .fail( () => {
-      console.log("Fallo");
-  })
-  .always( () => {
-      console.log("Completo");
-  });
 } 
 
 // =================================================
@@ -111,26 +96,7 @@ agregaQuitaProds = ( data ) => {
     $(`#check${id}`).prop('checked', false);
     console.log("false");
   };
-  
 
-
-  // if( $(data).prop('checked') ){
-  //   $("#tblModalProducto").append(`<tr>
-  //                                     <th>${clave}</th>
-  //                                     <td>${nombre}</td>
-  //                                     <td></td>
-  //                                 </tr>`);
-
-  // }else{
-  //   let x = 0;
-  //   $.each($("#tblModalProducto tbody tr th:first-child"), function() {
-  //     x++;
-  //     if($(this).text().toLowerCase() === clave.toLowerCase()){
-  //       document.querySelector("#tblModalProducto").deleteRow(x);
-  //     }
-
-  //   });
-  // }
 };
 
 // =================================================
@@ -175,21 +141,6 @@ limpiarModalCantidad = () => {
 
   $("#iptModCantidad").val(null);
 };
-
-// =================================================
-// Fecha Actual
-// =================================================
-fechaActual = () =>{
-  n =  new Date();
-  //Año
-  y = n.getFullYear();
-  //Mes
-  m = n.getMonth() + 1;
-  //Día
-  d = n.getDate();
-
-  return `${d}/${m}/${y}`
-}
 
 
 // =================================================
@@ -238,6 +189,10 @@ obtenDatos = () => {
   return JSON.parse(entradaJson);
 
 }
+
+
+
+
 
 // =================================================
 // Pasa la informacion al card de vista previa 
@@ -295,3 +250,17 @@ creaCardGeneral = (idCard) => {
   $(".containerCards").prepend(htmlCard);
 
 }
+
+
+cardVistaPrevia = () =>{
+
+  console.log("ETRA ABRIR MODAL ");
+
+  $("#modalCard").modal('show');
+
+  console.log("INFORMACION DESDE  : ", getGeneralDataEntradaById("5d0a7e8e22ae972c10db635c"));
+
+
+}
+
+

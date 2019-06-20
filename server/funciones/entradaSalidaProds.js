@@ -107,7 +107,7 @@ let ProdEntrada = require('../models/entradaSalidaProds');
 //=================================
 //Crear un producto 
 //=================================
-let insertProdEnt = ( data, id,  res ) => {
+let insertProdEnt =  ( data, id) => {
 
     let body = data;
 
@@ -120,23 +120,29 @@ let insertProdEnt = ( data, id,  res ) => {
 
     prodEntrada.save( (err, ProdEntradaSave) => {
 
-        console.log("ENTRA ENTRAD");
-
         if( err ){
-            console.log("No puede : ", err);
-            return res = "No";
+           throw new Error ({
+               error: {
+                   code : 400, 
+                   err
+               }
+           });
             
         }
 
         if( !ProdEntradaSave ){
-            console.log("No jalo ");
-            return res = "No";
+            throw new Error ({
+                error: {
+                    code : 500, 
+                    message : 'No se pudo crear el Producto'
+                }
+            });
         }
 
-
-        res = "ok";
-
-        console.log("Si jalo ");
+        return {
+            ProdEntradaSave,
+            message : "Creado con exito"
+        };
 
     });
 

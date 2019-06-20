@@ -139,7 +139,6 @@ app.post('/services/entrada', (req, res) => {
 
     entrada.save( (err, entradaSave) => {
         if( err ){
-            console.log("No error : ");
             return res.status(400).json({
                 ok: false, 
                 err
@@ -147,22 +146,24 @@ app.post('/services/entrada', (req, res) => {
         }
 
         if( !entradaSave ){
-            console.log("No entrada : ");
             return res.status(500).json({
                 ok: false, 
                 message : 'No se pudo crear'
             })
         }
 
+        productos.forEach( (producto) => {
+            insertProdEnt(producto, entradaSave._id);
+        });
+        
+
         res.status(200).json({
             ok:true,
             entrada : entradaSave,
             message : 'Creado con exito'
-        })
-
-        productos.forEach( (producto) => {
-            insertProdEnt(producto, entradaSave._id);
         });
+
+
 
     });
 

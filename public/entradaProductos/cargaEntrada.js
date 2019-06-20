@@ -1,8 +1,16 @@
+//cargaEntrada
+//Este archivo sirve para cargar toda la informacion que se va a mostrar entrando a la página
+// Desde aqui tambien se pueden cargar los MODALES (VERIFICAR)
+//NOTA: de momento vaba estar enteramente aqui, sin separalo por que se ejecuta en cuanto carga la página, 
+// segun entiendo anque haya otros archivos (generados por mi) antes que este, este se vaba ejecutar 
+// primero que todos, por eso no lo divido 
+
 ( () => {
 
     // =================================================
-    // Carga la informacion y crea los CARD
+    // Carga la informacion en la tabla principal
     // =================================================
+
     $.ajax({
         type: 'GET', 
         url : 'http://localhost:3000/services/entrada', 
@@ -11,49 +19,44 @@
     })
     .done( ( data ) => {
 
-        // console.log(data);
-
         let entradas = data.entrada;
         var html = "";
         let x = 1;
 
         entradas.forEach(function(entrada) {
 
+
+            html += `<tr id="td${entrada._id}" onclick="cardVistaPrevia()"
+                            data-id="${entrada._id}"
+                            data-fecha="${entrada.fechaEntrada}"
+                            data-idProveedor=${entrada.proveedor._id}
+                            data-nameProveedor=${entrada.proveedor.nombre}
+                            data-tipoDocto="${entrada.tipoDocto}"
+                            data-noDocto="${entrada.noDocto}"
+                            data-responsableEntrega="${entrada.responsableEntrega}"
+                            data-responsableRecibe="${entrada.responsableRecibe}"
+                        >
+                        <td>
+                            ${formatoFecha(entrada.fechaEntrada)}
+                        </td>
+                        <td data-idProveedor="${entrada.proveedor._id}">
+                            ${entrada.proveedor.nombre}
+                        </td>
+                        <td>
+                            ${entrada.tipoDocto}
+                        </td>
+                        <td>
+                            ${entrada.noDocto}
+                        </td>
+                        <td>
+                            ${entrada.responsableRecibe}
+                        </td>
+                    </tr>`;
             
 
-            html += `<div class="card text-center" data-idCard="${entrada._id}">
-                        <div class="card-header">
-                            <div class="proveedorCard" data-idProveedor="${entrada.proveedor._id}">${entrada.proveedor.nombre}</div> 
-                            <div class="documentoCard">${entrada.tipoDocto} : ${entrada.noDocto}</div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive-sm">
-                                <table id="tblPrinc${entrada._id}" class="table ">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Producto</th>
-                                            <th scope="col">Cantidad</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        ${agregaProdTable(entrada._id)}
-                                    </tbody>
-                                </table>  
-                            </div>
-                            
-                        
-                        </div>
-                        <div class="card-footer text-muted">
-                            <div class="fechaCard"> ${formatoFecha(entrada.fechaEntrada)} </div> 
-                            <div class="nombreCard" data-entrega="${entrada.responsableRecibe}">${entrada.responsableRecibe}</div>
-                            
-                        </div>
-                    </div>`;
         });
 
-        $(".containerCards").append(html);
-
-        // $("table tbody").append(tblhtml);
+        $("#tblPrincipal").append(html);
 
     })
     .fail( () => {
@@ -93,73 +96,48 @@
     .always( () => {
         console.log("Completo");
     });
-
-    // =================================================
-    // Recibe fecha y le da formato 
-    // =================================================
-    formatoFecha = (fecha) => {
-        moment.locale('es');
-        var dateTime = moment( fecha );
-        var full = dateTime.format('dddd/MM/YYYY');
-    
-        var mes = dateTime.format('MMMM');
-    
-        // dia (escrito)
-        var dia = dateTime.format('dddd');
-        // dia
-        var diaN = dateTime.format('D');
-    
-        var anio = dateTime.format('YYYY');
-        /////
-        // Update
-        var full2 = dateTime.format('LL');
-        //
-        var fullTime = dateTime.format('LLLL');
-    
-        return `${diaN}/${mes}/${anio}`
-    }
-    
+   
     
     // =================================================
     // Agrega los prodctos a la tabla card
     // =================================================
-    agregaProdTable = ( idEntrada ) => {
+    // agregaProdTable = ( idEntrada ) => {
 
 
-        $.ajax({
-            type: 'GET', 
-            url : `http://localhost:3000/services/prodEntrada/${idEntrada}`, 
-            dataType : 'json',
-            async: true
-        })
-        .done( ( data ) => {
+    //     $.ajax({
+    //         type: 'GET', 
+    //         url : `http://localhost:3000/services/prodEntrada/${idEntrada}`, 
+    //         dataType : 'json',
+    //         async: true
+    //     })
+    //     .done( ( data ) => {
 
-            let prods = data.prodEntrada;
-            let tblhtml = "";
+    //         let prods = data.prodEntrada;
+    //         let tblhtml = "";
 
-            // console.log("Prods : ", prods);
+    //         // console.log("Prods : ", prods);
 
-            prods.forEach(function(prod) {
+    //         prods.forEach(function(prod) {
 
-                tblhtml += `<tr data-idtblProd="${prod.idProducto._id}">
-                                <th scope="row">${prod.idProducto.nombre}</th>
-                                <td>${prod.cantidad}</td>
-                            </tr>`;
+    //             tblhtml += `<tr data-idtblProd="${prod.idProducto._id}">
+    //                             <th scope="row">${prod.idProducto.nombre}</th>
+    //                             <td>${prod.cantidad}</td>
+    //                         </tr>`;
 
                 
-            });
+    //         });
 
-            $(`#tblPrinc${idEntrada} tbody`).append(tblhtml);
+    //         $(`#tblPrinc${idEntrada} tbody`).append(tblhtml);
 
-        })
-        .fail( () => {
-            console.log("Fallo");
-        })
-        .always( () => {
-            console.log("Completo");
-        });
+    //     })
+    //     .fail( () => {
+    //         console.log("Fallo");
+    //     })
+    //     .always( () => {
+    //         console.log("Completo");
+    //     });
 
-    }
+    // }
 
 } )();
 
