@@ -15,39 +15,15 @@ crea = () => {
 
     let datosInsert = JSON.stringify(obtenDatos());
 
-    $.ajax({
-        type: 'POST', 
-        url : `http://localhost:3000/services/entrada`, 
-        // dataType : 'application/json', 
-        contentType: "application/json; charset=utf-8",
-        data: datosInsert
-    })
-    .done( ( data ) => {
+    creaEntrada(datosInsert).then( data => {
 
-        // console.log("object");
+        let datos = data.entrada;
 
-        // $("#tblElements tbody").empty();
+        addRowPrincipalTable(datos);
 
-        // cargaInformacion();
-
-        // swal("Elemento Agregado!", "", "success");
-
-        // $('#modalNuevo').modal('hide');
-
-    })
-    .fail( (data) => {
-        // console.log("Fallo", data.responseJSON.err.errors.nombre.message);
-
-        data = JSON.parse(data.responseText);
-
-        if( data.err.code === 11000 ) {
-            swal("Clave duplicada!", "Ya existe un categoria con esa clave, cambie la clave para continuar", "error");
-        }
-
-
-    })
-    .always( () => {
-        console.log("Completo");
+        swal("Información agregada!", "", "success");
+    }).catch( err => {
+        swal("Error al insertar datos!", "Verifique que los campos esten debidamente llenados e intentelo nuevamente, si la falla persiste contacte con el administrador", "error");
     });
 
 };
@@ -98,43 +74,6 @@ actualiza = () => {
     });
 
 };
-
-// =================================================
-// OBTENER INFORMACION
-// =================================================
-cargaInformacion = () => {
-    // Carga los categorias en la tabla
-    $.ajax({
-        type: 'GET', 
-        url : 'http://localhost:3000/services/categoria', 
-        dataType : 'json',
-        async: true
-    })
-    .done( ( data ) => {
-
-        let categorias = data.categoria;
-        var tblhtml = "";
-
-        categorias.forEach(function(categoria) {
-
-            tblhtml += `<tr data-id = "${categoria._id}"
-                            id="${categoria._id}"
-                                ondblclick="abreModal($(this).data('id'))">
-                    <th scope="row"> ${categoria.nombre} </th>
-                    <td> ${categoria.descripcion} </td>
-                </tr>`;
-        });
-
-        $("table tbody").append(tblhtml);
-
-    })
-    .fail( () => {
-        console.log("Fallo");
-    })
-    .always( () => {
-        console.log("Completo");
-    });
-}
 
 // =================================================
 // DELETE

@@ -26,7 +26,7 @@
         entradas.forEach(function(entrada) {
 
 
-            html += `<tr id="td${entrada._id}" onclick="cardVistaPrevia()"
+            html += `<tr id="td${entrada._id}" onclick="cardVistaPrevia(this.id)"
                             data-id="${entrada._id}"
                             data-fecha="${entrada.fechaEntrada}"
                             data-idProveedor=${entrada.proveedor._id}
@@ -56,7 +56,7 @@
 
         });
 
-        $("#tblPrincipal").append(html);
+        $("#tblPrincipal tbody").append(html);
 
     })
     .fail( () => {

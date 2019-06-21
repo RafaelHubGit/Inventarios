@@ -1,29 +1,5 @@
 
-// =================================================
-// Busca Informacion en la Tabla (Input Buscar)
-// =================================================
- $("#inptBusqueda").keyup(function(){   
-    _this = this;
-    $.each($("#tblPrincipal tbody tr"), function() {
-    if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
-      $(this).hide();
-    else
-      $(this).show();
-    });
-  });
 
-// =================================================
-// Busca Informacion en la Tabla Del Modal (Input Buscar)
-// =================================================
- $("#inptBusquedaModal").keyup(function(){
-  _this = this;
-  $.each($("#eligeProdTab tbody tr"), function() {
-  if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
-  $(this).hide();
-  else
-  $(this).show();
-  });
-});
 
 
 // =================================================
@@ -252,15 +228,6 @@ creaCardGeneral = (idCard) => {
 }
 
 
-cardVistaPrevia = () =>{
 
-  console.log("ETRA ABRIR MODAL ");
-
-  $("#modalCard").modal('show');
-
-  console.log("INFORMACION DESDE  : ", getGeneralDataEntradaById("5d0a7e8e22ae972c10db635c"));
-
-
-}
 
 
