@@ -55,9 +55,13 @@
     // =================================================
     //  Abre el modal de Card Vista Previa
     // =================================================
-    cardVistaPrevia = ( data ) =>{
+    cardVistaPrevia = async ( data ) =>{
 
-        console.log("DATA CARD : ", data);
+        $("#modalCard .modal-body").empty();
+
+        let cardHtml = await addCardModVistaPrevia(data);
+
+        $("#modalCard .modal-body").append(cardHtml);
       
         $("#modalCard").modal('show');
       
@@ -70,12 +74,19 @@
     // Descripcion: crea el Card y lo agrega al modal
     // =================================================
 
-    addCardModVistaPrevia = ( data ) => {
+    addCardModVistaPrevia = async ( data ) => {
 
-        let cardHtml = `<div class="card text-center" data-idCard="">
+        let entrada = getDataRowTablePrincipal( data );
+
+        let id = $(`#${data}`).data("id");
+
+        let rows = await createRowCardModal(id);
+
+
+        let cardHtml = `<div class="card text-center" id="card${entrada.idEntrada}" data-idCard="${entrada.idEntrada}">
                             <div class="card-header">
-                                <div id="nomProvModId" class="proveedorCard" data-idProveedor=""></div> 
-                                <div id="doctoModId"  class="documentoCard"></div>
+                                <div class="proveedorCard" data-idProveedor="${entrada.idProveedor}">${entrada.nameProveedor}</div> 
+                                <div class="documentoCard"> ${entrada.tipoDocto} : ${entrada.noDocto} </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive-sm">
@@ -87,20 +98,84 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            
+                                            ${rows}
                                         </tbody>
                                     </table>  
                                 </div>
                                 
                             </div>
                             <div class="card-footer text-muted">
-                                <div id="fechaModId" class="fechaCard">  </div> 
-                                <div id="responsableModId" class="nombreCard" data-entrega=""></div>
+                                <div class="fechaCard"> ${formatoFecha(entrada.fecha)} </div> 
+                                <div class="nombreCard" data-entrega="${entrada.responsableEntrega}"> ${entrada.responsableRecibe} </div>
                                 
                             </div>
                         </div>`
 
+        return cardHtml;
+
+    };
+
+
+    // =================================================
+    // Crea las filas de las tablas del card del modal 
+    // =================================================
+
+    createRowCardModal = async ( data ) => {
+
+        let rows = "";
+
+        let productos = await getProductsDataById( data )
+
+        productos.prodEntrada.forEach( producto => {
+                    
+            rows += ` <tr data-idtblProd="${producto.idProducto._id}">
+                                <th scope="row">${producto.idProducto.nombre}</th>
+                                <td>${producto.cantidad}</td>
+                            </tr> `;
+    
+        });
+    
+        return rows;
+
+    };
+
+
+
+// =================================================
+// =================================================
+// OBTEN DATOS
+// =================================================
+// =================================================
+
+    // =================================================
+    // Obten datos de las filas de la tabla principal 
+    // =================================================
+    getDataRowTablePrincipal = ( id ) => {
+
+        let idEntrada = $(`#${id}`).data("id");
+        let fecha = $(`#${id}`).data("fecha");
+        let idProveedor = $(`#${id}`).data("idproveedor");
+        let nameProveedor = $(`#${id}`).data("nameproveedor");
+        let tipoDocto = $(`#${id}`).data("tipodocto");
+        let noDocto = $(`#${id}`).data("nodocto");
+        let responsableEntrega = $(`#${id}`).data("responsableentrega");
+        let responsableRecibe = $(`#${id}`).data("responsablerecibe");
+
+        let entrada = {
+            idEntrada, 
+            fecha, 
+            idProveedor, 
+            nameProveedor, 
+            tipoDocto, 
+            noDocto, 
+            responsableEntrega, 
+            responsableRecibe
+        }
+
+        return entrada;
+
     }
+
 
 
 // =================================================

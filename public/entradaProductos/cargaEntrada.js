@@ -14,8 +14,7 @@
     $.ajax({
         type: 'GET', 
         url : 'http://localhost:3000/services/entrada', 
-        dataType : 'json',
-        async: true
+        dataType : 'json'
     })
     .done( ( data ) => {
 

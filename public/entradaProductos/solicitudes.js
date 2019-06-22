@@ -90,73 +90,6 @@ creaEntrada = async ( datosInsert ) => {
     throw new Error (err);
   }
 
-  
-
-  // $.ajax({
-  //   type: 'POST', 
-  //   url : `http://localhost:3000/services/entrada`, 
-  //   // dataType : 'application/json', 
-  //   asyc : false,
-  //   contentType: "application/json; charset=utf-8",
-  //   data: datosInsert
-  // })
-  // .done( ( data ) => {
-
-  //   let datos = {
-  //     data : data, 
-  //     code : 1, 
-  //     message : "ok"
-  //   };
-
-    
-  //   swal("Elemento Agregado!", "", "success");
-    
-  //   dataReturn = datos;
-
-  //   console.log("dataReturn : ", dataReturn);
-  //   return dataReturn;
-
-  //   // console.log("object");
-
-  //   // $("#tblElements tbody").empty();
-
-  //   // cargaInformacion();
-
-    
-
-  //   // $('#modalNuevo').modal('hide');
-
-  // })
-  // .fail( (data) => {
-
-  //   data = JSON.parse(data.responseText);
-
-  //   if( data.err.code === 11000 ) {
-  //     swal("Clave duplicada!", "Ya existe un categoria con esa clave, cambie la clave para continuar", "error");
-  //   }else{
-  //     swal("Error!", "No se pudo crear, contacte con el admnistrador", "error");
-  //   }
-
-  //   datos = {
-  //     code : 0, 
-  //     message : "false"
-  //   };
-
-  //   dataReturn = datos;
-
-  //   throw new Error (dataReturn);
-
-
-  // })
-  // .always( () => {
-  //   console.log("Completo");
-  // });
-
-  // console.log("ORIGEN : ", dataReturn);
-
-  // return dataReturn;
-
-
 };
 
 
@@ -200,6 +133,19 @@ getGeneralDataProds = () => {
 // =================================================
 // Obten Productos de Base de datos por ID de entrada
 // =================================================
-getProductsDataById = (id) => {
+getProductsDataById = async (id) => {
+
+  try{
+    const dataReturn = await $.ajax({
+      type: 'GET', 
+      url : `http://localhost:3000/services/prodEntrada/${id}`, 
+      dataType : 'json'
+    });
+
+    return dataReturn;
+  }catch ( err ){
+    // console.error(err);
+    throw new Error (err);
+  }
 
 };
