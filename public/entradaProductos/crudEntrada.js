@@ -119,20 +119,7 @@ eliminar = () => {
 // =================================================
 
 
-// =================================================
-// Abre Modal INSERT
-// =================================================
-abreModalInsert = () =>{
 
-    limpiarModal();
-
-    llenaTabblaProd();
-
-    $("#btnActualizar, #btnEliminar").hide();
-    $("#btnGuardar").show();
-
-    $("#exampleModalLabel").text("Entrada");
-};
 
 
 // =================================================
@@ -173,25 +160,7 @@ abreModal = (id) => {
 };
 
 
-// =================================================
-// Limpia Modal
-// =================================================
-limpiarModal = () => {
 
-    // $("#iptModClave").data('id', "");
-  
-    $(".modal-body input").val(null);
-  
-    $(".modal-body textarea").val(null);
-  
-    $(".modal-body select").prop("selectedIndex", 0);
-
-    $("#tblModalProducto tbody").empty();
-
-    $("#eligeProdTab tbody").empty();
-  
-    $("#iptFecha").val(fechaActual());
-  };
 
 // =================================================
 // Agrega Valores al Modal

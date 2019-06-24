@@ -11,6 +11,7 @@
 
     // =================================================
     // Agrega fila a tabla principal
+    // Name : tablaPrincipal
     // =================================================
 
     addRowPrincipalTable = ( data ) => {
@@ -53,7 +54,36 @@
     // =================================================
 
     // =================================================
+    // Abre Modal INSERT
+    // Name: modalInsertaActualiza
+    // tipo : Para saber si va a insertar o editar y asi ocultar elementos 
+    // =================================================
+    openModalInsertaActualiza = ( tipo ) =>{
+
+        limpiarModal();
+        llenaTabblaProd();
+
+        if( tipo === "I"){
+            $("#btnActualizar, #btnEliminar").hide();
+            $("#btnGuardar").show();
+            $("#exampleModalLabel").text("Nuevo Registro");
+        }else{
+            $("#modalNuevo").modal("show");
+            $("#btnActualizar, #btnEliminar").show();
+            $("#btnGuardar").hide();
+            $("#exampleModalLabel").text("Editar Registro");
+        }
+
+     
+
+        
+
+        
+    };
+
+    // =================================================
     //  Abre el modal de Card Vista Previa
+    // Name : modalVistaPrevia
     // =================================================
     cardVistaPrevia = async ( data ) =>{
 
@@ -142,9 +172,10 @@
 
 
     // =================================================
-    // Agrega la informaciòn al modal para editar
+    // Agrega la informaciòn general al modal para editar
+    // Name : modalInsertaActualiza
     // =================================================
-    addDataToModal = ( id ) => {
+    addDataToModal = async ( id ) => {
 
         let tdId = `td${id}`;
 
@@ -157,7 +188,170 @@
         $("#slctTipoDocto").val(infoEntrada.tipoDocto);
         $("#iptNoRecibo").val(infoEntrada.noDocto);
 
+        addProductToModInsertActualiza(id);
+
     }
+
+
+    // =================================================
+    // Agrega la informaciòn de productos a la tabla de modal para editar
+    // Name : modalInsertaActualiza
+    // =================================================
+    addProductToModInsertActualiza = async ( id ) => {
+
+        console.log("ENTRA add");
+
+
+        let productos = await getProductsDataById( id );
+
+        productos = productos.prodEntrada;
+
+        console.log("   prds : ", productos);
+
+        
+
+
+        $.each($("#eligeProdTab tbody tr "), function() {
+
+            let id = $(this).data("id");
+
+            let producto = productos.find( prd => prd.idProducto._id === `${id}`)
+
+            if( producto ){
+                $(`#check${id}`).prop('checked', true); 
+                $(`#check${id}`).data('cantidad', producto.cantidad); 
+                $(`#tdCant${id} label`).val(producto.cantidad);
+                $(`#tdCant${id} label`).text(producto.cantidad);
+            }
+
+            // if( $(this).data("id") ===  productos.prodEntrada.idProducto._id ){
+            //     console.log("SON IGAUL");
+            // }
+
+            // console.log("TR : ", );
+
+        });
+
+    }
+
+
+    // =================================================
+    // Llena Tabla de productos del modal (Productos)
+    // Name : tablaProdsMod
+    // =================================================
+    llenaTabblaProd = () => {
+
+        let productos = getGeneralDataProds();
+    
+        var tblhtml = "";
+    
+        $("#eligeProdTab tbody").empty();
+    
+        productos.producto.forEach(function(producto) {
+            tblhtml += ` <tr id="tr${producto._id}" data-id="${producto._id}">
+                        <td data-idProd="${producto._id}"> ${producto.clave} </td>
+                        <td> ${producto.nombre} </td>
+                        <td id="tdCant${producto._id}" class="text-center"> 
+                            <button type="button"
+                                    id="modCant${producto._id}" 
+                                    data-id="${producto._id}"
+                                    onclick="modalCantidad(this)" 
+                                    class="btn btn-outline-primary btn-sm">
+                                <label  id="lbl${producto._id}" >0</label> 
+                            </button>
+                        </td>
+                        <td>
+                            <div class="check">
+                            <input id="check${producto._id}" 
+                                    data-id="${producto._id}"
+                                    data-clave = "${producto.clave}"
+                                    data-nombre = "${producto.nombre}"
+                                    data-cantidad = ""
+                                    type="checkbox" 
+                                    onclick="modalCantidad(this)"/>
+                            <label for="check${producto._id}">
+                                <div class="box"><i class="fas fa-check"></i></i></div>
+                            </label>
+                            </div>
+                        </td>
+                        </tr>`;
+        });
+        $("#eligeProdTab tbody").append(tblhtml);
+    
+    } 
+
+    // =================================================
+    // Abre modal de Cantidad
+    // Name : modalCantidad
+    // =================================================
+    modalCantidad = ( data ) => {
+
+        $("#modalCantidad #iptModCantidad").val(null);
+        let id = $(data).data("id");
+
+        if( $(`#check${id}`).prop('checked') ){
+            $("#modalCantidad").modal("show");
+            $("#iptModCantidad").data("id", `${id}`);
+        }
+
+        
+
+    }
+
+
+    // =================================================
+    // Agrega Cantidad a la tabla
+    // =================================================
+    agregaCantTable = () => {
+
+        let id = $(`#iptModCantidad`).data('id');
+        let cantidad = parseInt($("#iptModCantidad").val());
+
+        if( !validaModalCantidad() ){
+            $(`#check${id}`).prop('checked', false);
+            return
+        }
+
+        $(`#modCant${id} label`).text(cantidad);
+        $(`#check${id}`).data('cantidad', cantidad);
+    
+    
+        
+        if( !$(`check${id}`).prop('checked') && cantidad != 0){
+            console.log("ENTRA A FALSE 3: ", id);
+            $(`#check${id}`).prop('checked', true);
+            agregaQuitaProds(id);
+        }else{
+            
+        }
+    
+    };
+
+
+    // =================================================
+    // Agrega o quita productos de la Tabla tblModalProducto
+    // =================================================
+    agregaQuitaProds = ( data ) => {
+
+        let id = data;
+        // Obtiene los datos
+        let trl = $(`#tr${id}`).html();
+    
+        if( $(`#check${id}`).prop('checked') ){
+        console.log("TRUE");
+        
+        // Elimina el elemento 
+        $(`#tr${id}`).remove();
+        // Agrega el elemento 
+            $("#eligeProdTab").prepend(`<tr id="tr${id}"> ${trl} </tr>`);
+            $(`#check${id}`).prop('checked', true);
+        }else{
+            $(`#check${id}`).prop('checked', false);
+            console.log("false");
+        };
+    
+    };
+    
 
 // =================================================
 // =================================================
@@ -172,8 +366,8 @@
 
         clearModNew();
 
-        $("#modalCard").modal('hide');
-        $("#modalNuevo").modal('show');
+        $("#modalCard").modal('hide');        
+        openModalInsertaActualiza("E");
 
         let idEntrada = $("#modalCard .modal-body .card").data("identrada");
 
@@ -192,8 +386,6 @@
     // Obten datos de las filas de la tabla principal 
     // =================================================
     getDataRowTablePrincipal = ( tdid ) => {
-
-        console.log("ID : ", tdid);
 
         let idEntrada = $(`#${tdid}`).data("id");
         let fecha = $(`#${tdid}`).data("fecha");
@@ -220,13 +412,16 @@
     }
 
 
-
 // =================================================
 // =================================================
 // VALIDACIONES Valida que los campos esten llenos 
 // =================================================
 // =================================================
 
+    // =================================================
+    // Valida  que los campos del modal modalInsertaActualiza no esten vacios
+    // Name : modalInsertaActualiza
+    // =================================================
     valida = () => {
 
         // INPUT
@@ -263,6 +458,28 @@
         }
     };
 
+    // =================================================
+    // Valida  que los campos del modal modalCantidad no esten vacios
+    // Name : modalCantidad
+    // =================================================
+    validaModalCantidad = () => {
+
+        if( $("#iptModCantidad").val().length < 1 ){
+            // document.getElementById('iptModCantidad').focus();
+            swal("Debe agregar una cantidad!", "", "warning");
+            return false;
+        }
+
+        if( isNaN(parseInt($("#iptModCantidad").val())) ){
+            // document.getElementById('iptModCantidad').focus();
+            swal("Debe ingresar un número!", "", "warning");
+            return false;
+        }
+
+        return true;
+
+    }
+
 
 // =================================================
 // =================================================
@@ -277,10 +494,10 @@
     $("#inptBusqueda").keyup(function(){   
         _this = this;
         $.each($("#tblPrincipal tbody tr"), function() {
-        if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
-        $(this).hide();
+            if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+            $(this).hide();
         else
-        $(this).show();
+            $(this).show();
         });
     });
 
@@ -288,13 +505,13 @@
     // Busca Informacion en la Tabla Del Modal (Input Buscar)
     // =================================================
     $("#inptBusquedaModal").keyup(function(){
-    _this = this;
-    $.each($("#eligeProdTab tbody tr"), function() {
-    if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
-    $(this).hide();
-    else
-    $(this).show();
-    });
+        _this = this;
+        $.each($("#eligeProdTab tbody tr"), function() {
+            if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+            $(this).hide();
+        else
+            $(this).show();
+        });
     });
 
 
@@ -314,3 +531,24 @@
 
         $("#iptFecha").val(fechaActual());
     }
+
+    // =================================================
+    // Limpia Modal modalInsertaActualiza
+    // Name: modalInsertaActualiza
+    // =================================================
+    limpiarModal = () => {
+
+        // $("#iptModClave").data('id', "");
+    
+        $(".modal-body input").val(null);
+    
+        $(".modal-body textarea").val(null);
+    
+        $(".modal-body select").prop("selectedIndex", 0);
+
+        $("#tblModalProducto tbody").empty();
+
+        $("#eligeProdTab tbody").empty();
+    
+        $("#iptFecha").val(fechaActual());
+    };

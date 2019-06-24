@@ -2,93 +2,11 @@
 
 
 
-// =================================================
-// Llena Tabla de productos del modal (Productos)
-// =================================================
-llenaTabblaProd = () => {
 
-  let productos = getGeneralDataProds();
 
-  var tblhtml = "";
 
-    $("#eligeProdTab tbody").empty();
 
-    productos.producto.forEach(function(producto) {
-      tblhtml += ` <tr id="tr${producto._id}">
-                    <td data-idProd="${producto._id}"> ${producto.clave} </td>
-                    <td> ${producto.nombre} </td>
-                    <td id="tdCant${producto._id}" class="text-center"> <label  id="lbl${producto._id}" >0</label> </td>
-                    <td>
-                      <div class="check">
-                        <input id="check${producto._id}" 
-                                data-id="${producto._id}"
-                                data-clave = "${producto.clave}"
-                                data-nombre = "${producto.nombre}"
-                                data-cantidad = ""
-                                type="checkbox" 
-                                onclick="agregaQuitaProds(this)"/>
-                        <label for="check${producto._id}">
-                          <div class="box"><i class="fas fa-check"></i></i></div>
-                        </label>
-                      </div>
-                    </td>
-                  </tr>`;
-    });
-    $("#eligeProdTab tbody").append(tblhtml);
 
-} 
-
-// =================================================
-// Agrega o quita productos de la Tabla tblModalProducto
-// =================================================
-agregaQuitaProds = ( data ) => {
-
-  let id = $(data).data("id");
-  let clave = $(data).data("clave");
-  let nombre = $(data).data("nombre");
-
-  limpiarModalCantidad();
-  $('#modalCantidad').modal('show');
-
-  document.getElementById('iptModCantidad').focus();
-
-  $(`#iptModCantidad`).data('id', id);
-  
-  
-
-  // Obtiene los datos
-  let trl = $(`#tr${id}`).html();
-  
-
-  if( $(`#check${id}`).prop('checked') ){
-    console.log("TRUE");
-    
-    // Elimina el elemento 
-    $(`#tr${id}`).remove();
-    // Agrega el elemento 
-    $("#eligeProdTab").prepend(`<tr id="tr${id}"> ${trl} </tr>`);
-    $(`#check${id}`).prop('checked', true);
-  }else{
-    $(`#check${id}`).prop('checked', false);
-    console.log("false");
-  };
-
-};
-
-// =================================================
-// Agrega Cantidad a la tabla
-// =================================================
-agregaCantTable = () => {
-
-  let id = $(`#iptModCantidad`).data('id');
-  let cantidad = $("#iptModCantidad").val();
-
-  $(`#lbl${id}`).val(cantidad);
-  $(`#lbl${id}`).text(cantidad);
-
-  $(`#check${id}`).data('cantidad', cantidad);
-
-};
 
 // =================================================
 // Limpia Modal
@@ -186,6 +104,8 @@ vistaPrevia = () => {
   $("#fechaModId").append(datosModal.fecha);
   $("#responsableModId").append(datosModal.recibe);
   $("#responsableModId").data("entrega", datosModal.entrega);
+
+  console.log("datos mod : ", datosModal.productos);
 
   datosModal.productos.forEach( (producto) => {
     $("#tblPrincModId tbody").append(`<tr data-id="${producto.id}">
