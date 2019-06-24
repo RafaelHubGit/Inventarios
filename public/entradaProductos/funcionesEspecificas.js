@@ -83,9 +83,9 @@
         let rows = await createRowCardModal(id);
 
 
-        let cardHtml = `<div class="card text-center" id="card${entrada.idEntrada}" data-idCard="${entrada.idEntrada}">
+        let cardHtml = `<div class="card text-center" id="card${entrada.idEntrada}" data-identrada="${entrada.idEntrada}">
                             <div class="card-header">
-                                <div class="proveedorCard" data-idProveedor="${entrada.idProveedor}">${entrada.nameProveedor}</div> 
+                                <div class="proveedorCard" data-idproveedor="${entrada.idProveedor}">${entrada.nameProveedor}</div> 
                                 <div class="documentoCard"> ${entrada.tipoDocto} : ${entrada.noDocto} </div>
                             </div>
                             <div class="card-body">
@@ -141,6 +141,47 @@
 
 
 
+    // =================================================
+    // Agrega la informaciòn al modal para editar
+    // =================================================
+    addDataToModal = ( id ) => {
+
+        let tdId = `td${id}`;
+
+        let infoEntrada = getDataRowTablePrincipal(tdId);
+
+        $("#iptFecha").val(formatoFechaNm(infoEntrada.fecha));
+        $("#slctProveedor").val(infoEntrada.idProveedor);
+        $("#iptRecibe").val(infoEntrada.responsableRecibe);
+        $("#iptEntrega").val(infoEntrada.responsableEntrega);
+        $("#slctTipoDocto").val(infoEntrada.tipoDocto);
+        $("#iptNoRecibo").val(infoEntrada.noDocto);
+
+    }
+
+// =================================================
+// =================================================
+// BOTONES 
+// =================================================
+// =================================================
+
+    // =================================================
+    // boton editar  
+    // =================================================
+    btnEdita = () => {
+
+        clearModNew();
+
+        $("#modalCard").modal('hide');
+        $("#modalNuevo").modal('show');
+
+        let idEntrada = $("#modalCard .modal-body .card").data("identrada");
+
+        addDataToModal( idEntrada );
+
+    }
+
+
 // =================================================
 // =================================================
 // OBTEN DATOS
@@ -150,16 +191,18 @@
     // =================================================
     // Obten datos de las filas de la tabla principal 
     // =================================================
-    getDataRowTablePrincipal = ( id ) => {
+    getDataRowTablePrincipal = ( tdid ) => {
 
-        let idEntrada = $(`#${id}`).data("id");
-        let fecha = $(`#${id}`).data("fecha");
-        let idProveedor = $(`#${id}`).data("idproveedor");
-        let nameProveedor = $(`#${id}`).data("nameproveedor");
-        let tipoDocto = $(`#${id}`).data("tipodocto");
-        let noDocto = $(`#${id}`).data("nodocto");
-        let responsableEntrega = $(`#${id}`).data("responsableentrega");
-        let responsableRecibe = $(`#${id}`).data("responsablerecibe");
+        console.log("ID : ", tdid);
+
+        let idEntrada = $(`#${tdid}`).data("id");
+        let fecha = $(`#${tdid}`).data("fecha");
+        let idProveedor = $(`#${tdid}`).data("idproveedor");
+        let nameProveedor = $(`#${tdid}`).data("nameproveedor");
+        let tipoDocto = $(`#${tdid}`).data("tipodocto");
+        let noDocto = $(`#${tdid}`).data("nodocto");
+        let responsableEntrega = $(`#${tdid}`).data("responsableentrega");
+        let responsableRecibe = $(`#${tdid}`).data("responsablerecibe");
 
         let entrada = {
             idEntrada, 
@@ -253,3 +296,21 @@
     $(this).show();
     });
     });
+
+
+//=================================================
+// =================================================
+// LIMPIAR
+// =================================================
+// =================================================
+    
+    // =================================================
+    // Limpia modal Nuevo
+    // =================================================
+    clearModNew = () => {
+        $("#modalNuevo .modal-body input").val(null);
+
+        $("#modalNuevo .modal-body select").prop("selectedIndex", 0);
+
+        $("#iptFecha").val(fechaActual());
+    }

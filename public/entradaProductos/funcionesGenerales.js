@@ -91,7 +91,7 @@ $(document).ready(function(){
 //===========================================================
 
 // =================================================
-// Recibe fecha y le da formato ISO
+// Recibe fecha ISO y le da formato 01/junio/2019
 // =================================================
 formatoFecha = (fecha) => {
     moment.locale('es');
@@ -99,6 +99,31 @@ formatoFecha = (fecha) => {
     var full = dateTime.format('dddd/MM/YYYY');
 
     var mes = dateTime.format('MMMM');
+
+    // dia (escrito)
+    var dia = dateTime.format('dddd');
+    // dia
+    var diaN = dateTime.format('D');
+
+    var anio = dateTime.format('YYYY');
+    /////
+    // Update
+    var full2 = dateTime.format('LL');
+    //
+    var fullTime = dateTime.format('LLLL');
+
+    return `${diaN}/${mes}/${anio}`
+}
+
+// =================================================
+// Recibe fecha ISO y le da formato 01/06/2019
+// =================================================
+formatoFechaNm = (fecha) => {
+    moment.locale('es');
+    var dateTime = moment( fecha );
+    var full = dateTime.format('dddd/MM/YYYY');
+
+    var mes = dateTime.format('MM');
 
     // dia (escrito)
     var dia = dateTime.format('dddd');
