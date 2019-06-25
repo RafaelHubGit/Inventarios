@@ -92,6 +92,33 @@ creaEntrada = async ( datosInsert ) => {
 
 };
 
+// =================================================
+//Actualiza la entrada y tambien los productos
+// Si un producto no existe lo inserta
+// Si se quita un producto, se debe de eliminar
+// =================================================
+actualizaEntrada = async ( datosUpd ) => {
+
+  console.log("DATOS actualiza  : ", JSON.parse(datosUpd));
+
+  try{
+    const dataReturn = await $.ajax({
+      type: 'PUT', 
+      url : `http://localhost:3000/services/entrada/${datosUpd.idEntrada}`, 
+      // dataType : 'application/json', 
+      // asyc : false,
+      contentType: "application/json; charset=utf-8",
+      data: datosUpd
+    });
+
+        return dataReturn;
+  }catch ( err ){
+    // console.error(err);
+    throw new Error (err);
+  }
+
+};
+
 
 
 

@@ -39,42 +39,65 @@ actualiza = () => {
         return 
     }
 
-    let id = $("#iptModNombre").data('id');
-    let datosActualiza = obtenInfoModUpd();
+    let datosUpd = JSON.stringify(obtenDatos());
 
-    $.ajax({
-        type: 'PUT',
-        url : `http://localhost:3000/services/categoria/${id}`, 
-        dataType : 'json', 
-        data : datosActualiza
-    })
-    .done( ( data ) => {
+    actualizaEntrada(datosUpd).then( data => {
 
-        $("#tblElements tbody").empty();
+        let datos = data.entrada;
 
-        cargaInformacion();
+        addRowPrincipalTable(datos); //Setiene que modificar ya que este solo agrega un nuevo registro, y en este caso se tiene que actualizar
 
-        swal("Elemento Actualizado!", "", "success");
-
+        swal("Información Modificada!", "", "success");
         $('#modalNuevo').modal('hide');
-
-    })
-    .fail( (data) => {
-        // console.log("Fallo : ", data);
-
-        data = JSON.parse(data.responseText);
-
-        if( data.err.code === 11000 ) {
-            swal("Clave duplicada!", "Ya existe un categoria con esa clave, cambie la clave para continuar", "error");
-        }
-
-
-    })
-    .always( () => {
-        console.log("Completo");
+    }).catch( err => {
+        console.log("MISTAKES : ", err);
+        swal("Error al insertar datos!", "Verifique que los campos esten debidamente llenados e intentelo nuevamente, si la falla persiste contacte con el administrador", "error");
     });
 
 };
+
+// actualiza = () => {
+
+//     if ( valida() === false ){
+//         return 
+//     }
+
+//     let id = $("#iptModNombre").data('id');
+//     let datosActualiza = obtenInfoModUpd();
+
+//     $.ajax({
+//         type: 'PUT',
+//         url : `http://localhost:3000/services/categoria/${id}`, 
+//         dataType : 'json', 
+//         data : datosActualiza
+//     })
+//     .done( ( data ) => {
+
+//         $("#tblElements tbody").empty();
+
+//         cargaInformacion();
+
+//         swal("Elemento Actualizado!", "", "success");
+
+//         $('#modalNuevo').modal('hide');
+
+//     })
+//     .fail( (data) => {
+//         // console.log("Fallo : ", data);
+
+//         data = JSON.parse(data.responseText);
+
+//         if( data.err.code === 11000 ) {
+//             swal("Clave duplicada!", "Ya existe un categoria con esa clave, cambie la clave para continuar", "error");
+//         }
+
+
+//     })
+//     .always( () => {
+//         console.log("Completo");
+//     });
+
+// };
 
 // =================================================
 // DELETE

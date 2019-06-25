@@ -181,6 +181,7 @@
 
         let infoEntrada = getDataRowTablePrincipal(tdId);
 
+        $("#modalNuevo").data("identrada", infoEntrada.idEntrada )
         $("#iptFecha").val(formatoFechaNm(infoEntrada.fecha));
         $("#slctProveedor").val(infoEntrada.idProveedor);
         $("#iptRecibe").val(infoEntrada.responsableRecibe);
@@ -198,9 +199,6 @@
     // Name : modalInsertaActualiza
     // =================================================
     addProductToModInsertActualiza = async ( id ) => {
-
-        console.log("ENTRA add");
-
 
         let productos = await getProductsDataById( id );
 
@@ -318,9 +316,8 @@
     
         
         if( !$(`check${id}`).prop('checked') && cantidad != 0){
-            console.log("ENTRA A FALSE 3: ", id);
             $(`#check${id}`).prop('checked', true);
-            agregaQuitaProds(id);
+            // agregaQuitaProds(id);
         }else{
             
         }
@@ -331,24 +328,53 @@
     // =================================================
     // Agrega o quita productos de la Tabla tblModalProducto
     // =================================================
-    agregaQuitaProds = ( data ) => {
+    // agregaQuitaProds = ( data ) => {
 
-        let id = data;
-        // Obtiene los datos
-        let trl = $(`#tr${id}`).html();
+    //     let id = data;
+    //     // Obtiene los datos
+    //     let trl = $(`#tr${id}`).html();
     
-        if( $(`#check${id}`).prop('checked') ){
-        console.log("TRUE");
+    //     if( $(`#check${id}`).prop('checked') ){
+    //     console.log("TRUE");
         
-        // Elimina el elemento 
-        $(`#tr${id}`).remove();
-        // Agrega el elemento 
-            $("#eligeProdTab").prepend(`<tr id="tr${id}"> ${trl} </tr>`);
-            $(`#check${id}`).prop('checked', true);
-        }else{
-            $(`#check${id}`).prop('checked', false);
-            console.log("false");
-        };
+    //     // Elimina el elemento 
+    //     $(`#tr${id}`).remove();
+    //     // Agrega el elemento 
+    //         $("#eligeProdTab").prepend(`<tr id="tr${id}"> ${trl} </tr>`);
+    //         $(`#check${id}`).prop('checked', true);
+    //     }else{
+    //         $(`#check${id}`).prop('checked', false);
+    //         console.log("false");
+    //     };
+    
+    // };
+
+
+    // =================================================
+    // Pasa la informacion al card de vista previa 
+    // =================================================
+    vistaPrevia = () => {
+
+        limpiaVistaPrevia();
+    
+        let datosModal = obtenDatos();
+    
+        // // Ingresa los datos en el Card de previsualizacion
+        $("#nomProvModId").append(datosModal.proveedor);
+        $("#nomProvModId").data("idProveedor", datosModal.idProveedor);
+        $("#doctoModId").append(`${datosModal.tipoDoc} : ${datosModal.noDocto}`);
+        $("#fechaModId").append(datosModal.fecha);
+        $("#responsableModId").append(datosModal.recibe);
+        $("#responsableModId").data("entrega", datosModal.entrega);
+    
+        console.log("datos mod : ", datosModal.productos);
+    
+        datosModal.productos.forEach( (producto) => {
+        $("#tblPrincModId tbody").append(`<tr data-id="${producto.id}">
+                                            <td>${producto.nombre}</td>
+                                            <td>${producto.cantidad}</td>
+                                            </tr>`);
+        });
     
     };
     
@@ -412,6 +438,57 @@
     }
 
 
+    // =================================================
+    // Obten datos de Modal
+    // Name : modalInsertaActualiza
+    // =================================================
+    obtenDatos = () => {
+
+        // Obtiene los datos 
+        let idEntrada = $("#modalNuevo").data("identrada");
+        let fecha = $("#iptFecha").val();
+        let proveedor = $("#slctProveedor option:selected").text();
+        let idProveedor = $("#slctProveedor option:selected").val();
+        let recibe = $("#iptRecibe").val();
+        let entrega = $("#iptEntrega").val();
+        let tipoDoc = $("#slctTipoDocto").val();
+        let noRecivo = $("#iptNoRecibo").val();
+    
+        let productos = "";
+    
+        $.each($("#eligeProdTab tbody tr td input"), function() {
+    
+        if( $(this).prop('checked') ){
+            idProducto = $(this).data("id");
+            clave = $(this).data("clave");
+            nombre = $(this).data("nombre");
+            cantidad = $(this).data("cantidad");
+    
+            productos += `{"id" : "${idProducto}", "clave" : "${clave}", "nombre" : "${nombre}", "cantidad" : "${cantidad}"},`;
+    
+        }
+        });
+    
+        // Quita la ultima coma
+        productos = productos.slice(0,productos.length-1)
+    
+        let entradaJson = `{
+        "idEntrada" : "${idEntrada}",
+        "fecha" : "${fecha}", 
+        "idProveedor" : "${idProveedor}",
+        "proveedor" : "${proveedor}",
+        "recibe" : "${recibe}",
+        "entrega" : "${entrega}", 
+        "tipoDoc" : "${tipoDoc}", 
+        "noDocto" : "${noRecivo}", 
+        "productos" : [${productos}]
+        }`;
+    
+        return JSON.parse(entradaJson);
+    
+    }
+
+
 // =================================================
 // =================================================
 // VALIDACIONES Valida que los campos esten llenos 
@@ -447,15 +524,41 @@
         // SELECT
         if( $("#slctTipoDocto").val().length < 1 ){
             document.getElementById('slctTipoDocto').focus();
+            swal("Debe elegir un tipo Documento!", "", "warning");
+            return false;
+        }
+
+        if( $("#slctProveedor").val().length < 1 ){
+            document.getElementById('slctProveedor').focus();
             swal("Debe elegir un proveedor!", "", "warning");
             return false;
         }
 
         //TABLA
-        if( $("#eligeProdTab tbody tr").length < 1){
-            swal("Debe de agregar al menos 1 producto!", "", "warning");
-            return false;
-        }
+
+        let x = 0;
+        let valida;
+        $.each($("#eligeProdTab tbody tr "), function() {
+
+            let id = $(this).data("id");
+
+            if( $(`#check${id}`).prop('checked') ){
+                return valida = true;
+            }
+
+            x++;
+
+            if( $("#eligeProdTab tbody tr").length === x ){
+                swal("Debe de agregar al menos 1 producto!", "", "warning");
+                return valida = false;
+            }
+            
+        });
+
+        return valida;
+
+        
+        
     };
 
     // =================================================
@@ -551,4 +654,37 @@
         $("#eligeProdTab tbody").empty();
     
         $("#iptFecha").val(fechaActual());
+    };
+
+    // =================================================
+    // Pasa la informacion al card de vista previa 
+    // =================================================
+    limpiaVistaPrevia = () => {
+
+        $("#doctoModId").empty();
+        $("#nomProvModId").empty();
+        $("#fechaModId").empty();
+        $("#responsableModId").empty();
+    
+        $("#tblPrincModId tbody").empty();
+    
+    };
+
+    // =================================================
+    // Limpia Modal
+    // Name : modalInsertaActualiza
+    // =================================================
+    limpiarModal = () => {
+
+        // $("#iptModClave").data('id', "");
+    
+        $("#modalNuevo .modal-body input").val(null);
+    
+        $("#modalNuevo .modal-body textarea").val(null);
+    
+        $("#modalNuevo .modal-body select").prop("selectedIndex", 0);
+    
+        $("#modalNuevo #iptFecha").val(fechaActual());
+    
+        $("#modalNuevo #eligeProdTab tbody").empty();
     };

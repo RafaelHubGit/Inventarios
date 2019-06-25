@@ -6,7 +6,7 @@ let app = express();
 let Entrada = require('../models/entradaTkt');
 let entProd = require('../models/entradaSalidaProds');
 
-const {insertProdEnt} = require('../funciones/entradaSalidaProds');
+const {insertProdEnt, insUpdProds} = require('../funciones/entradaSalidaProds');
 const {fechaIsoDate} = require('../funciones/generalFunctions');
 
 
@@ -169,5 +169,45 @@ app.post('/services/entrada', (req, res) => {
 
 });
 
+//========================
+//Actualizar un Entrada
+//========================
+app.put('/services/entrada/:id', (req, res) => {
+
+    let body = req.body;
+
+    let id = body.idEntrada;
+
+    let entrada = {
+        proveedor : body.idProveedor, 
+        fechaEntrada : fechaIsoDate(body.fecha), 
+        responsableEntrega : body.entrega, 
+        responsableRecibe : body.recibe, 
+        tipoDocto : body.tipoDoc, 
+        noDocto : body.noDocto
+    };
+
+    let productos = body.productos;
+
+    Entrada.findByIdAndUpdate(id, entrada, (err, entradaDB) => {
+
+        if ( err ){
+            return res.json({
+                ok: false, 
+                err
+            });
+        };
+
+        insUpdProds(id, productos);
+
+        res.json({
+            ok: true,
+            entrada : entradaDB,
+            message: "Entrada Actualizada"
+        })
+
+    })
+
+});
 
 module.exports = app;
