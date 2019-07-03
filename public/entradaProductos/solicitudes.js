@@ -99,7 +99,7 @@ creaEntrada = async ( datosInsert ) => {
 // =================================================
 actualizaEntrada = async ( datosUpd ) => {
 
-  console.log("DATOS actualiza  : ", JSON.parse(datosUpd));
+  // console.log("DATOS actualiza  : ", JSON.parse(datosUpd));
 
   try{
     const dataReturn = await $.ajax({

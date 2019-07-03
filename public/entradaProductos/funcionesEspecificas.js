@@ -74,11 +74,6 @@
             $("#exampleModalLabel").text("Editar Registro");
         }
 
-     
-
-        
-
-        
     };
 
     // =================================================
@@ -398,6 +393,56 @@
         let idEntrada = $("#modalCard .modal-body .card").data("identrada");
 
         addDataToModal( idEntrada );
+
+    }
+
+
+// =================================================
+// =================================================
+// Agrega DATOS
+// =================================================
+// =================================================
+
+    // =================================================
+    // Edita los datos de la fila de la tabla principal
+    // Name: tablaPrincipal
+    // =================================================
+    editPrincipalTableDataRow = () => {
+
+        let entrada = obtenDatos();
+
+        console.log("FECHAS : ", entrada.fecha);
+
+        $(`#td${entrada.idEntrada}`).remove();
+
+        let html = `<tr id="td${entrada.idEntrada}" onclick="cardVistaPrevia(this.id)"
+                            data-id="${entrada.idEntrada}"
+                            data-fecha="${entrada.fecha}"
+                            data-idProveedor=${entrada.idProveedor}
+                            data-nameProveedor=${entrada.proveedor}
+                            data-tipoDocto="${entrada.tipoDoc}"
+                            data-noDocto="${entrada.noDocto}"
+                            data-responsableEntrega="${entrada.entrega}"
+                            data-responsableRecibe="${entrada.recibe}"
+                        >
+                        <td>
+                            ${entrada.fecha}
+                        </td>
+                        <td data-idProveedor="${entrada.idProveedor}">
+                            ${entrada.proveedor}
+                        </td>
+                        <td>
+                            ${entrada.tipoDoc}
+                        </td>
+                        <td>
+                            ${entrada.noDocto}
+                        </td>
+                        <td>
+                            ${entrada.recibe}
+                        </td>
+                    </tr>`;
+
+        $("#tblPrincipal tbody").append(html);
 
     }
 

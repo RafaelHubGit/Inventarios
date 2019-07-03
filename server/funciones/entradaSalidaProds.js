@@ -49,59 +49,55 @@ let insertProdEnt =  ( data, id) => {
 //=================================
 //Edita un Producto 
 //=================================
-let updateProdEnt =  ( data, id) => {
+let updateProdEnt =  ( data, idEntrada) => {
 
-    // let id = id;
     let body = data;
 
-    console.log("ID : ", id);
-    console.log("DATOS : ", body);
+    ProdEntrada.updateOne({idEntrada : idEntrada, idProducto: body.id}, body, (err, prodEntradaDB) => {
 
-    // Categoria.findByIdAndUpdate(id, body, (err, categoriaDB) => {
+        if ( err ){
+            throw new Error ({
+                ok: false, 
+                err
+            });
+        };
 
-    //     if ( err ){
-    //         res.json({
-    //             ok: false, 
-    //             err
-    //         });
-    //     };
+        return {
+            ok: true, 
+            message: "Actualizado"
+        }
 
-    //     res.json({
-    //         ok: true, 
-    //         message: "Categoria Actualizada"
-    //     })
-
-    // })
+    })
 
 };
 
 //=================================
 //Obtiene un producto entrada po ID
 //=================================
-getProdEntById = (idEntrada, idProd) => {
-    ProdEntrada.find({ idEntrada : idEntrada,  tipo: "Entrada" })
-        .populate({
-            path: 'idProducto', 
-            model: 'Producto',
-            select: 'nombre'
-        })
-        .exec( (err, prodEntrada) => {
-            if( err ){
-                return res.json({
-                    ok: false, 
-                    err
-                });
-            };
+// getProdEntById = (idEntrada, idProd) => {
+//     ProdEntrada.find({ idEntrada : idEntrada,  tipo: "Entrada" })
+//         .populate({
+//             path: 'idProducto', 
+//             model: 'Producto',
+//             select: 'nombre'
+//         })
+//         .exec( (err, prodEntrada) => {
+//             if( err ){
+//                 return res.json({
+//                     ok: false, 
+//                     err
+//                 });
+//             };
 
-            ProdEntrada.countDocuments( { idEntrada : idEntrada, tipo: "Entrada" }, (err, conteo) => {
-                res.json({
-                    ok: true, 
-                    prodEntrada, 
-                    cuantos : conteo
-                });
-            });
-        });
-}
+//             ProdEntrada.countDocuments( { idEntrada : idEntrada, tipo: "Entrada" }, (err, conteo) => {
+//                 res.json({
+//                     ok: true, 
+//                     prodEntrada, 
+//                     cuantos : conteo
+//                 });
+//             });
+//         });
+// }
 
 
 //=================================
@@ -110,7 +106,19 @@ getProdEntById = (idEntrada, idProd) => {
 insUpdProds = (idEntrada, productos) => {
 
     productos.forEach( producto => {
-        console.log("Producto :) : ", producto);
+        // console.log("Producto :) : ", producto);
+
+        ProdEntrada.countDocuments( { idEntrada : idEntrada, idProducto: producto.id  , tipo: "Entrada" }, (err, conteo) => {
+            console.log("Conteo  : ", conteo);
+            if( conteo > 0 ){
+               //Edita el producto
+               updateProdEnt(producto, idEntrada);
+            }else{                
+                 // Agrega el pRODUCTO
+                 insertProdEnt(producto, idEntrada);
+            }
+        });
+
     })
 
 }

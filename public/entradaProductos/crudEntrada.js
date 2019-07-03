@@ -45,12 +45,14 @@ actualiza = () => {
 
         let datos = data.entrada;
 
-        addRowPrincipalTable(datos); //Setiene que modificar ya que este solo agrega un nuevo registro, y en este caso se tiene que actualizar
+        // addRowPrincipalTable(datos); //Setiene que modificar ya que este solo agrega un nuevo registro, y en este caso se tiene que actualizar
+
+        editPrincipalTableDataRow();
 
         swal("Información Modificada!", "", "success");
         $('#modalNuevo').modal('hide');
     }).catch( err => {
-        console.log("MISTAKES : ", err);
+        console.log("ERROR : ", err);
         swal("Error al insertar datos!", "Verifique que los campos esten debidamente llenados e intentelo nuevamente, si la falla persiste contacte con el administrador", "error");
     });
 
