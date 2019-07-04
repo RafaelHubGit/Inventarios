@@ -49,6 +49,13 @@ $(document).ready(function(){
             theme: 'default',
             transitionEffect:'fade',
             showStepURLhash: true,
+            enableAnchorOnDoneStep: false,
+            anchorSettings : { 
+                //anchorClickable : false , // Habilitar / Deshabilitar navegación de ancla  
+                //enableAllAnchors : false , // Activa todos los anclajes en los que se puede hacer clic todo el tiempo  
+                //markDoneStep : true , // add done css  
+                enableAnchorOnDoneStep : false // Habilitar / deshabilitar la navegación de los pasos realizados  
+            },
             toolbarSettings: {toolbarPosition: 'none',
                             toolbarButtonPosition: 'end',
                             toolbarExtraButtons: [btnFinish, btnCancel]

@@ -72,32 +72,25 @@ let updateProdEnt =  ( data, idEntrada) => {
 };
 
 //=================================
-//Obtiene un producto entrada po ID
+//Elimina todos los registros de Entrada/Salida Prods con idEntrada
 //=================================
-// getProdEntById = (idEntrada, idProd) => {
-//     ProdEntrada.find({ idEntrada : idEntrada,  tipo: "Entrada" })
-//         .populate({
-//             path: 'idProducto', 
-//             model: 'Producto',
-//             select: 'nombre'
-//         })
-//         .exec( (err, prodEntrada) => {
-//             if( err ){
-//                 return res.json({
-//                     ok: false, 
-//                     err
-//                 });
-//             };
+deleteAllProdEnt = (idEntrada) => {
+    ProdEntrada.deleteMany({ idEntrada: idEntrada }, (err, del) => {
+        if(err){
+            // console.log("ERROR : ", err);
+            return 
+        }
 
-//             ProdEntrada.countDocuments( { idEntrada : idEntrada, tipo: "Entrada" }, (err, conteo) => {
-//                 res.json({
-//                     ok: true, 
-//                     prodEntrada, 
-//                     cuantos : conteo
-//                 });
-//             });
-//         });
-// }
+        // console.log("Silo hace");
+    });
+}
+
+//=================================
+//Elimina un registro de Entrada/Salida Prods con idEntrada y IdProducto
+//=================================
+deleteOneProdEnt = (idEntrada, idProducto) => {
+    ProdEntrada.deleteOne({ idEntrada: idEntrada, idProducto: idProducto });
+}
 
 
 //=================================
@@ -126,5 +119,6 @@ insUpdProds = (idEntrada, productos) => {
 
 module.exports = {
     insertProdEnt, 
-    insUpdProds
+    insUpdProds, 
+    deleteAllProdEnt
 }

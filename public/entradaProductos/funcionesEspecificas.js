@@ -442,7 +442,7 @@
                         </td>
                     </tr>`;
 
-        $("#tblPrincipal tbody").append(html);
+        $("#tblPrincipal tbody").prepend(html);
 
     }
 

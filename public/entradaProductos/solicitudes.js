@@ -119,6 +119,28 @@ actualizaEntrada = async ( datosUpd ) => {
 
 };
 
+// =================================================
+//Elimina la entrada y tambien los productos
+// =================================================
+deleteEntrada = async ( idEntrada ) => {
+
+  try{
+    const dataReturn = await $.ajax({
+      type: 'DELETE', 
+      url : `http://localhost:3000/services/entrada/${idEntrada}`, 
+      // dataType : 'application/json', 
+      // asyc : false,
+      contentType: "application/json; charset=utf-8"
+    });
+
+        return dataReturn;
+  }catch ( err ){
+    // console.error(err);
+    throw new Error (err);
+  }
+
+};
+
 
 
 

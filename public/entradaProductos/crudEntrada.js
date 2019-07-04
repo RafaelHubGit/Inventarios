@@ -45,8 +45,6 @@ actualiza = () => {
 
         let datos = data.entrada;
 
-        // addRowPrincipalTable(datos); //Setiene que modificar ya que este solo agrega un nuevo registro, y en este caso se tiene que actualizar
-
         editPrincipalTableDataRow();
 
         swal("Información Modificada!", "", "success");
@@ -104,35 +102,30 @@ actualiza = () => {
 // =================================================
 // DELETE
 // =================================================
-eliminar = () => {
+eliminar = (  ) => {
 
-    let id = $("#iptModNombre").data('id');
+    let idEntrada = $("#modalCard .modal-body .card").data("identrada");
 
-    $.ajax({
-        type: 'DELETE', 
-        url : `http://localhost:3000/services/categoria/${id}`, 
-        dataType : 'json'
-    })
-    .done( ( data ) => {
-
-
-        $("#tblElements tbody").empty();
-
-        cargaInformacion();
-
-        swal("Elemento Eliminado!", "", "success");
-
-        $('#modalNuevo').modal('hide');
-
-
-
-    })
-    .fail( () => {
-        console.log("Fallo");
-    })
-    .always( () => {
-        console.log("Completo");
-    });
+    Swal.fire({
+        title: 'Deseas Eliminar la entrada?',
+        text: "Estas seguro?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#009933',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminalo!',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+            console.log("ENTRA A ELIMINAR : ", idEntrada);
+            deleteEntrada( idEntrada ).then( data => {
+                swal("Información Eliminada!", "", "success");
+            }).catch( err => {
+                console.log("ERROR : ", err);
+                swal("Error al eliminar datos!", "Intentelo nuevamente, si la falla persiste contacte con el administrador", "error");
+            });
+        }
+      })
 };
 
 

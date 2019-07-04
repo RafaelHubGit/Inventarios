@@ -6,7 +6,7 @@ let app = express();
 let Entrada = require('../models/entradaTkt');
 let entProd = require('../models/entradaSalidaProds');
 
-const {insertProdEnt, insUpdProds} = require('../funciones/entradaSalidaProds');
+const {insertProdEnt, insUpdProds, deleteAllProdEnt} = require('../funciones/entradaSalidaProds');
 const {fechaIsoDate} = require('../funciones/generalFunctions');
 
 
@@ -207,6 +207,31 @@ app.put('/services/entrada/:id', (req, res) => {
         })
 
     })
+
+});
+
+//========================
+//Elimina la entrada
+//========================
+app.delete('/services/entrada/:id', (req, res) => {
+
+    let id = req.params.id;
+
+    Entrada.deleteOne({ _id: id }, (err, entradaDB) => {
+
+        if(err){
+            return res.json({
+                ok: false, 
+                err
+            });
+        }
+
+        deleteAllProdEnt(id);
+        res.json({
+            ok: true,
+            message: "Entrada Eliminada"
+        })
+    });
 
 });
 
