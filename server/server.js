@@ -10,6 +10,9 @@ const app = express();
 
 const bodyParser = require('body-parser');
 
+//Cors Permite que un cliente se conecte a otro servidor para el intercambio de recursos
+const cors = require('cors'); 
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -19,6 +22,9 @@ app.use(bodyParser.json())
 const publicPath = path.resolve(__dirname, '../public');
 
 app.use(express.static(publicPath));
+
+//Habilitar Cors
+app.use(cors());
 
 //Configuracion global de rutas
 app.use( require('./routes/index') );
